@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+      <link href="/vue/index.xml" rel="alternate" type="application/rss+xml" title="我的技术博客" />
+      <link href="/vue/index.xml" rel="feed" type="application/rss+xml" title="我的技术博客" />
+      
+    
+    
+    <meta property="og:title" content="Vues" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/vue/" />
+
+<meta itemprop="name" content="Vues">
+<meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vues"/>
+<meta name="twitter:description" content=""/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          Vues
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
+    <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AF%A1%E5%BC%82%E7%9A%84%E9%94%99%E8%AF%AFuncaught_typeerror_cannot-read-property_disabled_of_null/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      前言 之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null
+之前以为是因为我给input组件设置了disabled的原因
+&lt;el-button type=&quot;success&quot; circle disabled&gt; &lt;span class=&quot;iconfont&quot;&gt;&amp;#xe66f;&lt;/span&gt; &lt;/el-button&gt;  例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误
+ 经过了排查，发现是因为element-ui的其它组件而引起的：Dropdown 下拉菜单
+引入的代码如下所示：
+&lt;el-dropdown @command=&quot;handleCommand&quot; class=&quot;userInfoAvatar&quot;&gt; &lt;span class=&quot;el-dropdown-link&quot; @click=&quot;userLogin&quot;&gt; &lt;img v-if=&quot;!isLogin&quot; src=&quot;../../static/images/defaultAvatar.png&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl!=undefined&quot; :src=&quot;PICTURE_HOST + userInfo.photoUrl&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl==undefined&quot; src=&quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&quot;&gt; &lt;/span&gt; &lt;el-dropdown-menu slot=&quot;dropdown&quot; v-if=&quot;isLogin&quot;&gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt; &lt;/el-dropdown&gt;  从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了
+因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null错误
+我们只需要把原来的v-if改成v-show即可，如下所示：
+&lt;el-dropdown-menu slot=&quot;dropdown&quot; &gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot; v-show=&quot;isLogin&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot; v-show=&quot;isLogin&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt;  那么错误就消失了~！
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BC%95%E5%85%A5markdown%E7%BC%96%E8%BE%91%E5%99%A8vditor/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue项目中引入markdown编辑器vditor 前言 这阵子在Github上看到一个非常不错的Markdown编辑器Vditor，和我使用Typora写博客的体验几乎一致，所以这次就打算在项目中集成一下vditor
+演示地址：https://vditor.b3log.org/demo/vue.html
+安装依赖 首先我们需要安装对应的依赖
+npm install vditor --save 然后到html页面中，引入对应的CDN文件
+&lt;!-- ⚠️生产环境请指定版本号，如 https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... --&gt; &lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.jsdelivr.net/npm/vditor/dist/index.css&#34; /&gt; &lt;script src=&#34;https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js&#34; defer&gt;&lt;/script&gt; 封装成组件 为了以后使用更加的方便，这里我对vditor再次进行了封装，创建一个MarkdownEditor的文件夹，idex.vue如下
+&lt;template&gt;  &lt;div class=&#34;index-page&#34; v-loading=&#34;isLoading&#34;&gt;  &lt;div id=&#34;vditor&#34; class=&#34;vditor&#34; :style=&#34;vditorClass&#34; /&gt;  &lt;/div&gt; &lt;/template&gt;  &lt;script&gt;  import Vditor from &#39;vditor&#39;  import { getToken } from &#39;@/utils/auth&#39;  export default {  name: &#39;MarkdownEditor&#39;,  props: [&#34;height&#34;],  data() {  return {  isLoading: true,  isMobile: window.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E5%BA%93/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue项目使用阿里巴巴矢量图标库 前言 最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：
+ 阿里巴巴矢量图标库 Fontawesome  这两者也是有些区别的：
+首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的
+采购矢量图标 首先进入阿里巴巴矢量图标库的官网：点我传送
+首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：
+然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目
+这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个
+然后点击下载到本地
+引入矢量图标 下载完成后，我们解压文件夹，得到以下的内容
+我们打开demo_index.html文件
+能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中
+首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont
+然后我们需要在main.js中引入样式文件
+import &#34;@/assets/iconfont/iconfont.css&#34;; 然后就可以使用了，注意标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标
+&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe601;&lt;/span&gt; &lt;span class=&#34;iconfont&#34;&gt;&amp;#xe66f;&lt;/span&gt; 下面看看最终的效果图
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%A2%84%E6%B8%B2%E6%9F%93%E8%A7%A3%E5%86%B3seo%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      vue-meta-info与prerender-spa-plugin预渲染
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%85%B3%E9%97%ADeslint%E6%A0%A1%E9%AA%8C/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue项目如何关闭Eslint校验 前言 最近有老哥提出蘑菇博客每次在运行的时候，都会出现一堆的错误，其实这是因为开启了ESlint校验而引起的，但是因为校验过于严格，我们没办法按照自己的喜好随心所欲书写代码，所有下面采纳了老哥的意见，将Eslint校验关闭。
+关闭Eslint 首先我们进入vue_mogu_web项目，然后我们找到build目录下的webpack.base.conf.js文件
+const createLintingRule = () =&gt; ({ // test: /\.(js|vue)$/, // loader: &#39;eslint-loader&#39;, // enforce: &#39;pre&#39;, // include: [resolve(&#39;src&#39;), resolve(&#39;test&#39;)], // options: { // formatter: require(&#39;eslint-friendly-formatter&#39;), // emitWarning: !config.dev.showEslintErrorsInOverlay // } }) 然后找到createLintingRule，将里面的代码注释即可
+使用 npm run dev命令，重新启动项目，能够发现原来的错误提示都没有了，瞬间感觉清爽了很多
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5cdn%E5%8A%A0%E9%80%9F/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue项目引入CDN加速 前言 最近领取的阿里云服务器，使用的是1M带宽，因此在加载一下样式，例如 ElementUI，Ckeditor的时候，非常的慢，所以考虑是用CDN来加速。
+引入Vue和Element 首先我们需要引入的是Element的CDN加速：传送门
+目前可以通过 unpkg.com/element-ui 获取到最新版本的资源，在页面上引入 js 和 css 文件即可开始使用。
+&lt;!-- 引入样式 --&gt; &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/element-ui/lib/theme-chalk/index.css&#34;&gt; &lt;!-- 引入组件库 --&gt; &lt;script src=&#34;https://unpkg.com/element-ui/lib/index.js&#34;&gt;&lt;/script&gt; 我们得到下面的最新版本，也就是 2.13.1，写入我们的index.html文件内
+&lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;meta charset=&#34;utf-8&#34;&gt; &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width,initial-scale=1.0&#34;&gt; &lt;title&gt;蘑菇云后台管理系统&lt;/title&gt; &lt;/head&gt; &lt;!-- 引入 CKeditor--&gt; &lt;!--&lt;script src=&#39;static/ckeditor/ckeditor.js&#39; type=&#34;text/javascript&#34;&gt;&lt;/script&gt;--&gt; &lt;!--引入Element 和 Vue的CDN加速--&gt; &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/element-ui@2.13.1/lib/theme-chalk/index.css&#34;&gt; &lt;script src=&#34;https://unpkg.com/vue@2.5.17/dist/vue.js&#34;&gt;&lt;/script&gt; &lt;script src=&#34;https://unpkg.com/element-ui@2.13.1/lib/index.js&#34;&gt;&lt;/script&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt;&lt;/div&gt; &lt;!-- built files will be auto injected --&gt; &lt;/body&gt; &lt;/html&gt; 引入Ckeditor 同时我们还是用了Ckeditor，这个时候，我们就需要通过BootCDN，找到Ckeditor进行引入。
+BootCDN 是 Bootstrap 中文网支持并维护的前端开源项目免费 CDN 服务，致力于为 Bootstrap、jQuery、Angular、Vuejs 一样优秀的前端开源项目提供稳定、快速的免费 CDN 加速服务。BootCDN 所收录的开源项目主要同步于 cdnjs 仓库。
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E4%BE%A7%E8%BE%B9%E5%AF%BC%E8%88%AA%E6%A0%8F/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue项目引入侧边导航栏 前言 今天打算给蘑菇博客添加一个侧边导航栏，因为之前看很多博客项目都是有侧边目录导航的，能够非常方便的我们进行信息的检索，刚好今天在逛Github的时候，发现了一款不错的侧边导航栏：vue-side-catalog，基本上能满足自己的需求，下面看看最终的效果图，如下所示
+我们通过点击左侧的导航，就能够快速定位到我们的内容了，非常棒~
+安装 官网 首先我们需要进入**vue-side-catalog**的官网，然后下载对应的源码，下载完成后，我们使用一下命令进行项目启动
+# 安装依赖 npm install # 启动 npm run serve 启动完成后，然后进入 http://localhost:8080/ 就能看到demo了
+然后我们需要做的就是将源码中的components组件复制到我们的项目中
+然后在我们项目的components文件夹下，创建一个VueSideCatalog中，然后把刚刚的代码复制进去，修改main.vue 为 index.vue
+安装依赖 因为vue-side-catalog还依赖 lodash.debounce 和 odash.throttle&quot; 因此我们还需要在我们的项目中，安装这两个的依赖
+npm install lodash.debounce --save npm install lodash.throttle --save 使用 在完成上面的步骤后，我们就可以开始使用了，首先引入我们的组件
+import SideCatalog from &#34;../components/VueSideCatalog&#34; 然后配置catalogProps
+&lt;template&gt; &lt;div id=&#34;app&#34;&gt; &lt;div class=&#34;demo&#34; v-html=&#34;vhtml&#34;&gt; {{vhtml}} &lt;/div&gt; &lt;side-catalog v-bind=&#34;catalogProps&#34; &gt;&lt;/side-catalog&gt; &lt;/div&gt; &lt;/template&gt; import SideCatalog from &#34;../components/VueSideCatalog&#34; export default { components: { SideCatalog, }, data() { return { vhtml: &#34;&#34;, catalogProps:{ containerElementSelector: &#39;.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8E%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue项目打包后动态配置解决方案 前言 首先特别感谢群里小伙伴 @你钉钉响了 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】
+最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。
+前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。
+需要修改的文件 这里主要列举出需要修改的文件，下面可以对照着进行添加和修改
+添加.env文件 首先我们在 vue_mogu_admin项目的目录下，添加 .env 文件，用来保存变量，内容如下
+NODE_ENV=production WEB_API=http://120.78.126.96:8603 FILE_API=http://120.78.126.96:8600/ RABBIT_MQ_ADMIN=http://120.78.126.96:15672 SENTINEL_ADMIN=http://120.78.126.96:8070/sentinel/ EUREKA_API=http://120.78.126.96:8761 Search_API=http://120.78.126.96:8605 ADMIN_API=http://120.78.126.96:8601 Zipkin_Admin=http://120.78.126.96:9411/zipkin/ DRUID_ADMIN=http://120.78.126.96:8601/druid/login.html SPRING_BOOT_ADMIN=http://120.78.126.96:8606/wallboard BLOG_WEB_URL=http://120.78.126.96:9527 ELASTIC_SEARCH=http://120.78.126.96:5601 PICTURE_API=http://120.78.126.96:8602 SOLR_API=http://120.78.126.96:8080/solr 这里的环境变量，其实就是原来的 prod.env.js 里面的
+添加.defualt.env文件 我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 .defualt.env ，用于以后添加默认配置
+添加 env-config.js文件 然后我们继续在 vue_mogu_admin 项目的目录下，添加 env-config.js 文件，内容如下
+window._env_ = {}; 添加 getEnv.js文件 在vue_mogu_admin\build 目录下，添加 getEnv.js 文件，用于获取 .env 中的配置，解析为js字符串
+const fs = require(&#39;fs&#39;); const paths = require(&#39;path&#39;);  const appDirectory = fs.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E9%A1%B9%E7%9B%AE%E7%9A%84seo%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      SPA 的 SEO 方案对比、最终实践  前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+ 一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+优点
+ SEO 友好 首屏渲染快（可在服务端缓存页面，请求到来直接给 html）  缺点
+ 代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大） 丢失了部分SPA体验 node 容易成为性能瓶颈  三、构建时预渲染方案 基本原理： 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/%E4%BD%BF%E7%94%A8vuex%E8%BF%9B%E8%A1%8C%E4%B8%A4%E4%B8%AA%E9%A1%B5%E9%9D%A2%E9%80%BB%E8%BE%91%E4%BA%A4%E4%BA%92/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      前言 今天在写前端页面的时候，遇到这样一个问题，就是当一个页面由两个Vue文件构成的时候，如果在一个vue文件的时候进行了操作，那么需要将操作得到的数据传递给另外一个文件，那么另外页面就需要能够监听到前面这个页面的数据变化
+这里以蘑菇博客举例，我们都知道蘑菇博客的头部是单独写在一个组件中，而下面的index的页面，又是另外一个vue文件，那么我在页面1点击搜索，页面2如何知道搜索的值呢？
+解决方案 其实解决的方案就是通过vuex来进行实现，步骤如下：
+ 页面1当点击提交按钮的时候，调用vuex的保存方法，将文本内容存储到vuex中 然后页面2使用watch钩子函数，监听 vuex中内容的变化，如果改变了，那么就执行对应的函数  具体代码如下 关于vuex的使用，可以参考：Vuex学习指南-实现一个计数器
+首先我们需要定义一个message状态，用于存储我们需要发送的内容
+import {SET_MESSAGE} from './mutation-types' const app = { // 全局状态 state: { // 消息，用于更新 message: {} }, // getters是对数据的包装，例如对数据进行拼接，或者过滤 getters: { // 类似于计算属性 // 增加的方法 }, // 如果我们需要更改store中的状态，一定要通过mutations来进行操作 mutations: { [SET_MESSAGE] (state, message) { state.message = message } }, // actions是我们定义的一些操作，正常情况下，我们很少会直接调用mutation方法来改变state actions: { } } export default app  然后在页面1的时候引入
+// vuex中有mapState方法，相当于我们能够使用它的getset方法 import {mapMutations} from 'vuex'  然后在method方法中，解析出刚刚我们定义的setMessage
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </section>
+    <ul class="pagination pagination-default">
+      <li class="page-item">
+        <a href="/vue/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/2/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Page 4" class="page-link" role="button">4</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul></article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

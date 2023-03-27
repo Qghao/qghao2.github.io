@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+      <link href="/vue/index.xml" rel="alternate" type="application/rss+xml" title="我的技术博客" />
+      <link href="/vue/index.xml" rel="feed" type="application/rss+xml" title="我的技术博客" />
+      
+    
+    
+    <meta property="og:title" content="Vues" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/vue/" />
+
+<meta itemprop="name" content="Vues">
+<meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vues"/>
+<meta name="twitter:description" content=""/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          Vues
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
+    <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/axios%E4%B8%AD%E6%8B%A6%E6%88%AA%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      使用Axios拦截器携带token以及跳转错误页面 前言 Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中，在使用Axios时候，一般我们会进行一定的封装，Axios拦截器分为请求拦截器 和 相应拦截器，请求拦截器主要的作用是在请求后端接口前，携带Token信息，而响应拦截器的主要作用是对后端的状态码进行校验，跳转到对应的页面
+创建Axios对象 这里主要就是填写baseURL 以及 超时时间 timeout
+import axios from &#39;axios&#39; // 创建axios实例 const service = axios.create({ baseURL: &#39;&#39;, // api 的 base_url timeout: 10000 // 请求超时时间 10秒 }) Request拦截器 即请求拦截器，我们在请求后端接口的时候，将token放入请求头中
+// request拦截器 service.interceptors.request.use( config =&gt; { if (getCookie(&#34;token&#34;) != undefined) { config.headers.Authorization = getCookie(&#34;token&#34;) // 让每个请求携带自定义token 请根据实际情况自行修改 } return config }, error =&gt; { // Do something with request error console.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/el-select%E5%9B%A0%E4%B8%BA%E7%BB%91%E5%AE%9A%E7%9A%84%E5%80%BC%E4%B8%BA%E6%95%B4%E6%95%B0%E8%80%8C%E6%97%A0%E6%B3%95%E9%BB%98%E8%AE%A4%E9%80%89%E6%8B%A9/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      前言 今天在做蘑菇博客数据字典这块遇到一个问题，就是el-select绑定的值为整数而无法默认选择的问题，它会直接显示数字，而不是选择列表中的某个选项，这个问题仅仅在我们绑定的值是Int类型的时候，才会出现
+代码如下所示
+ &lt;el-form-item label=&quot;菜单等级&quot; :label-width=&quot;formLabelWidth&quot; required&gt; &lt;el-select v-model=&quot;form.menuLevel&quot; size=&quot;small&quot; placeholder=&quot;请选择&quot;&gt; &lt;el-option v-for=&quot;item in menuLevelDictList&quot; :key=&quot;item.uid&quot; :label=&quot;item.dictLabel&quot; :value=&quot;(item.dictValue)&quot; &gt;&lt;/el-option&gt; &lt;/el-select&gt; &lt;/el-form-item&gt;  这是因为 v-model 绑定的 form.menuLevel没有自动将Integer类型转为String类型，其实解决思路也比较清晰，就是在 :value部分，将原来的string类型，通过 parseInt() 方法转换为int类型即可，代码如下所示：
+ &lt;el-form-item label=&quot;菜单等级&quot; :label-width=&quot;formLabelWidth&quot; required&gt; &lt;el-select v-model=&quot;form.menuLevel&quot; size=&quot;small&quot; placeholder=&quot;请选择&quot;&gt; &lt;el-option v-for=&quot;item in menuLevelDictList&quot; :key=&quot;item.uid&quot; :label=&quot;item.dictLabel&quot; :value=&quot;parseInt(item.dictValue)&quot; &gt;&lt;/el-option&gt; &lt;/el-select&gt; &lt;/el-form-item&gt;  我们看最后的效果图，发现能够正常显示了：
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/elementui%E4%B8%ADupload%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      ElementUI中Upload组件如何批量上传 前言 最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue
+地址：Element
+上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。
+解决方案 后面通过查看issue发现，有一篇能够解决图片合并上传的需求：issue
+主要是定义了两个方法，首先就是我们写的upload组件
+ &lt;el-upload class=&#34;upload-demo&#34; ref=&#34;uploadFile&#34; name=&#34;filedatas&#34; :headers=&#34;importHeaders&#34; :action=&#34;uploadAdminHost&#34; :auto-upload=&#34;false&#34; multiple &gt; &lt;el-button slot=&#34;trigger&#34; size=&#34;small&#34; type=&#34;primary&#34;&gt;选取博客文件&lt;/el-button&gt; &lt;el-button style=&#34;margin-left: 10px;&#34; size=&#34;small&#34; type=&#34;success&#34; @click=&#34;submitUpload&#34;&gt;提交到服务器&lt;/el-button&gt; &lt;/el-upload&gt; 然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据
+ // 文件上传 submitUpload() { let {uploadFiles, action, data} = this.$refs.uploadFile this.uploadFiles({ uploadFiles, data, action, success: (response) =&gt; { console.log(response) // 上传成功后，将里面的内容删除 this.$refs.uploadFile.clearFiles(); this.$refs.uploadPicture.clearFiles(); }, error: (error) =&gt; { console.log(&#39;失败了&#39;, error) } }) }, 下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式
+ /** * 自定义上传文件 * @param fileList 文件列表 * @param data 上传时附带的额外参数 * @param url 上传的URL地址 * @param success 成功回调 * @param error 失败回调 */ uploadFiles({uploadFiles, headers, data, action, success, error}) { let form = new FormData() // 文件对象 uploadFiles.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/spa%E7%9A%84seo%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      SPA 的 SEO 方案对比、最终实践 前言 前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+   框架 解决方案 Github star     Vue Nuxt.js 28.4k   React Nextjs 50.8k   Angular - -    不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vuex/vuex%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%AE%A1%E6%95%B0%E5%99%A8/my-project/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      my-project  A Vue.js project
+ Build Setup # install dependencies npm install  # serve with hot reload at localhost:8080 npm run dev  # build for production with minification npm run build For detailed explanation on how things work, consult the docs for vue-loader.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vuex/vuex%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%AE%A1%E6%95%B0%E5%99%A8/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      VueX学习 使用vue-cli创建vue项目 # 全局安装脚手架 npm install -g @vue/cli-init # 初始化项目 vue init webpack-simple my-project # 安装vuex依赖 npm install vuex 修改main.js 我们需要引入vuex
+import Vuex from &#39;vuex&#39;  // 让Vuex生效 Vue.use(Vuex) 然后创建一个全局的store，用于状态的存储
+const store = new Vuex.Store({  // 全局状态  state: {  count: 0  },  // getters是对数据的包装，例如对数据进行拼接，或者过滤  getters: {  //类似于计算属性  myCount(state) {  return `current count is ${state.count}`  }  },  // 如果我们需要更改store中的状态，一定要通过mutations来进行操作  mutations: {  // 增加的方法  increment(state) {  state.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%B8%ADhtml%E5%92%8Cmarkdown%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue中Html和Markdown互相转换 前言 最近想实现的一个功能，就是将系统中的博客进行导出成Markdown格式，后面经过了调研发现有两种方法能够满足需求，一个是Java后台中将HTML转换成Markdown， 然后导出。第二种方式是在客户端将Html转换成Markdown
+前台处理 MarkdownToHtml 安装 前台处理Markdown转换成Html，使用的是一款Vue组件 showdown：点我传送
+前端处理的好处是不需要占用后端的计算资源，因此首选是让客户端做这种处理的事情
+首先我们需要安装依赖
+npm install showdown --save 或者使用CDN
+ https://unpkg.com/showdown/dist/showdown.min.js Markdown 转成 Html var showdown = require(&#39;showdown&#39;), converter = new showdown.Converter(), text = &#39;# hello, markdown!&#39;, html = converter.makeHtml(text); HtmlToMarkdown 安装 前台处理Html转换成Markdown，使用的是一款Vue组件 turndown：点我传送
+首先安装依赖
+npm install turndown --save 或使用CDN加速
+&lt;script src=&#34;https://unpkg.com/turndown/dist/turndown.js&#34;&gt;&lt;/script&gt; 使用 // For Node.js var TurndownService = require(&#39;turndown&#39;) var turndownService = new TurndownService() var markdown = turndownService.turndown(&#39;&lt;h1&gt;Hello world!&lt;/h1&gt;&#39;) 后端处理 后端处理使用的是 flexmark-java ：点我传送
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%B8%ADinput%E6%A1%86%E8%87%AA%E5%8A%A8%E8%81%9A%E7%84%A6/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue中input框自动聚焦 前言 今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码
+我们按回车事件后，就会触发对应的方法
+解决方案 其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法
+关于input自动聚焦的思路：
+ 给需要聚焦的input设置ref   &lt;el-input v-model=&#34;loginForm.username&#34; ref=&#34;userNameInput&#34; name=&#34;username&#34; type=&#34;text&#34; auto-complete=&#34;on&#34; placeholder=&#34;username&#34; @keyup.enter.native=&#34;handleLogin&#34; /&gt;  创建一个聚焦的方法  this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+ inputFocus: function() { this.$nextTick(x =&gt; { this.$refs.userNameInput.focus() }) },  在create方法中调用   created() { this.inputFocus() }, 这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~
+因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行
+this.$refs.userNameInput.focus() 这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行
+但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写
+ mounted() { this.$refs.userNameInput.focus() }, 
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/myproject/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      myproject  A Vue.js project
+ Build Setup # install dependencies npm install  # serve with hot reload at localhost:8080 npm run dev  # build for production with minification npm run build  # build for production and view the bundle analyzer report npm run build --report For a detailed explanation on how things work, check out the guide and docs for vue-loader.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue中使用Vue-cropper进行图片裁剪 前言 这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。
+图片裁剪 关于图片裁剪我在github中找到了两种
+ vue-cropper vue-image-crop-upload  这两种的样式分别如下所示：
+首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果
+其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。
+裁剪后的效果：
+引入Vue-cropper 安装依赖
+npm install vue-cropper --save 页面引入
+import { VueCropper } from &#39;vue-cropper&#39; 申明组件
+ components: { VueCropper, }, 完整代码 &lt;!-- 裁剪图片 --&gt; &lt;template&gt; &lt;div class=&#34;wrapper&#34;&gt; &lt;div class=&#34;model&#34; v-show=&#34;model&#34; @click=&#34;model = false&#34;&gt; &lt;div class=&#34;model-show&#34;&gt; &lt;img :src=&#34;modelSrc&#34; alt=&#34;&#34;&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;content&#34;&gt; &lt;div class=&#34;show-info&#34;&gt; &lt;h2&gt;自动生成截图框 固定比例 w : h =&gt; 4 : 3&lt;/h2&gt; &lt;div class=&#34;test&#34;&gt; &lt;vueCropper ref=&#34;cropper2&#34; :img=&#34;example2.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </section>
+    <ul class="pagination pagination-default">
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="First" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Previous" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Page 4" class="page-link" role="button">4</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul></article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

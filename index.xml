@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>我的技术博客</title>
+    <link>http://example.org/</link>
+    <description>Recent content on 我的技术博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 27 Mar 2023 19:02:08 +0800</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test1</title>
+      <link>http://example.org/post/test1/</link>
+      <pubDate>Mon, 27 Mar 2023 19:02:08 +0800</pubDate>
+      
+      <guid>http://example.org/post/test1/</guid>
+      <description>fsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofifsaofjaoiejfoiasjefoajofi</description>
+    </item>
+    
+    <item>
+      <title>Test</title>
+      <link>http://example.org/post/test/test/</link>
+      <pubDate>Mon, 27 Mar 2023 19:00:41 +0800</pubDate>
+      
+      <guid>http://example.org/post/test/test/</guid>
+      <description>fsaofjaoiejfoiasjefoajofi</description>
+    </item>
+    
+    <item>
+      <title>Jvm</title>
+      <link>http://example.org/posts1/jvm/</link>
+      <pubDate>Mon, 27 Mar 2023 18:49:11 +0800</pubDate>
+      
+      <guid>http://example.org/posts1/jvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>http://example.org/posts/my-first-post/</link>
+      <pubDate>Wed, 08 Mar 2023 14:50:56 +0800</pubDate>
+      
+      <guid>http://example.org/posts/my-first-post/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/axios%E4%B8%AD%E6%8B%A6%E6%88%AA%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/axios%E4%B8%AD%E6%8B%A6%E6%88%AA%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/readme/</guid>
+      <description>使用Axios拦截器携带token以及跳转错误页面 前言 Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中，在使用Axios时候，一般我们会进行一定的封装，Axios拦截器分为请求拦截器 和 相应拦截器，请求拦截器主要的作用是在请求后端接口前，携带Token信息，而响应拦截器的主要作用是对后端的状态码进行校验，跳转到对应的页面
+创建Axios对象 这里主要就是填写baseURL 以及 超时时间 timeout
+import axios from &amp;#39;axios&amp;#39; // 创建axios实例 const service = axios.create({ baseURL: &amp;#39;&amp;#39;, // api 的 base_url timeout: 10000 // 请求超时时间 10秒 }) Request拦截器 即请求拦截器，我们在请求后端接口的时候，将token放入请求头中
+// request拦截器 service.interceptors.request.use( config =&amp;gt; { if (getCookie(&amp;#34;token&amp;#34;) != undefined) { config.headers.Authorization = getCookie(&amp;#34;token&amp;#34;) // 让每个请求携带自定义token 请根据实际情况自行修改 } return config }, error =&amp;gt; { // Do something with request error console.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/el-select%E5%9B%A0%E4%B8%BA%E7%BB%91%E5%AE%9A%E7%9A%84%E5%80%BC%E4%B8%BA%E6%95%B4%E6%95%B0%E8%80%8C%E6%97%A0%E6%B3%95%E9%BB%98%E8%AE%A4%E9%80%89%E6%8B%A9/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/el-select%E5%9B%A0%E4%B8%BA%E7%BB%91%E5%AE%9A%E7%9A%84%E5%80%BC%E4%B8%BA%E6%95%B4%E6%95%B0%E8%80%8C%E6%97%A0%E6%B3%95%E9%BB%98%E8%AE%A4%E9%80%89%E6%8B%A9/readme/</guid>
+      <description>前言 今天在做蘑菇博客数据字典这块遇到一个问题，就是el-select绑定的值为整数而无法默认选择的问题，它会直接显示数字，而不是选择列表中的某个选项，这个问题仅仅在我们绑定的值是Int类型的时候，才会出现
+代码如下所示
+ &amp;lt;el-form-item label=&amp;quot;菜单等级&amp;quot; :label-width=&amp;quot;formLabelWidth&amp;quot; required&amp;gt; &amp;lt;el-select v-model=&amp;quot;form.menuLevel&amp;quot; size=&amp;quot;small&amp;quot; placeholder=&amp;quot;请选择&amp;quot;&amp;gt; &amp;lt;el-option v-for=&amp;quot;item in menuLevelDictList&amp;quot; :key=&amp;quot;item.uid&amp;quot; :label=&amp;quot;item.dictLabel&amp;quot; :value=&amp;quot;(item.dictValue)&amp;quot; &amp;gt;&amp;lt;/el-option&amp;gt; &amp;lt;/el-select&amp;gt; &amp;lt;/el-form-item&amp;gt;  这是因为 v-model 绑定的 form.menuLevel没有自动将Integer类型转为String类型，其实解决思路也比较清晰，就是在 :value部分，将原来的string类型，通过 parseInt() 方法转换为int类型即可，代码如下所示：
+ &amp;lt;el-form-item label=&amp;quot;菜单等级&amp;quot; :label-width=&amp;quot;formLabelWidth&amp;quot; required&amp;gt; &amp;lt;el-select v-model=&amp;quot;form.menuLevel&amp;quot; size=&amp;quot;small&amp;quot; placeholder=&amp;quot;请选择&amp;quot;&amp;gt; &amp;lt;el-option v-for=&amp;quot;item in menuLevelDictList&amp;quot; :key=&amp;quot;item.uid&amp;quot; :label=&amp;quot;item.dictLabel&amp;quot; :value=&amp;quot;parseInt(item.dictValue)&amp;quot; &amp;gt;&amp;lt;/el-option&amp;gt; &amp;lt;/el-select&amp;gt; &amp;lt;/el-form-item&amp;gt;  我们看最后的效果图，发现能够正常显示了：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/elementui%E4%B8%ADupload%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/elementui%E4%B8%ADupload%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/readme/</guid>
+      <description>ElementUI中Upload组件如何批量上传 前言 最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue
+地址：Element
+上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。
+解决方案 后面通过查看issue发现，有一篇能够解决图片合并上传的需求：issue
+主要是定义了两个方法，首先就是我们写的upload组件
+ &amp;lt;el-upload class=&amp;#34;upload-demo&amp;#34; ref=&amp;#34;uploadFile&amp;#34; name=&amp;#34;filedatas&amp;#34; :headers=&amp;#34;importHeaders&amp;#34; :action=&amp;#34;uploadAdminHost&amp;#34; :auto-upload=&amp;#34;false&amp;#34; multiple &amp;gt; &amp;lt;el-button slot=&amp;#34;trigger&amp;#34; size=&amp;#34;small&amp;#34; type=&amp;#34;primary&amp;#34;&amp;gt;选取博客文件&amp;lt;/el-button&amp;gt; &amp;lt;el-button style=&amp;#34;margin-left: 10px;&amp;#34; size=&amp;#34;small&amp;#34; type=&amp;#34;success&amp;#34; @click=&amp;#34;submitUpload&amp;#34;&amp;gt;提交到服务器&amp;lt;/el-button&amp;gt; &amp;lt;/el-upload&amp;gt; 然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据
+ // 文件上传 submitUpload() { let {uploadFiles, action, data} = this.$refs.uploadFile this.uploadFiles({ uploadFiles, data, action, success: (response) =&amp;gt; { console.log(response) // 上传成功后，将里面的内容删除 this.$refs.uploadFile.clearFiles(); this.$refs.uploadPicture.clearFiles(); }, error: (error) =&amp;gt; { console.log(&amp;#39;失败了&amp;#39;, error) } }) }, 下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式
+ /** * 自定义上传文件 * @param fileList 文件列表 * @param data 上传时附带的额外参数 * @param url 上传的URL地址 * @param success 成功回调 * @param error 失败回调 */ uploadFiles({uploadFiles, headers, data, action, success, error}) { let form = new FormData() // 文件对象 uploadFiles.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/spa%E7%9A%84seo%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/spa%E7%9A%84seo%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/readme/</guid>
+      <description>SPA 的 SEO 方案对比、最终实践 前言 前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+   框架 解决方案 Github star     Vue Nuxt.js 28.4k   React Nextjs 50.8k   Angular - -    不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vuex/vuex%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%AE%A1%E6%95%B0%E5%99%A8/my-project/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vuex/vuex%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%AE%A1%E6%95%B0%E5%99%A8/my-project/readme/</guid>
+      <description>my-project  A Vue.js project
+ Build Setup # install dependencies npm install  # serve with hot reload at localhost:8080 npm run dev  # build for production with minification npm run build For detailed explanation on how things work, consult the docs for vue-loader.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vuex/vuex%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%AE%A1%E6%95%B0%E5%99%A8/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vuex/vuex%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%AE%A1%E6%95%B0%E5%99%A8/readme/</guid>
+      <description>VueX学习 使用vue-cli创建vue项目 # 全局安装脚手架 npm install -g @vue/cli-init # 初始化项目 vue init webpack-simple my-project # 安装vuex依赖 npm install vuex 修改main.js 我们需要引入vuex
+import Vuex from &amp;#39;vuex&amp;#39;  // 让Vuex生效 Vue.use(Vuex) 然后创建一个全局的store，用于状态的存储
+const store = new Vuex.Store({  // 全局状态  state: {  count: 0  },  // getters是对数据的包装，例如对数据进行拼接，或者过滤  getters: {  //类似于计算属性  myCount(state) {  return `current count is ${state.count}`  }  },  // 如果我们需要更改store中的状态，一定要通过mutations来进行操作  mutations: {  // 增加的方法  increment(state) {  state.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%B8%ADhtml%E5%92%8Cmarkdown%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%B8%ADhtml%E5%92%8Cmarkdown%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2/readme/</guid>
+      <description>Vue中Html和Markdown互相转换 前言 最近想实现的一个功能，就是将系统中的博客进行导出成Markdown格式，后面经过了调研发现有两种方法能够满足需求，一个是Java后台中将HTML转换成Markdown， 然后导出。第二种方式是在客户端将Html转换成Markdown
+前台处理 MarkdownToHtml 安装 前台处理Markdown转换成Html，使用的是一款Vue组件 showdown：点我传送
+前端处理的好处是不需要占用后端的计算资源，因此首选是让客户端做这种处理的事情
+首先我们需要安装依赖
+npm install showdown --save 或者使用CDN
+ https://unpkg.com/showdown/dist/showdown.min.js Markdown 转成 Html var showdown = require(&amp;#39;showdown&amp;#39;), converter = new showdown.Converter(), text = &amp;#39;# hello, markdown!&amp;#39;, html = converter.makeHtml(text); HtmlToMarkdown 安装 前台处理Html转换成Markdown，使用的是一款Vue组件 turndown：点我传送
+首先安装依赖
+npm install turndown --save 或使用CDN加速
+&amp;lt;script src=&amp;#34;https://unpkg.com/turndown/dist/turndown.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 使用 // For Node.js var TurndownService = require(&amp;#39;turndown&amp;#39;) var turndownService = new TurndownService() var markdown = turndownService.turndown(&amp;#39;&amp;lt;h1&amp;gt;Hello world!&amp;lt;/h1&amp;gt;&amp;#39;) 后端处理 后端处理使用的是 flexmark-java ：点我传送</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%B8%ADinput%E6%A1%86%E8%87%AA%E5%8A%A8%E8%81%9A%E7%84%A6/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%B8%ADinput%E6%A1%86%E8%87%AA%E5%8A%A8%E8%81%9A%E7%84%A6/readme/</guid>
+      <description>Vue中input框自动聚焦 前言 今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码
+我们按回车事件后，就会触发对应的方法
+解决方案 其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法
+关于input自动聚焦的思路：
+ 给需要聚焦的input设置ref   &amp;lt;el-input v-model=&amp;#34;loginForm.username&amp;#34; ref=&amp;#34;userNameInput&amp;#34; name=&amp;#34;username&amp;#34; type=&amp;#34;text&amp;#34; auto-complete=&amp;#34;on&amp;#34; placeholder=&amp;#34;username&amp;#34; @keyup.enter.native=&amp;#34;handleLogin&amp;#34; /&amp;gt;  创建一个聚焦的方法  this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+ inputFocus: function() { this.$nextTick(x =&amp;gt; { this.$refs.userNameInput.focus() }) },  在create方法中调用   created() { this.inputFocus() }, 这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~
+因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行
+this.$refs.userNameInput.focus() 这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行
+但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写
+ mounted() { this.$refs.userNameInput.focus() }, </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/myproject/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/myproject/readme/</guid>
+      <description>myproject  A Vue.js project
+ Build Setup # install dependencies npm install  # serve with hot reload at localhost:8080 npm run dev  # build for production with minification npm run build  # build for production and view the bundle analyzer report npm run build --report For a detailed explanation on how things work, check out the guide and docs for vue-loader.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/readme/</guid>
+      <description>Vue中使用Vue-cropper进行图片裁剪 前言 这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。
+图片裁剪 关于图片裁剪我在github中找到了两种
+ vue-cropper vue-image-crop-upload  这两种的样式分别如下所示：
+首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果
+其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。
+裁剪后的效果：
+引入Vue-cropper 安装依赖
+npm install vue-cropper --save 页面引入
+import { VueCropper } from &amp;#39;vue-cropper&amp;#39; 申明组件
+ components: { VueCropper, }, 完整代码 &amp;lt;!-- 裁剪图片 --&amp;gt; &amp;lt;template&amp;gt; &amp;lt;div class=&amp;#34;wrapper&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;model&amp;#34; v-show=&amp;#34;model&amp;#34; @click=&amp;#34;model = false&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;model-show&amp;#34;&amp;gt; &amp;lt;img :src=&amp;#34;modelSrc&amp;#34; alt=&amp;#34;&amp;#34;&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;content&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;show-info&amp;#34;&amp;gt; &amp;lt;h2&amp;gt;自动生成截图框 固定比例 w : h =&amp;gt; 4 : 3&amp;lt;/h2&amp;gt; &amp;lt;div class=&amp;#34;test&amp;#34;&amp;gt; &amp;lt;vueCropper ref=&amp;#34;cropper2&amp;#34; :img=&amp;#34;example2.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E5%8F%98%E5%8C%96%E7%9B%91%E5%90%AC/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E5%8F%98%E5%8C%96%E7%9B%91%E5%90%AC/readme/</guid>
+      <description>Vue中对数组变化监听 前言 我们在实际开发中，经常要对数组进行操作，最为常见的方法就是直接对数组中的某个元素进行赋值，比如下面这样的：
+&amp;lt;script&amp;gt;  export default {  data() {  return {  comments: [],  isReply: [0, 0, 0, 0, 0]  };  },  methods: {  replyTo: function (index) {  console.log(this.isReply);  isReply[index] = 1  console.log(this.isReply);  }  },  }; &amp;lt;/script&amp;gt; 但是虽然数组中的元素改变了，但是vue却不能监听到变化，同时我们引入watch来检测也是没有效果，如下所示
+&amp;lt;script&amp;gt;  export default {  data() {  return {  comments: [],  isReply: [0, 0, 0, 0, 0]  };  },  watch: {  isReply: {  handler(val, oldval) {   },  deep: true  }  },  methods: {  replyTo: function (index) {  console.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%B8%AD%E9%98%B2%E6%AD%A2xss%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%B8%AD%E9%98%B2%E6%AD%A2xss%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/readme/</guid>
+      <description>Vue中防止XSS脚本攻击 最近写了一个博客评论模块，因为引入了表情包，所以就将原来的v-text的形式，改成了v-html，也就是渲染html标签，但是这样不可不免的会带来问题，就是XSS跨站脚本攻击
+XSS解决方案官网：点我传送
+XSS脚本攻击 跨站脚本攻击缩写为XSS。恶意攻击者往Web页面里插入恶意Script代码，当用户浏览该页面时，嵌入Web里面的Script代码会被执行，从而达到恶意攻击用户的目的。XSS攻击针对的是用户层面的攻击！
+例如我在评论框输入以下内容
+&amp;lt;a onclick=&amp;#39;let count=10;while(count&amp;gt;0){alert(&amp;#34;xss攻击&amp;#34;);count=count-1;}&amp;#39;&amp;gt;链接&amp;lt;/a&amp;gt; 这个时候评论就会出现一个超链接
+只要我们点击这个链接后，就会出现一个alert弹框
+上面代码因为写的的是循环10次后，alert消失，但是如果是while(true)，那么后果不堪设想，会进入无止无休的弹框
+解决XSS脚本攻击 首先需要安装xss模块
+npm install xss --save 然后在main.js中引入
+import xss from &amp;#39;xss&amp;#39; // 定义全局XSS解决方法 Object.defineProperty(Vue.prototype, &amp;#39;$xss&amp;#39;, { value: xss }) 然后针对需要渲染的页面，调用$xss()方法
+&amp;lt;div class=&amp;#34;rightCenter&amp;#34; v-html=&amp;#34;$xss(item.content)&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; 我们在点击刚刚的页面，发现已经不会有弹框了，但是有出来了新的问题，就是我引入的标签也被过滤了
+引入xss后
+这个时候，我们就需要自定义拦截规则了，我们在data中添加如下配置，下面是自定义白名单，也就是什么标签以及标签的属性能够正常使用，其它的都会被拦截
+ data() { return { // xss白名单配置 options : { whiteList: { a: [&amp;#39;href&amp;#39;, &amp;#39;title&amp;#39;, &amp;#39;target&amp;#39;], span: [&amp;#39;class&amp;#39;] } } }; }, 然后在使用的时候，增加option配置
+&amp;lt;div class=&amp;#34;rightCenter&amp;#34; v-html=&amp;#34;$xss(item.content, options)&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; 这个时候，表情已经成功显示了，并且原来的脚本攻击也不生效，达到了我们的目的~</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%BD%BF%E7%94%A8echarts%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E6%96%87%E7%AB%A0%E8%B4%A1%E7%8C%AE%E5%BA%A6%E8%A1%A8/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%BD%BF%E7%94%A8echarts%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E6%96%87%E7%AB%A0%E8%B4%A1%E7%8C%AE%E5%BA%A6%E8%A1%A8/readme/</guid>
+      <description>使用SpringBoot+Vue+Echarts制作一个文章贡献度表 前言 最近想给博客做一个类似于码云代码提交记录的图表，就类似于下面这样的
+然后将每天的博客提交的博客生成对应的记录，下面先看最终的结果图
+有点不一样的地方是，这里使用圆圈的大小，来表示提交的次数
+制作博客贡献表 这个博客贡献表是使用了ECharts中的 calendar-effectscatter 组件：点我传送
+首先附上完整的vue代码：
+&amp;lt;template&amp;gt;  &amp;lt;div id=&amp;#34;container&amp;#34; style=&amp;#34; width: 100%; height: 300px;&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt;  &amp;lt;script&amp;gt;  import { getBlogContributeCount } from &amp;#34;@/api/index&amp;#34;;  import echarts from &amp;#34;echarts&amp;#34;;   export default {  mounted() {  this.initDate();  },  data() {  return {  contributeDate: [],  blogContributeCount: [],  }  },  created() {   },  methods: {  initDate: function() {   getBlogContributeCount().</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E4%BD%BF%E7%94%A8vue-count-to%E6%8F%92%E4%BB%B6%E5%AF%B9%E6%95%B0%E5%AD%97%E6%98%BE%E7%A4%BA%E7%BE%8E%E5%8C%96/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E4%BD%BF%E7%94%A8vue-count-to%E6%8F%92%E4%BB%B6%E5%AF%B9%E6%95%B0%E5%AD%97%E6%98%BE%E7%A4%BA%E7%BE%8E%E5%8C%96/readme/</guid>
+      <description>Vue使用vue-count-to插件对数字显示美化 前言 这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果
+其实在蘑菇博客的使用的后台模板：vue-template-admin 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候
+能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：vue-count-to
+后面发现原来这两个都是由花裤衩大大PanJiaChen编写的，感谢开源的贡献~
+Vue-count-to介绍 官网地址：vue-count-to
+Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js
+依赖安装 npm安装
+npm install vue-count-to 或 yarn安装
+yarn add vue-count-to 使用 引入组件
+import countTo from &amp;#39;vue-count-to&amp;#39;; 然后注册
+components: { countTo }, 完整代码如下所示：
+&amp;lt;template&amp;gt; &amp;lt;countTo :startVal=&amp;#39;startVal&amp;#39; :endVal=&amp;#39;endVal&amp;#39; :duration=&amp;#39;3000&amp;#39;&amp;gt;&amp;lt;/countTo&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; import countTo from &amp;#39;vue-count-to&amp;#39;; export default { components: { countTo }, data () { return { startVal: 0, endVal: 2020 } } } &amp;lt;/script&amp;gt; 完整demo如下所示：
+配置 我们可以修改对应的配置，来完成我们对数字变化的需求
+   Property Description type default     startVal 开始值 Number 0   endVal 结束值 Number 2017   duration 持续时间，以毫秒为单位 Number 3000   autoplay 自动播放 Boolean true   decimals 要显示的小数位数 Number 0   decimal 十进制分割 String .</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E5%86%85%E5%AE%B9%E9%A1%B5%E9%9D%A2seo%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E5%86%85%E5%AE%B9%E9%A1%B5%E9%9D%A2seo%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/readme/</guid>
+      <description>Vue内容页面SEO优化方案 课程预览所浏览到的页面就是课程详情页面，需要先确定课程详情页面的技术方案后方可确定课程预览的技术方案。而Vue作为单页面应用技术，非常不利于SEO优化
+技术需求 课程详情页面是向用户展示课程信息的窗口，课程相当于网站的商品，本页面的访问量会非常大。此页面的内容设计不仅要展示出课程核心重要的内容而且用户访问页面的速度要有保证，有统计显示打开一个页面超过4秒用户就走掉了，所以本页面的性能要求是本页面的重要需求。本页面另一个需求就是SEO，要非常有利于爬虫抓取页面上信息，并且生成页面快照，利于用户通过搜索引擎
+解决方案 如何在保证SEO的前提下提高页面的访问速度：
+方案1： 对于信息获取类的需求，要想提高页面速度就要使用缓存来减少或避免对数据库的访问，从而提高页面的访问速度。下图是使用缓存与不使用缓存的区别
+此页面为动态页面，会根据课程的不同而不同，方案一采用传统的JavaEEServlet/jsp的方式在Tomcat完成页面渲染，相比不加缓存速度会有提升。
+ 优点：使用redis作为缓存，速度有提升。 缺点：采用Servlet/jsp动态页面渲染技术，服务器使用Tomcat，面对高并发量的访问存在性能瓶颈  方案2 对于不会频繁改变的信息可以采用页面静态化的技术提前让页面生成html静态页面存储在nginx服务器，用户直接访问nginx即可，对于一些动态信息可以访问服务端获取json数据在页面渲染。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/readme/</guid>
+      <description>Vue如何制作一个评论模块 前言 一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：点我传送
+瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：
+源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component
+封装CommentList组件 为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身
+&amp;lt;template&amp;gt; &amp;lt;div&amp;gt; &amp;lt;a-comment v-for=&amp;#34;item in comments&amp;#34; :key=&amp;#34;item.uid&amp;#34;&amp;gt; &amp;lt;span slot=&amp;#34;actions&amp;#34; @click=&amp;#34;replyTo(0)&amp;#34;&amp;gt;回复&amp;lt;/span&amp;gt; &amp;lt;a slot=&amp;#34;author&amp;#34;&amp;gt;{{item.userName}}&amp;lt;/a&amp;gt; &amp;lt;a-avatar slot=&amp;#34;avatar&amp;#34; :src=&amp;#34;item.avatar&amp;#34; :alt=&amp;#34;item.userName&amp;#34; /&amp;gt; &amp;lt;p slot=&amp;#34;content&amp;#34;&amp;gt; {{item.content}} &amp;lt;/p&amp;gt; &amp;lt;CommentList :comments=&amp;#34;item.reply&amp;#34;&amp;gt;&amp;lt;/CommentList&amp;gt; &amp;lt;/a-comment&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt; export default { name:&amp;#34;CommentList&amp;#34;, props: [&amp;#39;comments&amp;#39;], data() { return {}; }, components: { }, methods: {}, }; &amp;lt;/script&amp;gt; 在这里需要用到的一个非常重要的字段就是：
+name:&amp;#34;CommentList&amp;#34;, 如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。
+在父组件中调用该CommentList组件 首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段
+comments: [ { uid: &amp;#39;uid000&amp;#39;, userName: &amp;#34;陌溪&amp;#34;, avatar: &amp;#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&amp;#39;, content: &amp;#39;我是一级评论&amp;#39;, reply: [ { uid: &amp;#39;uid001&amp;#39;, userName: &amp;#34;陌溪&amp;#34;, avatar: &amp;#39;https://zos.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97table%E8%A1%A8%E6%A0%BC%E7%9A%84%E9%AB%98%E5%BA%A6/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97table%E8%A1%A8%E6%A0%BC%E7%9A%84%E9%AB%98%E5%BA%A6/readme/</guid>
+      <description>前言 因为每个用户不同的电脑屏幕宽高度，造成了Table表格的高度不一致，因此想要动态计算出table的高度，让其能够正常的铺满整个屏幕
+代码 完整代码如下：首先计算 窗口的高度 - 搜索框的高度 - 固定数值
+ mounted () {  // 计算搜索框的高度  var searchBarHeight = window.getComputedStyle(this.$refs.searchBar).height.replace(&amp;#39;px&amp;#39;, &amp;#39;&amp;#39;)  searchBarHeight = parseInt(searchBarHeight)  this.tableHeight = window.innerHeight - searchBarHeight - 270  }, </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E5%A6%82%E4%BD%95%E7%BB%99%E5%9B%BE%E7%89%87%E5%AE%BD%E9%AB%98%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9A%E6%AF%94%E4%BE%8B/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E5%A6%82%E4%BD%95%E7%BB%99%E5%9B%BE%E7%89%87%E5%AE%BD%E9%AB%98%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9A%E6%AF%94%E4%BE%8B/readme/</guid>
+      <description>VUE标签根据宽度按比例实现高度 1、安装指令 “vue-proportion-directive”: “^1.1.0”,
+npm install vue-proportion-directive --save 2、在main.js中引入指令
+// 控制标签宽高成比例的指令
+import proportion from &amp;#39;vue-proportion-directive&amp;#39;; Vue.use(proportion); 3、示例
+&amp;lt;div class=&amp;#34;div1&amp;#34; style=&amp;#34;width: 20%;float: left&amp;#34; v-proportion=&amp;#34;0.85&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;div2&amp;#34; style=&amp;#34;width: 30%;float: left&amp;#34; v-proportion=&amp;#34;1.6&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;#34;div3&amp;#34; style=&amp;#34;width: 40%;float: left&amp;#34; v-proportion=&amp;#34;0.65&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; 效果如下</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E5%AF%B9element%E4%B8%AD%E7%9A%84e-tag%E6%B7%BB%E5%8A%A0click%E4%BA%8B%E4%BB%B6%E6%97%A0%E6%95%88/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E5%AF%B9element%E4%B8%AD%E7%9A%84e-tag%E6%B7%BB%E5%8A%A0click%E4%BA%8B%E4%BB%B6%E6%97%A0%E6%95%88/readme/</guid>
+      <description>Vue对Element中的el-tag添加@click事件无效 前言 今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示
+&amp;lt;el-tag type=&amp;#34;error&amp;#34; @click=&amp;#34;onClick(scope.row.blog)&amp;#34;&amp;gt;scope.row.blog.title}}&amp;lt;/el-tag&amp;gt; 我们在点击el-tag标签的时候，无法触发其点击事件
+解决方法 通过查阅资料发现官方给定了解答
+也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~
+&amp;lt;el-tag type=&amp;#34;error&amp;#34; @click.native=&amp;#34;onClick(scope.row.blog)&amp;#34;&amp;gt;scope.row.blog.title}}&amp;lt;/el-tag&amp;gt; </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E6%89%93%E5%8C%85%E5%90%8E%E7%9A%84dist%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E6%89%93%E5%8C%85%E5%90%8E%E7%9A%84dist%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95/readme/</guid>
+      <description>vue打包后的dist文件如何启动测试 前言 我们vue项目进行webpack打包操作 npm run build 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式
+nginx静态代理 首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf
+# 蘑菇博客WEB server { 	listen 9527; 	server_name localhost;		add_header Access-Control-Allow-Origin *; 	add_header Access-Control-Allow-Methods *; 	add_header Access-Control-Allow-Headers *; 	if ($request_method = &amp;#39;OPTIONS&amp;#39;) { 	return 204; 	} 	location / { 	root D:\mogu_blog\data\vue_mogu_web\dist; 	index index.html index.htm; 	} } 然后添加录下内容，最后把我们的 文件夹放在如下目录
+D:\mogu_blog\data\vue_mogu_web\dist 最后启动nginx，然后访问如下ip地址
+http://localhost:9527 即可看到我们的页面
+server方式启动 同时npm还提供了 serve 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口
+# 安装 serve模块 npm install -g serve # 启动 serve -s dist 启动后，访问如下地址</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AF%A1%E5%BC%82%E7%9A%84%E9%94%99%E8%AF%AFuncaught_typeerror_cannot-read-property_disabled_of_null/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AF%A1%E5%BC%82%E7%9A%84%E9%94%99%E8%AF%AFuncaught_typeerror_cannot-read-property_disabled_of_null/readme/</guid>
+      <description>前言 之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &amp;lsquo;disabled&amp;rsquo; of null
+之前以为是因为我给input组件设置了disabled的原因
+&amp;lt;el-button type=&amp;quot;success&amp;quot; circle disabled&amp;gt; &amp;lt;span class=&amp;quot;iconfont&amp;quot;&amp;gt;&amp;amp;#xe66f;&amp;lt;/span&amp;gt; &amp;lt;/el-button&amp;gt;  例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误
+ 经过了排查，发现是因为element-ui的其它组件而引起的：Dropdown 下拉菜单
+引入的代码如下所示：
+&amp;lt;el-dropdown @command=&amp;quot;handleCommand&amp;quot; class=&amp;quot;userInfoAvatar&amp;quot;&amp;gt; &amp;lt;span class=&amp;quot;el-dropdown-link&amp;quot; @click=&amp;quot;userLogin&amp;quot;&amp;gt; &amp;lt;img v-if=&amp;quot;!isLogin&amp;quot; src=&amp;quot;../../static/images/defaultAvatar.png&amp;quot;&amp;gt; &amp;lt;img v-if=&amp;quot;isLogin&amp;amp;&amp;amp;userInfo.photoUrl!=undefined&amp;quot; :src=&amp;quot;PICTURE_HOST + userInfo.photoUrl&amp;quot;&amp;gt; &amp;lt;img v-if=&amp;quot;isLogin&amp;amp;&amp;amp;userInfo.photoUrl==undefined&amp;quot; src=&amp;quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&amp;quot;&amp;gt; &amp;lt;/span&amp;gt; &amp;lt;el-dropdown-menu slot=&amp;quot;dropdown&amp;quot; v-if=&amp;quot;isLogin&amp;quot;&amp;gt; &amp;lt;el-dropdown-item command=&amp;quot;goUserInfo&amp;quot;&amp;gt;主页&amp;lt;/el-dropdown-item&amp;gt; &amp;lt;el-dropdown-item command=&amp;quot;logout&amp;quot;&amp;gt;退出&amp;lt;/el-dropdown-item&amp;gt; &amp;lt;/el-dropdown-menu&amp;gt; &amp;lt;/el-dropdown&amp;gt;  从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了
+因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &amp;lsquo;disabled&amp;rsquo; of null错误
+我们只需要把原来的v-if改成v-show即可，如下所示：
+&amp;lt;el-dropdown-menu slot=&amp;quot;dropdown&amp;quot; &amp;gt; &amp;lt;el-dropdown-item command=&amp;quot;goUserInfo&amp;quot; v-show=&amp;quot;isLogin&amp;quot;&amp;gt;主页&amp;lt;/el-dropdown-item&amp;gt; &amp;lt;el-dropdown-item command=&amp;quot;logout&amp;quot; v-show=&amp;quot;isLogin&amp;quot;&amp;gt;退出&amp;lt;/el-dropdown-item&amp;gt; &amp;lt;/el-dropdown-menu&amp;gt;  那么错误就消失了~！</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BC%95%E5%85%A5markdown%E7%BC%96%E8%BE%91%E5%99%A8vditor/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%BC%95%E5%85%A5markdown%E7%BC%96%E8%BE%91%E5%99%A8vditor/readme/</guid>
+      <description>Vue项目中引入markdown编辑器vditor 前言 这阵子在Github上看到一个非常不错的Markdown编辑器Vditor，和我使用Typora写博客的体验几乎一致，所以这次就打算在项目中集成一下vditor
+演示地址：https://vditor.b3log.org/demo/vue.html
+安装依赖 首先我们需要安装对应的依赖
+npm install vditor --save 然后到html页面中，引入对应的CDN文件
+&amp;lt;!-- ⚠️生产环境请指定版本号，如 https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... --&amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;https://cdn.jsdelivr.net/npm/vditor/dist/index.css&amp;#34; /&amp;gt; &amp;lt;script src=&amp;#34;https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js&amp;#34; defer&amp;gt;&amp;lt;/script&amp;gt; 封装成组件 为了以后使用更加的方便，这里我对vditor再次进行了封装，创建一个MarkdownEditor的文件夹，idex.vue如下
+&amp;lt;template&amp;gt;  &amp;lt;div class=&amp;#34;index-page&amp;#34; v-loading=&amp;#34;isLoading&amp;#34;&amp;gt;  &amp;lt;div id=&amp;#34;vditor&amp;#34; class=&amp;#34;vditor&amp;#34; :style=&amp;#34;vditorClass&amp;#34; /&amp;gt;  &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt;  &amp;lt;script&amp;gt;  import Vditor from &amp;#39;vditor&amp;#39;  import { getToken } from &amp;#39;@/utils/auth&amp;#39;  export default {  name: &amp;#39;MarkdownEditor&amp;#39;,  props: [&amp;#34;height&amp;#34;],  data() {  return {  isLoading: true,  isMobile: window.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E5%BA%93/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E5%BA%93/readme/</guid>
+      <description>Vue项目使用阿里巴巴矢量图标库 前言 最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：
+ 阿里巴巴矢量图标库 Fontawesome  这两者也是有些区别的：
+首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的
+采购矢量图标 首先进入阿里巴巴矢量图标库的官网：点我传送
+首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：
+然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目
+这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个
+然后点击下载到本地
+引入矢量图标 下载完成后，我们解压文件夹，得到以下的内容
+我们打开demo_index.html文件
+能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中
+首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont
+然后我们需要在main.js中引入样式文件
+import &amp;#34;@/assets/iconfont/iconfont.css&amp;#34;; 然后就可以使用了，注意标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标
+&amp;lt;span class=&amp;#34;iconfont&amp;#34;&amp;gt;&amp;amp;#xe601;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;iconfont&amp;#34;&amp;gt;&amp;amp;#xe66f;&amp;lt;/span&amp;gt; 下面看看最终的效果图</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%A2%84%E6%B8%B2%E6%9F%93%E8%A7%A3%E5%86%B3seo%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%A2%84%E6%B8%B2%E6%9F%93%E8%A7%A3%E5%86%B3seo%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/readme/</guid>
+      <description>vue-meta-info与prerender-spa-plugin预渲染</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%85%B3%E9%97%ADeslint%E6%A0%A1%E9%AA%8C/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E5%85%B3%E9%97%ADeslint%E6%A0%A1%E9%AA%8C/readme/</guid>
+      <description>Vue项目如何关闭Eslint校验 前言 最近有老哥提出蘑菇博客每次在运行的时候，都会出现一堆的错误，其实这是因为开启了ESlint校验而引起的，但是因为校验过于严格，我们没办法按照自己的喜好随心所欲书写代码，所有下面采纳了老哥的意见，将Eslint校验关闭。
+关闭Eslint 首先我们进入vue_mogu_web项目，然后我们找到build目录下的webpack.base.conf.js文件
+const createLintingRule = () =&amp;gt; ({ // test: /\.(js|vue)$/, // loader: &amp;#39;eslint-loader&amp;#39;, // enforce: &amp;#39;pre&amp;#39;, // include: [resolve(&amp;#39;src&amp;#39;), resolve(&amp;#39;test&amp;#39;)], // options: { // formatter: require(&amp;#39;eslint-friendly-formatter&amp;#39;), // emitWarning: !config.dev.showEslintErrorsInOverlay // } }) 然后找到createLintingRule，将里面的代码注释即可
+使用 npm run dev命令，重新启动项目，能够发现原来的错误提示都没有了，瞬间感觉清爽了很多</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5cdn%E5%8A%A0%E9%80%9F/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5cdn%E5%8A%A0%E9%80%9F/readme/</guid>
+      <description>Vue项目引入CDN加速 前言 最近领取的阿里云服务器，使用的是1M带宽，因此在加载一下样式，例如 ElementUI，Ckeditor的时候，非常的慢，所以考虑是用CDN来加速。
+引入Vue和Element 首先我们需要引入的是Element的CDN加速：传送门
+目前可以通过 unpkg.com/element-ui 获取到最新版本的资源，在页面上引入 js 和 css 文件即可开始使用。
+&amp;lt;!-- 引入样式 --&amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;https://unpkg.com/element-ui/lib/theme-chalk/index.css&amp;#34;&amp;gt; &amp;lt;!-- 引入组件库 --&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/element-ui/lib/index.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; 我们得到下面的最新版本，也就是 2.13.1，写入我们的index.html文件内
+&amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt; &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width,initial-scale=1.0&amp;#34;&amp;gt; &amp;lt;title&amp;gt;蘑菇云后台管理系统&amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;!-- 引入 CKeditor--&amp;gt; &amp;lt;!--&amp;lt;script src=&amp;#39;static/ckeditor/ckeditor.js&amp;#39; type=&amp;#34;text/javascript&amp;#34;&amp;gt;&amp;lt;/script&amp;gt;--&amp;gt; &amp;lt;!--引入Element 和 Vue的CDN加速--&amp;gt; &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;https://unpkg.com/element-ui@2.13.1/lib/theme-chalk/index.css&amp;#34;&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vue@2.5.17/dist/vue.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/element-ui@2.13.1/lib/index.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;!-- built files will be auto injected --&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 引入Ckeditor 同时我们还是用了Ckeditor，这个时候，我们就需要通过BootCDN，找到Ckeditor进行引入。
+BootCDN 是 Bootstrap 中文网支持并维护的前端开源项目免费 CDN 服务，致力于为 Bootstrap、jQuery、Angular、Vuejs 一样优秀的前端开源项目提供稳定、快速的免费 CDN 加速服务。BootCDN 所收录的开源项目主要同步于 cdnjs 仓库。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E4%BE%A7%E8%BE%B9%E5%AF%BC%E8%88%AA%E6%A0%8F/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E5%BC%95%E5%85%A5%E4%BE%A7%E8%BE%B9%E5%AF%BC%E8%88%AA%E6%A0%8F/readme/</guid>
+      <description>Vue项目引入侧边导航栏 前言 今天打算给蘑菇博客添加一个侧边导航栏，因为之前看很多博客项目都是有侧边目录导航的，能够非常方便的我们进行信息的检索，刚好今天在逛Github的时候，发现了一款不错的侧边导航栏：vue-side-catalog，基本上能满足自己的需求，下面看看最终的效果图，如下所示
+我们通过点击左侧的导航，就能够快速定位到我们的内容了，非常棒~
+安装 官网 首先我们需要进入**vue-side-catalog**的官网，然后下载对应的源码，下载完成后，我们使用一下命令进行项目启动
+# 安装依赖 npm install # 启动 npm run serve 启动完成后，然后进入 http://localhost:8080/ 就能看到demo了
+然后我们需要做的就是将源码中的components组件复制到我们的项目中
+然后在我们项目的components文件夹下，创建一个VueSideCatalog中，然后把刚刚的代码复制进去，修改main.vue 为 index.vue
+安装依赖 因为vue-side-catalog还依赖 lodash.debounce 和 odash.throttle&amp;quot; 因此我们还需要在我们的项目中，安装这两个的依赖
+npm install lodash.debounce --save npm install lodash.throttle --save 使用 在完成上面的步骤后，我们就可以开始使用了，首先引入我们的组件
+import SideCatalog from &amp;#34;../components/VueSideCatalog&amp;#34; 然后配置catalogProps
+&amp;lt;template&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;demo&amp;#34; v-html=&amp;#34;vhtml&amp;#34;&amp;gt; {{vhtml}} &amp;lt;/div&amp;gt; &amp;lt;side-catalog v-bind=&amp;#34;catalogProps&amp;#34; &amp;gt;&amp;lt;/side-catalog&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; import SideCatalog from &amp;#34;../components/VueSideCatalog&amp;#34; export default { components: { SideCatalog, }, data() { return { vhtml: &amp;#34;&amp;#34;, catalogProps:{ containerElementSelector: &amp;#39;.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8E%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8E%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/</guid>
+      <description>Vue项目打包后动态配置解决方案 前言 首先特别感谢群里小伙伴 @你钉钉响了 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】
+最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。
+前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。
+需要修改的文件 这里主要列举出需要修改的文件，下面可以对照着进行添加和修改
+添加.env文件 首先我们在 vue_mogu_admin项目的目录下，添加 .env 文件，用来保存变量，内容如下
+NODE_ENV=production WEB_API=http://120.78.126.96:8603 FILE_API=http://120.78.126.96:8600/ RABBIT_MQ_ADMIN=http://120.78.126.96:15672 SENTINEL_ADMIN=http://120.78.126.96:8070/sentinel/ EUREKA_API=http://120.78.126.96:8761 Search_API=http://120.78.126.96:8605 ADMIN_API=http://120.78.126.96:8601 Zipkin_Admin=http://120.78.126.96:9411/zipkin/ DRUID_ADMIN=http://120.78.126.96:8601/druid/login.html SPRING_BOOT_ADMIN=http://120.78.126.96:8606/wallboard BLOG_WEB_URL=http://120.78.126.96:9527 ELASTIC_SEARCH=http://120.78.126.96:5601 PICTURE_API=http://120.78.126.96:8602 SOLR_API=http://120.78.126.96:8080/solr 这里的环境变量，其实就是原来的 prod.env.js 里面的
+添加.defualt.env文件 我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 .defualt.env ，用于以后添加默认配置
+添加 env-config.js文件 然后我们继续在 vue_mogu_admin 项目的目录下，添加 env-config.js 文件，内容如下
+window._env_ = {}; 添加 getEnv.js文件 在vue_mogu_admin\build 目录下，添加 getEnv.js 文件，用于获取 .env 中的配置，解析为js字符串
+const fs = require(&amp;#39;fs&amp;#39;); const paths = require(&amp;#39;path&amp;#39;);  const appDirectory = fs.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E7%9A%84seo%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E7%9A%84seo%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/</guid>
+      <description>SPA 的 SEO 方案对比、最终实践  前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+ 一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+优点
+ SEO 友好 首屏渲染快（可在服务端缓存页面，请求到来直接给 html）  缺点
+ 代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大） 丢失了部分SPA体验 node 容易成为性能瓶颈  三、构建时预渲染方案 基本原理： 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/%E4%BD%BF%E7%94%A8vuex%E8%BF%9B%E8%A1%8C%E4%B8%A4%E4%B8%AA%E9%A1%B5%E9%9D%A2%E9%80%BB%E8%BE%91%E4%BA%A4%E4%BA%92/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/%E4%BD%BF%E7%94%A8vuex%E8%BF%9B%E8%A1%8C%E4%B8%A4%E4%B8%AA%E9%A1%B5%E9%9D%A2%E9%80%BB%E8%BE%91%E4%BA%A4%E4%BA%92/readme/</guid>
+      <description>前言 今天在写前端页面的时候，遇到这样一个问题，就是当一个页面由两个Vue文件构成的时候，如果在一个vue文件的时候进行了操作，那么需要将操作得到的数据传递给另外一个文件，那么另外页面就需要能够监听到前面这个页面的数据变化
+这里以蘑菇博客举例，我们都知道蘑菇博客的头部是单独写在一个组件中，而下面的index的页面，又是另外一个vue文件，那么我在页面1点击搜索，页面2如何知道搜索的值呢？
+解决方案 其实解决的方案就是通过vuex来进行实现，步骤如下：
+ 页面1当点击提交按钮的时候，调用vuex的保存方法，将文本内容存储到vuex中 然后页面2使用watch钩子函数，监听 vuex中内容的变化，如果改变了，那么就执行对应的函数  具体代码如下 关于vuex的使用，可以参考：Vuex学习指南-实现一个计数器
+首先我们需要定义一个message状态，用于存储我们需要发送的内容
+import {SET_MESSAGE} from &#39;./mutation-types&#39; const app = { // 全局状态 state: { // 消息，用于更新 message: {} }, // getters是对数据的包装，例如对数据进行拼接，或者过滤 getters: { // 类似于计算属性 // 增加的方法 }, // 如果我们需要更改store中的状态，一定要通过mutations来进行操作 mutations: { [SET_MESSAGE] (state, message) { state.message = message } }, // actions是我们定义的一些操作，正常情况下，我们很少会直接调用mutation方法来改变state actions: { } } export default app  然后在页面1的时候引入
+// vuex中有mapState方法，相当于我们能够使用它的getset方法 import {mapMutations} from &#39;vuex&#39;  然后在method方法中，解析出刚刚我们定义的setMessage</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://example.org/vue/%E8%A7%A3%E5%86%B3vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8Ejs%E6%96%87%E4%BB%B6%E8%BF%87%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/vue/%E8%A7%A3%E5%86%B3vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8Ejs%E6%96%87%E4%BB%B6%E8%BF%87%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/readme/</guid>
+      <description>解决Vue项目打包后js文件过大的问题 前言 这阵子因为白嫖了一台阿里云的服务器，配置是 2核4G1M，但是因为带宽太低了，每次在首屏加载的时候，时间过于缓慢，通过Chrome的F12性能调试，发现主要原因是因为加载的 js 过大而引起的。因为之前已经提到了将我们一些组件改成CDN方式引入，例如 Vue、ElementUi、ECharts等。但是还是存在一些打包后的内部 js 文件，他们的大小也过于庞大，因此本文将主要讲解如何解决Vue项目打包后js文件过大的问题。
+引入插件 我们可以通过引入 compression-webpack-plugin 插件，然后开启 gzip 来解决本问题
+首先安装插件依赖
+npm i compression-webpack-plugin@5.0.1 然后修改 config/index.js 文件，把 productionGzip 改为：true
+productionGzip: true, productionGzipExtensions: [&amp;#39;js&amp;#39;, &amp;#39;css&amp;#39;], 然后在修改 build/webpack.prod.conf.js 文件，修改如下内容
+// 判断配置文件是否开启了gzip加速 if (config.build.productionGzip) {  // 引入压缩文件的组件，该插件会对生成的文件进行压缩，生成一个.gz文件  const CompressionWebpackPlugin = require(&amp;#39;compression-webpack-plugin&amp;#39;)  webpackConfig.plugins.push(  new CompressionWebpackPlugin({  filename: &amp;#39;[path].gz[query]&amp;#39;, // 目标文件名  algorithm: &amp;#39;gzip&amp;#39;, // 使用gzip压缩  test: new RegExp( // 满足正则表达式的文件会被压缩  &amp;#39;\\.(&amp;#39; + config.build.productionGzipExtensions.join(&amp;#39;|&amp;#39;) + &amp;#39;)$&amp;#39;  ),  threshold: 10240, // 资源大于10240=10KB时会被压缩  minRatio: 0.</description>
+    </item>
+    
+  </channel>
+</rss>

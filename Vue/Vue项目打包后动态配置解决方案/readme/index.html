@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue项目打包后动态配置解决方案 前言 首先特别感谢群里小伙伴 @你钉钉响了 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】
+最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。
+前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。
+需要修改的文件 这里主要列举出需要修改的文件，下面可以对照着进行添加和修改
+添加.env文件 首先我们在 vue_mogu_admin项目的目录下，添加 .env 文件，用来保存变量，内容如下
+NODE_ENV=production WEB_API=http://120.78.126.96:8603 FILE_API=http://120.78.126.96:8600/ RABBIT_MQ_ADMIN=http://120.78.126.96:15672 SENTINEL_ADMIN=http://120.78.126.96:8070/sentinel/ EUREKA_API=http://120.78.126.96:8761 Search_API=http://120.78.126.96:8605 ADMIN_API=http://120.78.126.96:8601 Zipkin_Admin=http://120.78.126.96:9411/zipkin/ DRUID_ADMIN=http://120.78.126.96:8601/druid/login.html SPRING_BOOT_ADMIN=http://120.78.126.96:8606/wallboard BLOG_WEB_URL=http://120.78.126.96:9527 ELASTIC_SEARCH=http://120.78.126.96:5601 PICTURE_API=http://120.78.126.96:8602 SOLR_API=http://120.78.126.96:8080/solr 这里的环境变量，其实就是原来的 prod.env.js 里面的
+添加.defualt.env文件 我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 .defualt.env ，用于以后添加默认配置
+添加 env-config.js文件 然后我们继续在 vue_mogu_admin 项目的目录下，添加 env-config.js 文件，内容如下
+window._env_ = {}; 添加 getEnv.js文件 在vue_mogu_admin\build 目录下，添加 getEnv.js 文件，用于获取 .env 中的配置，解析为js字符串
+const fs = require(&#39;fs&#39;); const paths = require(&#39;path&#39;);  const appDirectory = fs.">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue项目打包后动态配置解决方案 前言 首先特别感谢群里小伙伴 @你钉钉响了 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】
+最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。
+前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。
+需要修改的文件 这里主要列举出需要修改的文件，下面可以对照着进行添加和修改
+添加.env文件 首先我们在 vue_mogu_admin项目的目录下，添加 .env 文件，用来保存变量，内容如下
+NODE_ENV=production WEB_API=http://120.78.126.96:8603 FILE_API=http://120.78.126.96:8600/ RABBIT_MQ_ADMIN=http://120.78.126.96:15672 SENTINEL_ADMIN=http://120.78.126.96:8070/sentinel/ EUREKA_API=http://120.78.126.96:8761 Search_API=http://120.78.126.96:8605 ADMIN_API=http://120.78.126.96:8601 Zipkin_Admin=http://120.78.126.96:9411/zipkin/ DRUID_ADMIN=http://120.78.126.96:8601/druid/login.html SPRING_BOOT_ADMIN=http://120.78.126.96:8606/wallboard BLOG_WEB_URL=http://120.78.126.96:9527 ELASTIC_SEARCH=http://120.78.126.96:5601 PICTURE_API=http://120.78.126.96:8602 SOLR_API=http://120.78.126.96:8080/solr 这里的环境变量，其实就是原来的 prod.env.js 里面的
+添加.defualt.env文件 我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 .defualt.env ，用于以后添加默认配置
+添加 env-config.js文件 然后我们继续在 vue_mogu_admin 项目的目录下，添加 env-config.js 文件，内容如下
+window._env_ = {}; 添加 getEnv.js文件 在vue_mogu_admin\build 目录下，添加 getEnv.js 文件，用于获取 .env 中的配置，解析为js字符串
+const fs = require(&#39;fs&#39;); const paths = require(&#39;path&#39;);  const appDirectory = fs." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8E%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue项目打包后动态配置解决方案 前言 首先特别感谢群里小伙伴 @你钉钉响了 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】
+最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。
+前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。
+需要修改的文件 这里主要列举出需要修改的文件，下面可以对照着进行添加和修改
+添加.env文件 首先我们在 vue_mogu_admin项目的目录下，添加 .env 文件，用来保存变量，内容如下
+NODE_ENV=production WEB_API=http://120.78.126.96:8603 FILE_API=http://120.78.126.96:8600/ RABBIT_MQ_ADMIN=http://120.78.126.96:15672 SENTINEL_ADMIN=http://120.78.126.96:8070/sentinel/ EUREKA_API=http://120.78.126.96:8761 Search_API=http://120.78.126.96:8605 ADMIN_API=http://120.78.126.96:8601 Zipkin_Admin=http://120.78.126.96:9411/zipkin/ DRUID_ADMIN=http://120.78.126.96:8601/druid/login.html SPRING_BOOT_ADMIN=http://120.78.126.96:8606/wallboard BLOG_WEB_URL=http://120.78.126.96:9527 ELASTIC_SEARCH=http://120.78.126.96:5601 PICTURE_API=http://120.78.126.96:8602 SOLR_API=http://120.78.126.96:8080/solr 这里的环境变量，其实就是原来的 prod.env.js 里面的
+添加.defualt.env文件 我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 .defualt.env ，用于以后添加默认配置
+添加 env-config.js文件 然后我们继续在 vue_mogu_admin 项目的目录下，添加 env-config.js 文件，内容如下
+window._env_ = {}; 添加 getEnv.js文件 在vue_mogu_admin\build 目录下，添加 getEnv.js 文件，用于获取 .env 中的配置，解析为js字符串
+const fs = require(&#39;fs&#39;); const paths = require(&#39;path&#39;);  const appDirectory = fs.">
+
+<meta itemprop="wordCount" content="1449">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue项目打包后动态配置解决方案 前言 首先特别感谢群里小伙伴 @你钉钉响了 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】
+最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。
+前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。
+需要修改的文件 这里主要列举出需要修改的文件，下面可以对照着进行添加和修改
+添加.env文件 首先我们在 vue_mogu_admin项目的目录下，添加 .env 文件，用来保存变量，内容如下
+NODE_ENV=production WEB_API=http://120.78.126.96:8603 FILE_API=http://120.78.126.96:8600/ RABBIT_MQ_ADMIN=http://120.78.126.96:15672 SENTINEL_ADMIN=http://120.78.126.96:8070/sentinel/ EUREKA_API=http://120.78.126.96:8761 Search_API=http://120.78.126.96:8605 ADMIN_API=http://120.78.126.96:8601 Zipkin_Admin=http://120.78.126.96:9411/zipkin/ DRUID_ADMIN=http://120.78.126.96:8601/druid/login.html SPRING_BOOT_ADMIN=http://120.78.126.96:8606/wallboard BLOG_WEB_URL=http://120.78.126.96:9527 ELASTIC_SEARCH=http://120.78.126.96:5601 PICTURE_API=http://120.78.126.96:8602 SOLR_API=http://120.78.126.96:8080/solr 这里的环境变量，其实就是原来的 prod.env.js 里面的
+添加.defualt.env文件 我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 .defualt.env ，用于以后添加默认配置
+添加 env-config.js文件 然后我们继续在 vue_mogu_admin 项目的目录下，添加 env-config.js 文件，内容如下
+window._env_ = {}; 添加 getEnv.js文件 在vue_mogu_admin\build 目录下，添加 getEnv.js 文件，用于获取 .env 中的配置，解析为js字符串
+const fs = require(&#39;fs&#39;); const paths = require(&#39;path&#39;);  const appDirectory = fs."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue项目打包后动态配置解决方案">Vue项目打包后动态配置解决方案</h1>
+<h2 id="前言">前言</h2>
+<p>首先特别感谢群里小伙伴 <a href="https://gitee.com/it00021hot">@你钉钉响了</a> 提供Vue项目打包后动态配置的解决方案~【趁机白嫖过来】</p>
+<p>最近在用docker compose构建蘑菇博客的镜像，后端容器在启动的时候，因为是从nacos中读取配置的，因此别人拉取到镜像后，只需要修改nacos的配置即可动态的修改后端项目配置。</p>
+<p>前端项目使用Vue开发，在制作前端镜像时，对Vue项目打包后生成dist静态文件，无法读取到系统配置。这也造成了我之前的局面：每次提交一个镜像后，如果别人拉取到镜像下来，需要进行 重新 修改配置，依赖安装，打包成镜像 等繁琐的操作。这种方式简直对小白不太友好，增加了部署时的成本【环境搭建劝退】，后面参考 猪齿鱼 项目的环境解决方案，来进行修改。</p>
+<h2 id="需要修改的文件">需要修改的文件</h2>
+<p>这里主要列举出需要修改的文件，下面可以对照着进行添加和修改</p>
+<p><img src="images/image-20201127101522742.png" alt="image-20201127101522742"></p>
+<h2 id="添加env文件">添加.env文件</h2>
+<p>首先我们在 vue_mogu_admin项目的目录下，添加 <code>.env</code> 文件，用来保存变量，内容如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NODE_ENV<span style="color:#f92672">=</span>production
+</span></span><span style="display:flex;"><span>WEB_API<span style="color:#f92672">=</span>http://120.78.126.96:8603
+</span></span><span style="display:flex;"><span>FILE_API<span style="color:#f92672">=</span>http://120.78.126.96:8600/
+</span></span><span style="display:flex;"><span>RABBIT_MQ_ADMIN<span style="color:#f92672">=</span>http://120.78.126.96:15672
+</span></span><span style="display:flex;"><span>SENTINEL_ADMIN<span style="color:#f92672">=</span>http://120.78.126.96:8070/sentinel/
+</span></span><span style="display:flex;"><span>EUREKA_API<span style="color:#f92672">=</span>http://120.78.126.96:8761
+</span></span><span style="display:flex;"><span>Search_API<span style="color:#f92672">=</span>http://120.78.126.96:8605
+</span></span><span style="display:flex;"><span>ADMIN_API<span style="color:#f92672">=</span>http://120.78.126.96:8601
+</span></span><span style="display:flex;"><span>Zipkin_Admin<span style="color:#f92672">=</span>http://120.78.126.96:9411/zipkin/
+</span></span><span style="display:flex;"><span>DRUID_ADMIN<span style="color:#f92672">=</span>http://120.78.126.96:8601/druid/login.html
+</span></span><span style="display:flex;"><span>SPRING_BOOT_ADMIN<span style="color:#f92672">=</span>http://120.78.126.96:8606/wallboard
+</span></span><span style="display:flex;"><span>BLOG_WEB_URL<span style="color:#f92672">=</span>http://120.78.126.96:9527
+</span></span><span style="display:flex;"><span>ELASTIC_SEARCH<span style="color:#f92672">=</span>http://120.78.126.96:5601
+</span></span><span style="display:flex;"><span>PICTURE_API<span style="color:#f92672">=</span>http://120.78.126.96:8602
+</span></span><span style="display:flex;"><span>SOLR_API<span style="color:#f92672">=</span>http://120.78.126.96:8080/solr
+</span></span></code></pre></div><p>这里的环境变量，其实就是原来的  <code>prod.env.js</code> 里面的</p>
+<h2 id="添加defualtenv文件">添加.defualt.env文件</h2>
+<p>我们在 vue_mogu_admin项目的目录下， 创建一个空的文件 <code>.defualt.env</code> ，用于以后添加默认配置</p>
+<h2 id="添加-env-configjs文件">添加 env-config.js文件</h2>
+<p>然后我们继续在 <code>vue_mogu_admin</code> 项目的目录下，添加 <code>env-config.js</code> 文件，内容如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>window._env_ <span style="color:#f92672">=</span> <span style="color:#f92672">{}</span>;
+</span></span></code></pre></div><h2 id="添加-getenvjs文件">添加 getEnv.js文件</h2>
+<p>在vue_mogu_admin\build 目录下，添加 <code>getEnv.js</code> 文件，用于获取 <code>.env</code> 中的配置，解析为js字符串</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fs</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;fs&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">paths</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;path&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">appDirectory</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">realpathSync</span>(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">cwd</span>());
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">resolveApp</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">relativePath</span>) =&gt; <span style="color:#a6e22e">paths</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">appDirectory</span>, <span style="color:#a6e22e">relativePath</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">options</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">debug</span> <span style="color:#f92672">=</span> Boolean(<span style="color:#a6e22e">options</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">debug</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>).<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">idx</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">keyValueArr</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">match</span>(<span style="color:#e6db74">/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">keyValueArr</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">keyValueArr</span>[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">keyValueArr</span>[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">len</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">len</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">charAt</span>(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#34;&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">charAt</span>(<span style="color:#a6e22e">len</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#34;&#39;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/\\n/gm</span>, <span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/(^[&#39;&#34;]|[&#39;&#34;]$)/g</span>, <span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">obj</span>[<span style="color:#a6e22e">key</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">debug</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// eslint-disable-next-line no-console
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`did not match key and value when parsing line </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">idx</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">line</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">obj</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">config</span>(<span style="color:#a6e22e">filePath</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">encoding</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;utf8&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">debug</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">filePath</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">parsed</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">readFileSync</span>(<span style="color:#a6e22e">filePath</span>, { <span style="color:#a6e22e">encoding</span> }), { <span style="color:#a6e22e">debug</span> });
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">parsed</span> };
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">e</span> };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;.env path cannot be empty&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 获取.env中的配置，解析为js字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {*} isDev
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getEnv</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">customConfig</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">config</span>(<span style="color:#a6e22e">resolveApp</span>(<span style="color:#e6db74">&#39;.env&#39;</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">combineEnv</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">customConfig</span>.<span style="color:#a6e22e">parsed</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#e6db74">`window._env_ = </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">combineEnv</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">;`</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">getEnv</span>;
+</span></span></code></pre></div><h2 id="更改webpackprodconfjs文件">更改webpack.prod.conf.js文件</h2>
+<h3 id="核心代码">核心代码</h3>
+<p>接着我们在<code>webpack.prod.conf.js</code> 文件中修改我们的环境变量值，改成从 <code>window._env_</code> 中获取，而不是从原来的<code>prod.env.js</code> 中获取 【这也说明.. 我们原来的 <code>prod.env.js </code> 已经用不上了~】</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">fs</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;fs&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">paths</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;path&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">appDirectory</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">realpathSync</span>(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">cwd</span>());
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">resolveApp</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">relativePath</span>) =&gt; <span style="color:#a6e22e">paths</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">appDirectory</span>, <span style="color:#a6e22e">relativePath</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">options</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">debug</span> <span style="color:#f92672">=</span> Boolean(<span style="color:#a6e22e">options</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">debug</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>).<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">idx</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">keyValueArr</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">match</span>(<span style="color:#e6db74">/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">keyValueArr</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">keyValueArr</span>[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">keyValueArr</span>[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">len</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">len</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">charAt</span>(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#34;&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">charAt</span>(<span style="color:#a6e22e">len</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#34;&#39;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/\\n/gm</span>, <span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/(^[&#39;&#34;]|[&#39;&#34;]$)/g</span>, <span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">obj</span>[<span style="color:#a6e22e">key</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">value</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">debug</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// eslint-disable-next-line no-console
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`did not match key and value when parsing line </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">idx</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">line</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">obj</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">config</span>(<span style="color:#a6e22e">filePath</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">encoding</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;utf8&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">debug</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">filePath</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">parsed</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">readFileSync</span>(<span style="color:#a6e22e">filePath</span>, { <span style="color:#a6e22e">encoding</span> }), { <span style="color:#a6e22e">debug</span> });
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">parsed</span> };
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">e</span> };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;.env path cannot be empty&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 获取.env中的配置，解析为js字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param {*} isDev
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getEnv</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">customConfig</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">config</span>(<span style="color:#a6e22e">resolveApp</span>(<span style="color:#e6db74">&#39;.env&#39;</span>));
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">combineEnv</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">customConfig</span>.<span style="color:#a6e22e">parsed</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#e6db74">`window._env_ = </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">combineEnv</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">;`</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">getEnv</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span><span style="color:#960050;background-color:#1e0010">、</span><span style="color:#a6e22e">更改webpack</span>.<span style="color:#a6e22e">prod</span>.<span style="color:#a6e22e">conf</span>.<span style="color:#a6e22e">js</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">核心代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getEnv</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./getEnv&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">webpack</span>.<span style="color:#a6e22e">DefinePlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;process.env&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`window._env_`</span> <span style="color:#75715e">//构建时定义process.env值为window._env_的值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }),
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">HtmlWebpackPlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">index</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">template</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">inject</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">favicon</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;favicon.ico&#39;</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;蘑菇云后台管理系统&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">env</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">getEnv</span>(), <span style="color:#75715e">//插件生成html模本读取.env文件为env
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">minify</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeComments</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">collapseWhitespace</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeAttributeQuotes</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// more options:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// https://github.com/kangax/html-minifier#options-quick-reference
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// default sort mode uses toposort which cannot handle cyclic deps
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#75715e">// in certain cases, and in webpack 4, chunk order in HTML doesn&#39;t
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#75715e">// matter anyway
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }),
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CopyWebpackPlugin</span>([
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../static&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">assetsSubDirectory</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ignore</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;.*&#39;</span>]
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//拷贝新增的四个文件到dist中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>,<span style="color:#e6db74">&#39;../.env&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../env.sh&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../.default.env&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../env-config.js&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    ])
+</span></span></code></pre></div><h3 id="完整代码">完整代码</h3>
+<p>完整的代码如下所示</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#e6db74">&#39;use strict&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;path&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">utils</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./utils&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">webpack</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;webpack&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">config</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;../config&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">merge</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;webpack-merge&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">baseWebpackConfig</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./webpack.base.conf&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">CopyWebpackPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;copy-webpack-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">HtmlWebpackPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;html-webpack-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ScriptExtHtmlWebpackPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;script-ext-html-webpack-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">MiniCssExtractPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;mini-css-extract-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">OptimizeCSSAssetsPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;optimize-css-assets-webpack-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">UglifyJsPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;uglifyjs-webpack-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getEnv</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./getEnv&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">dir</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;..&#39;</span>, <span style="color:#a6e22e">dir</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// For NamedChunksPlugin
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">seen</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Set</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">nameLength</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">webpackConfig</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">merge</span>(<span style="color:#a6e22e">baseWebpackConfig</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;production&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">module</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">rules</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">styleLoaders</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">sourceMap</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">productionSourceMap</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">extract</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">usePostCSS</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">devtool</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">productionSourceMap</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">devtool</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">assetsRoot</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">assetsPath</span>(<span style="color:#e6db74">&#39;js/[name].[chunkhash:8].js&#39;</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">chunkFilename</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">assetsPath</span>(<span style="color:#e6db74">&#39;js/[name].[chunkhash:8].js&#39;</span>)
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">plugins</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// http://vuejs.github.io/vue-loader/en/workflow/production.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">webpack</span>.<span style="color:#a6e22e">DefinePlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;process.env&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`window._env_`</span>
+</span></span><span style="display:flex;"><span>    }),
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// extract css into its own file
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MiniCssExtractPlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">assetsPath</span>(<span style="color:#e6db74">&#39;css/[name].[contenthash:8].css&#39;</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">chunkFilename</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">assetsPath</span>(<span style="color:#e6db74">&#39;css/[name].[contenthash:8].css&#39;</span>)
+</span></span><span style="display:flex;"><span>    }),
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// generate dist index.html with correct asset hash for caching.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// you can customize output by editing /index.html
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// see https://github.com/ampedandwired/html-webpack-plugin
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">HtmlWebpackPlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">index</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">template</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">inject</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">favicon</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#39;favicon.ico&#39;</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;蘑菇云后台管理系统&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">env</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">getEnv</span>(),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">minify</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeComments</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">collapseWhitespace</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">removeAttributeQuotes</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// more options:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// https://github.com/kangax/html-minifier#options-quick-reference
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// default sort mode uses toposort which cannot handle cyclic deps
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#75715e">// in certain cases, and in webpack 4, chunk order in HTML doesn&#39;t
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#75715e">// matter anyway
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }),
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ScriptExtHtmlWebpackPlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">//`runtime` must same as runtimeChunk name. default is `runtime`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">inline</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/runtime\..*\.js$/</span>
+</span></span><span style="display:flex;"><span>    }),
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// keep chunk.id stable when chunk has no name
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">webpack</span>.<span style="color:#a6e22e">NamedChunksPlugin</span>(<span style="color:#a6e22e">chunk</span> =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">chunk</span>.<span style="color:#a6e22e">name</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chunk</span>.<span style="color:#a6e22e">name</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">modules</span> <span style="color:#f92672">=</span> Array.<span style="color:#a6e22e">from</span>(<span style="color:#a6e22e">chunk</span>.<span style="color:#a6e22e">modulesIterable</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">modules</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">hash</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;hash-sum&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">joinedHash</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hash</span>(<span style="color:#a6e22e">modules</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">m</span> =&gt; <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">id</span>).<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39;_&#39;</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">len</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">nameLength</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#a6e22e">seen</span>.<span style="color:#a6e22e">has</span>(<span style="color:#a6e22e">joinedHash</span>.<span style="color:#a6e22e">substr</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">len</span>))) <span style="color:#a6e22e">len</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">seen</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">joinedHash</span>.<span style="color:#a6e22e">substr</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">len</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">`chunk-</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">joinedHash</span>.<span style="color:#a6e22e">substr</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">len</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">modules</span>[<span style="color:#ae81ff">0</span>].<span style="color:#a6e22e">id</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }),
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// keep module.id stable when vender modules does not change
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">webpack</span>.<span style="color:#a6e22e">HashedModuleIdsPlugin</span>(),
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// copy custom static assets
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CopyWebpackPlugin</span>([
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../static&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">assetsSubDirectory</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ignore</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;.*&#39;</span>]
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>,<span style="color:#e6db74">&#39;../.env&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../env.sh&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../.default.env&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">from</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;../env-config.js&#39;</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">to</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;./&#39;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    ])
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">optimization</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">splitChunks</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">chunks</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;all&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">cacheGroups</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">libs</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;chunk-libs&#39;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/[\\/]node_modules[\\/]/</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">priority</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">chunks</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;initial&#39;</span> <span style="color:#75715e">// 只打包初始时依赖的第三方
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">elementUI</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;chunk-elementUI&#39;</span>, <span style="color:#75715e">// 单独将 elementUI 拆包
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>          <span style="color:#a6e22e">priority</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span>, <span style="color:#75715e">// 权重要大于 libs 和 app 不然会被打包进 libs 或者 app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>          <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/[\\/]node_modules[\\/]element-ui[\\/]/</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">runtimeChunk</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;single&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">minimizer</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">UglifyJsPlugin</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">uglifyOptions</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">mangle</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">safari10</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sourceMap</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">productionSourceMap</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">cache</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">parallel</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      }),
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// Compress extracted CSS. We are using this plugin so that possible
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#75715e">// duplicated CSS from different components can be deduped.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">OptimizeCSSAssetsPlugin</span>()
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">productionGzip</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">CompressionWebpackPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;compression-webpack-plugin&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">webpackConfig</span>.<span style="color:#a6e22e">plugins</span>.<span style="color:#a6e22e">push</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CompressionWebpackPlugin</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">asset</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;[path].gz[query]&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">algorithm</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;gzip&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">new</span> RegExp(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;\\.(&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">productionGzipExtensions</span>.<span style="color:#a6e22e">join</span>(<span style="color:#e6db74">&#39;|&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;)$&#39;</span>
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">threshold</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10240</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">minRatio</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.8</span>
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">generateAnalyzerReport</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">bundleAnalyzerReport</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">BundleAnalyzerPlugin</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;webpack-bundle-analyzer&#39;</span>)
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">BundleAnalyzerPlugin</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">bundleAnalyzerReport</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">webpackConfig</span>.<span style="color:#a6e22e">plugins</span>.<span style="color:#a6e22e">push</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">BundleAnalyzerPlugin</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">analyzerPort</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8080</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">generateStatsFile</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">build</span>.<span style="color:#a6e22e">generateAnalyzerReport</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">webpackConfig</span>.<span style="color:#a6e22e">plugins</span>.<span style="color:#a6e22e">push</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">BundleAnalyzerPlugin</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">analyzerMode</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;static&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">reportFilename</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bundle-report.html&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">openAnalyzer</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">webpackConfig</span>
+</span></span></code></pre></div><h2 id="修改indexhtml">修改index.html</h2>
+<p>然后我们修改 vue_mogu_admin\index.html 文件，我们需要在<code> index.html</code> 把我们的环境变量放入进去</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;script id<span style="color:#f92672">=</span>env&gt;&lt;%<span style="color:#f92672">=</span> htmlWebpackPlugin.options.env %&gt;&lt;/script&gt;
+</span></span></code></pre></div><p>我是放在 <code>&lt;head&gt;&lt;/head&gt;</code>中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;head&gt;
+</span></span><span style="display:flex;"><span>  &lt;meta charset<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;meta name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> content<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width,initial-scale=1.0&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;title&gt;蘑菇云后台管理系统&lt;/title&gt;
+</span></span><span style="display:flex;"><span>  &lt;script id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;env&#39;</span>&gt;&lt;%<span style="color:#f92672">=</span> htmlWebpackPlugin.options.env %&gt;&lt;/script&gt;
+</span></span><span style="display:flex;"><span>&lt;/head&gt;
+</span></span></code></pre></div><h2 id="添加envsh">添加env.sh</h2>
+<p>下面我们需要在 <code>vue_mogu_admin</code> 目录下添加 <code>env.sh</code> 文件，用于容器启动时，替换环境变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>set -x
+</span></span><span style="display:flex;"><span>set -e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Recreate config file</span>
+</span></span><span style="display:flex;"><span>absolute_path<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cd <span style="color:#e6db74">`</span>dirname $0<span style="color:#e6db74">`</span>; pwd<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>env_config<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/env-config.js
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm -rf <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>touch <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add assignment</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;window._env_ = {&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Read each line in .env file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Each line represents key=value pairs</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^[[:space:]]*$/d&#39;</span> <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/.env
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line <span style="color:#f92672">||</span> <span style="color:#f92672">[[</span> -n <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]]</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Split env variables by character `=`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | grep -q -e <span style="color:#e6db74">&#39;=&#39;</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    varname<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | sed -e <span style="color:#e6db74">&#39;s/=.*//&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    varvalue<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | sed -e <span style="color:#e6db74">&#39;s/^[^=]*=//&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Read value of current variable if exists as Environment variable</span>
+</span></span><span style="display:flex;"><span>  value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>!varname<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Otherwise use value from .env file</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[[</span> -z $value <span style="color:#f92672">]]</span> <span style="color:#f92672">&amp;&amp;</span> value<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>varvalue<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Append configuration property to JS file</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;  </span>$varname<span style="color:#e6db74">: \&#34;</span>$value<span style="color:#e6db74">\&#34;,&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> &lt; <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/.env
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^[[:space:]]*$/d&#39;</span> <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/.default.env
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> read -r line <span style="color:#f92672">||</span> <span style="color:#f92672">[[</span> -n <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]]</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Split env variables by character `=`</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | grep -q -e <span style="color:#e6db74">&#39;=&#39;</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    varname<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | sed -e <span style="color:#e6db74">&#39;s/=.*//&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    varvalue<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span>$line<span style="color:#e6db74">&#34;</span> | sed -e <span style="color:#e6db74">&#39;s/^[^=]*=//&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Read value of current variable if exists as Environment variable</span>
+</span></span><span style="display:flex;"><span>  value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>printf <span style="color:#e6db74">&#39;%s\n&#39;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>!varname<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Otherwise use value from .env file</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">[[</span> -z $value <span style="color:#f92672">]]</span> <span style="color:#f92672">&amp;&amp;</span> value<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>varvalue<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Append configuration property to JS file</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;  </span>$varname<span style="color:#e6db74">: \&#34;</span>$value<span style="color:#e6db74">\&#34;,&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span> &lt; <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/.default.env
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;}&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>sed -e <span style="color:#e6db74">&#34;s/\//\\\/g&#34;</span> <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>STR<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo <span style="color:#66d9ef">$(</span>cat <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span><span style="color:#66d9ef">)</span> | sed <span style="color:#e6db74">&#39;s#\/#\\\/#g&#39;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>mv <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/index.html <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/index.html.bak
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#sed -e &#34;s/window\.\_env\_.*\}\;/${STR}/g&#34; ${absolute_path}/index.html.bak &gt; ${absolute_path}/index.html</span>
+</span></span><span style="display:flex;"><span>sed -e <span style="color:#e6db74">&#34;s#&lt;script id=env&gt;window._env_.*\};&lt;/script&gt;#&lt;script id=env&gt;</span><span style="color:#e6db74">${</span>STR<span style="color:#e6db74">}</span><span style="color:#e6db74">;&lt;/script&gt;#g&#34;</span> <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/index.html.bak &gt; <span style="color:#e6db74">${</span>absolute_path<span style="color:#e6db74">}</span>/index.html
+</span></span><span style="display:flex;"><span>cat <span style="color:#e6db74">${</span>env_config<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exec <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><h2 id="编写dockerfile">编写Dockerfile</h2>
+<p>下面我们就可以编写Dockerfile文件进行Docker镜像构建相关操作</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FROM registry.cn-shenzhen.aliyuncs.com/mogu-zh/nginx:latest
+</span></span><span style="display:flex;"><span>ADD ./dist/ /usr/share/nginx/html
+</span></span><span style="display:flex;"><span>RUN sed -i <span style="color:#e6db74">&#39;s/\r$//&#39;</span> /usr/share/nginx/html/env.sh
+</span></span><span style="display:flex;"><span>RUN chmod +x /usr/share/nginx/html/env.sh
+</span></span><span style="display:flex;"><span>ENTRYPOINT <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;/usr/share/nginx/html/env.sh&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>CMD <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;nginx&#34;</span>, <span style="color:#e6db74">&#34;-g&#34;</span>, <span style="color:#e6db74">&#34;daemon off;&#34;</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>上述的Dockerfile文件，主要就是以nginx作为基础镜像，然后将我们的 dist文件夹放到 nginx目录下，然后执行脚本进行替换环境变量</p>
+<h2 id="打包镜像">打包镜像</h2>
+<p>完成上述的操作后，我们就可以在服务器上进行vue_mogu_admin的镜像构建了，然后提交到DockerHub中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装依赖</span>
+</span></span><span style="display:flex;"><span>npm install
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 打包</span>
+</span></span><span style="display:flex;"><span>npm run build
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 构建镜像</span>
+</span></span><span style="display:flex;"><span>docker build -t moxi/vue_mogu_admin .
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提交镜像</span>
+</span></span><span style="display:flex;"><span>docker push moxi/vue_mogu_web
+</span></span></code></pre></div><p>最后在DockerHub就能看到我们刚刚构建的镜像</p>
+<p><img src="images/image-20201127094131535.png" alt="image-20201127094131535"></p>
+<h2 id="测试">测试</h2>
+<h3 id="默认配置">默认配置</h3>
+<p>在构建好镜像后，我们就可以在服务器拉取我们的镜像进行测试，首先测试使用默认的配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --name vue_mogu_web -d  -it  -p 9527:80 moxi/vue_mogu_web
+</span></span></code></pre></div><p><img src="images/image-20201127094356561.png" alt="image-20201127094356561"></p>
+<p>能看到下面的请求的IP如下所示</p>
+<p><img src="images/image-20201127094603395.png" alt="image-20201127094603395"></p>
+<h3 id="动态配置">动态配置</h3>
+<p>下面我们在启动的时候，携带我们的变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --name vue_mogu_web -d  -it <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e VUE_MOGU_WEB<span style="color:#f92672">=</span>http://101.132.194.128:9527 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e PICTURE_API<span style="color:#f92672">=</span>http://101.132.194.128:8602 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e PICTURE_API<span style="color:#f92672">=</span>http://101.132.194.128:8602 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e WEB_API<span style="color:#f92672">=</span>http://101.132.194.128:8603 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e ELASTICSEARCH<span style="color:#f92672">=</span>http://101.132.194.128:8605 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-p 9527:80 moxi/vue_mogu_web
+</span></span></code></pre></div><p>执行完成后，我们再次打开页面，发现已经变成了蘑菇博客的线上环境了~</p>
+<p><img src="images/image-20201127101103543.png" alt="image-20201127101103543"></p>
+<p>打开F12，查看请求端口，发现ip地址已经成功修改了</p>
+<p><img src="images/image-20201127101152897.png" alt="image-20201127101152897"></p>
+<p>到此为止，动态配置解决方案已经完成 ~</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

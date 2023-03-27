@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="ElementUI中Upload组件如何批量上传 前言 最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue
+地址：Element
+上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。
+解决方案 后面通过查看issue发现，有一篇能够解决图片合并上传的需求：issue
+主要是定义了两个方法，首先就是我们写的upload组件
+ &lt;el-upload class=&#34;upload-demo&#34; ref=&#34;uploadFile&#34; name=&#34;filedatas&#34; :headers=&#34;importHeaders&#34; :action=&#34;uploadAdminHost&#34; :auto-upload=&#34;false&#34; multiple &gt; &lt;el-button slot=&#34;trigger&#34; size=&#34;small&#34; type=&#34;primary&#34;&gt;选取博客文件&lt;/el-button&gt; &lt;el-button style=&#34;margin-left: 10px;&#34; size=&#34;small&#34; type=&#34;success&#34; @click=&#34;submitUpload&#34;&gt;提交到服务器&lt;/el-button&gt; &lt;/el-upload&gt; 然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据
+ // 文件上传 submitUpload() { let {uploadFiles, action, data} = this.$refs.uploadFile this.uploadFiles({ uploadFiles, data, action, success: (response) =&gt; { console.log(response) // 上传成功后，将里面的内容删除 this.$refs.uploadFile.clearFiles(); this.$refs.uploadPicture.clearFiles(); }, error: (error) =&gt; { console.log(&#39;失败了&#39;, error) } }) }, 下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式
+ /** * 自定义上传文件 * @param fileList 文件列表 * @param data 上传时附带的额外参数 * @param url 上传的URL地址 * @param success 成功回调 * @param error 失败回调 */ uploadFiles({uploadFiles, headers, data, action, success, error}) { let form = new FormData() // 文件对象 uploadFiles.">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="ElementUI中Upload组件如何批量上传 前言 最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue
+地址：Element
+上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。
+解决方案 后面通过查看issue发现，有一篇能够解决图片合并上传的需求：issue
+主要是定义了两个方法，首先就是我们写的upload组件
+ &lt;el-upload class=&#34;upload-demo&#34; ref=&#34;uploadFile&#34; name=&#34;filedatas&#34; :headers=&#34;importHeaders&#34; :action=&#34;uploadAdminHost&#34; :auto-upload=&#34;false&#34; multiple &gt; &lt;el-button slot=&#34;trigger&#34; size=&#34;small&#34; type=&#34;primary&#34;&gt;选取博客文件&lt;/el-button&gt; &lt;el-button style=&#34;margin-left: 10px;&#34; size=&#34;small&#34; type=&#34;success&#34; @click=&#34;submitUpload&#34;&gt;提交到服务器&lt;/el-button&gt; &lt;/el-upload&gt; 然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据
+ // 文件上传 submitUpload() { let {uploadFiles, action, data} = this.$refs.uploadFile this.uploadFiles({ uploadFiles, data, action, success: (response) =&gt; { console.log(response) // 上传成功后，将里面的内容删除 this.$refs.uploadFile.clearFiles(); this.$refs.uploadPicture.clearFiles(); }, error: (error) =&gt; { console.log(&#39;失败了&#39;, error) } }) }, 下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式
+ /** * 自定义上传文件 * @param fileList 文件列表 * @param data 上传时附带的额外参数 * @param url 上传的URL地址 * @param success 成功回调 * @param error 失败回调 */ uploadFiles({uploadFiles, headers, data, action, success, error}) { let form = new FormData() // 文件对象 uploadFiles." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/elementui%E4%B8%ADupload%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E4%B8%8A%E4%BC%A0/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="ElementUI中Upload组件如何批量上传 前言 最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue
+地址：Element
+上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。
+解决方案 后面通过查看issue发现，有一篇能够解决图片合并上传的需求：issue
+主要是定义了两个方法，首先就是我们写的upload组件
+ &lt;el-upload class=&#34;upload-demo&#34; ref=&#34;uploadFile&#34; name=&#34;filedatas&#34; :headers=&#34;importHeaders&#34; :action=&#34;uploadAdminHost&#34; :auto-upload=&#34;false&#34; multiple &gt; &lt;el-button slot=&#34;trigger&#34; size=&#34;small&#34; type=&#34;primary&#34;&gt;选取博客文件&lt;/el-button&gt; &lt;el-button style=&#34;margin-left: 10px;&#34; size=&#34;small&#34; type=&#34;success&#34; @click=&#34;submitUpload&#34;&gt;提交到服务器&lt;/el-button&gt; &lt;/el-upload&gt; 然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据
+ // 文件上传 submitUpload() { let {uploadFiles, action, data} = this.$refs.uploadFile this.uploadFiles({ uploadFiles, data, action, success: (response) =&gt; { console.log(response) // 上传成功后，将里面的内容删除 this.$refs.uploadFile.clearFiles(); this.$refs.uploadPicture.clearFiles(); }, error: (error) =&gt; { console.log(&#39;失败了&#39;, error) } }) }, 下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式
+ /** * 自定义上传文件 * @param fileList 文件列表 * @param data 上传时附带的额外参数 * @param url 上传的URL地址 * @param success 成功回调 * @param error 失败回调 */ uploadFiles({uploadFiles, headers, data, action, success, error}) { let form = new FormData() // 文件对象 uploadFiles.">
+
+<meta itemprop="wordCount" content="182">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="ElementUI中Upload组件如何批量上传 前言 最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue
+地址：Element
+上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。
+解决方案 后面通过查看issue发现，有一篇能够解决图片合并上传的需求：issue
+主要是定义了两个方法，首先就是我们写的upload组件
+ &lt;el-upload class=&#34;upload-demo&#34; ref=&#34;uploadFile&#34; name=&#34;filedatas&#34; :headers=&#34;importHeaders&#34; :action=&#34;uploadAdminHost&#34; :auto-upload=&#34;false&#34; multiple &gt; &lt;el-button slot=&#34;trigger&#34; size=&#34;small&#34; type=&#34;primary&#34;&gt;选取博客文件&lt;/el-button&gt; &lt;el-button style=&#34;margin-left: 10px;&#34; size=&#34;small&#34; type=&#34;success&#34; @click=&#34;submitUpload&#34;&gt;提交到服务器&lt;/el-button&gt; &lt;/el-upload&gt; 然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据
+ // 文件上传 submitUpload() { let {uploadFiles, action, data} = this.$refs.uploadFile this.uploadFiles({ uploadFiles, data, action, success: (response) =&gt; { console.log(response) // 上传成功后，将里面的内容删除 this.$refs.uploadFile.clearFiles(); this.$refs.uploadPicture.clearFiles(); }, error: (error) =&gt; { console.log(&#39;失败了&#39;, error) } }) }, 下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式
+ /** * 自定义上传文件 * @param fileList 文件列表 * @param data 上传时附带的额外参数 * @param url 上传的URL地址 * @param success 成功回调 * @param error 失败回调 */ uploadFiles({uploadFiles, headers, data, action, success, error}) { let form = new FormData() // 文件对象 uploadFiles."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="elementui中upload组件如何批量上传">ElementUI中Upload组件如何批量上传</h1>
+<h2 id="前言">前言</h2>
+<p>最近一直使用Element提供的文件上传组件，但是使用后发现，其实当我们批量选中的时候，文件不是一次性都上传进去的，而是把它又拆分成一个个的文件进行上传。首先这容易造成的问题就是我们如果同时提交多个图片文件的时候，会重复的请求接口，造成接口并发访问的时可能出现的问题，下面是Element 的Github写的一个Issue</p>
+<p>地址：<a href="https://github.com/ElemeFE/element/issues/15036">Element</a></p>
+<p><img src="images/image-20200411115231912.png" alt="image-20200411115231912"></p>
+<p>上面也是提出了这个问题，就是希望能够合并请求提交，但是得到的官方回复却是：这个合并提交不在计划内，并不打算支持。</p>
+<p><img src="images/image-20200411115319703.png" alt="image-20200411115319703"></p>
+<h2 id="解决方案">解决方案</h2>
+<p>后面通过查看issue发现，有一篇能够解决图片合并上传的需求：<a href="https://github.com/ElemeFE/element/issues/8052">issue</a></p>
+<p>主要是定义了两个方法，首先就是我们写的upload组件</p>
+<pre tabindex="0"><code>      &lt;el-upload
+        class=&#34;upload-demo&#34;
+        ref=&#34;uploadFile&#34;
+        name=&#34;filedatas&#34;
+        :headers=&#34;importHeaders&#34;
+        :action=&#34;uploadAdminHost&#34;
+        :auto-upload=&#34;false&#34;
+        multiple
+      &gt;
+        &lt;el-button slot=&#34;trigger&#34; size=&#34;small&#34; type=&#34;primary&#34;&gt;选取博客文件&lt;/el-button&gt;
+        &lt;el-button style=&#34;margin-left: 10px;&#34; size=&#34;small&#34; type=&#34;success&#34; @click=&#34;submitUpload&#34;&gt;提交到服务器&lt;/el-button&gt;
+      &lt;/el-upload&gt;
+</code></pre><p>然后我们是上传逻辑，我们首先获取到upload组件上的dom，然后获取文件，上传地址和数据</p>
+<pre tabindex="0"><code>    // 文件上传
+    submitUpload() {
+      let {uploadFiles, action, data} = this.$refs.uploadFile      
+      this.uploadFiles({
+        uploadFiles,
+        data,
+        action,
+        success: (response) =&gt; {
+          console.log(response)
+          // 上传成功后，将里面的内容删除
+          this.$refs.uploadFile.clearFiles();
+          this.$refs.uploadPicture.clearFiles();
+        },
+        error: (error) =&gt; {
+          console.log(&#39;失败了&#39;, error)
+        }
+      })
+    },
+</code></pre><p>下面封装了一个 uploadFiles 方法，这里uploadFiles 就可以是多文件，通过封装ajax方式</p>
+<pre tabindex="0"><code>    /**
+     * 自定义上传文件
+     * @param fileList 文件列表
+     * @param data 上传时附带的额外参数
+     * @param url 上传的URL地址
+     * @param success 成功回调
+     * @param error 失败回调
+     */
+    uploadFiles({uploadFiles, headers, data, action, success, error}) {
+      let form = new FormData()
+      // 文件对象
+      uploadFiles.map(file =&gt; form.append(&#34;filedatas&#34;, file.raw))
+      // 附件参数
+      for (let key in data) {
+        form.append(key, data[key])
+      }
+      let xhr = new XMLHttpRequest()
+      // 异步请求
+      xhr.open(&#34;post&#34;, action, true)
+      // 设置请求头
+      xhr.setRequestHeader(&#34;Authorization&#34;, getToken());
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4){
+          if ((xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300) || xhr.status == 304){
+            success &amp;&amp; success(xhr.responseText)
+          } else {
+            error &amp;&amp; error(xhr.status)
+          }
+        }
+      }
+      xhr.send(form)
+    }
+</code></pre><p>最后后台接口，同时接受多个文件</p>
+<pre tabindex="0"><code>    @PostMapping(&#34;/pictures&#34;)
+    public Object uploadPics(HttpServletRequest request, List&lt;MultipartFile&gt; filedatas) {
+          // 逻辑代码
+	}
+</code></pre><p>最后我们查看请求，会同时携带多个文件</p>
+<p><img src="images/image-20200411172208388.png" alt="image-20200411172208388"></p>
+<p>并且返回多个上传成功的结果</p>
+<p><img src="images/image-20200411172255665.png" alt="image-20200411172255665"></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue使用vue-count-to插件对数字显示美化 前言 这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果
+其实在蘑菇博客的使用的后台模板：vue-template-admin 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候
+能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：vue-count-to
+后面发现原来这两个都是由花裤衩大大PanJiaChen编写的，感谢开源的贡献~
+Vue-count-to介绍 官网地址：vue-count-to
+Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js
+依赖安装 npm安装
+npm install vue-count-to 或 yarn安装
+yarn add vue-count-to 使用 引入组件
+import countTo from &#39;vue-count-to&#39;; 然后注册
+components: { countTo }, 完整代码如下所示：
+&lt;template&gt; &lt;countTo :startVal=&#39;startVal&#39; :endVal=&#39;endVal&#39; :duration=&#39;3000&#39;&gt;&lt;/countTo&gt; &lt;/template&gt; &lt;script&gt; import countTo from &#39;vue-count-to&#39;; export default { components: { countTo }, data () { return { startVal: 0, endVal: 2020 } } } &lt;/script&gt; 完整demo如下所示：
+配置 我们可以修改对应的配置，来完成我们对数字变化的需求
+   Property Description type default     startVal 开始值 Number 0   endVal 结束值 Number 2017   duration 持续时间，以毫秒为单位 Number 3000   autoplay 自动播放 Boolean true   decimals 要显示的小数位数 Number 0   decimal 十进制分割 String .">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue使用vue-count-to插件对数字显示美化 前言 这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果
+其实在蘑菇博客的使用的后台模板：vue-template-admin 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候
+能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：vue-count-to
+后面发现原来这两个都是由花裤衩大大PanJiaChen编写的，感谢开源的贡献~
+Vue-count-to介绍 官网地址：vue-count-to
+Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js
+依赖安装 npm安装
+npm install vue-count-to 或 yarn安装
+yarn add vue-count-to 使用 引入组件
+import countTo from &#39;vue-count-to&#39;; 然后注册
+components: { countTo }, 完整代码如下所示：
+&lt;template&gt; &lt;countTo :startVal=&#39;startVal&#39; :endVal=&#39;endVal&#39; :duration=&#39;3000&#39;&gt;&lt;/countTo&gt; &lt;/template&gt; &lt;script&gt; import countTo from &#39;vue-count-to&#39;; export default { components: { countTo }, data () { return { startVal: 0, endVal: 2020 } } } &lt;/script&gt; 完整demo如下所示：
+配置 我们可以修改对应的配置，来完成我们对数字变化的需求
+   Property Description type default     startVal 开始值 Number 0   endVal 结束值 Number 2017   duration 持续时间，以毫秒为单位 Number 3000   autoplay 自动播放 Boolean true   decimals 要显示的小数位数 Number 0   decimal 十进制分割 String ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E4%BD%BF%E7%94%A8vue-count-to%E6%8F%92%E4%BB%B6%E5%AF%B9%E6%95%B0%E5%AD%97%E6%98%BE%E7%A4%BA%E7%BE%8E%E5%8C%96/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue使用vue-count-to插件对数字显示美化 前言 这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果
+其实在蘑菇博客的使用的后台模板：vue-template-admin 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候
+能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：vue-count-to
+后面发现原来这两个都是由花裤衩大大PanJiaChen编写的，感谢开源的贡献~
+Vue-count-to介绍 官网地址：vue-count-to
+Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js
+依赖安装 npm安装
+npm install vue-count-to 或 yarn安装
+yarn add vue-count-to 使用 引入组件
+import countTo from &#39;vue-count-to&#39;; 然后注册
+components: { countTo }, 完整代码如下所示：
+&lt;template&gt; &lt;countTo :startVal=&#39;startVal&#39; :endVal=&#39;endVal&#39; :duration=&#39;3000&#39;&gt;&lt;/countTo&gt; &lt;/template&gt; &lt;script&gt; import countTo from &#39;vue-count-to&#39;; export default { components: { countTo }, data () { return { startVal: 0, endVal: 2020 } } } &lt;/script&gt; 完整demo如下所示：
+配置 我们可以修改对应的配置，来完成我们对数字变化的需求
+   Property Description type default     startVal 开始值 Number 0   endVal 结束值 Number 2017   duration 持续时间，以毫秒为单位 Number 3000   autoplay 自动播放 Boolean true   decimals 要显示的小数位数 Number 0   decimal 十进制分割 String .">
+
+<meta itemprop="wordCount" content="126">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue使用vue-count-to插件对数字显示美化 前言 这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果
+其实在蘑菇博客的使用的后台模板：vue-template-admin 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候
+能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：vue-count-to
+后面发现原来这两个都是由花裤衩大大PanJiaChen编写的，感谢开源的贡献~
+Vue-count-to介绍 官网地址：vue-count-to
+Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js
+依赖安装 npm安装
+npm install vue-count-to 或 yarn安装
+yarn add vue-count-to 使用 引入组件
+import countTo from &#39;vue-count-to&#39;; 然后注册
+components: { countTo }, 完整代码如下所示：
+&lt;template&gt; &lt;countTo :startVal=&#39;startVal&#39; :endVal=&#39;endVal&#39; :duration=&#39;3000&#39;&gt;&lt;/countTo&gt; &lt;/template&gt; &lt;script&gt; import countTo from &#39;vue-count-to&#39;; export default { components: { countTo }, data () { return { startVal: 0, endVal: 2020 } } } &lt;/script&gt; 完整demo如下所示：
+配置 我们可以修改对应的配置，来完成我们对数字变化的需求
+   Property Description type default     startVal 开始值 Number 0   endVal 结束值 Number 2017   duration 持续时间，以毫秒为单位 Number 3000   autoplay 自动播放 Boolean true   decimals 要显示的小数位数 Number 0   decimal 十进制分割 String ."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue使用vue-count-to插件对数字显示美化">Vue使用vue-count-to插件对数字显示美化</h1>
+<h2 id="前言">前言</h2>
+<p>这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果</p>
+<p>其实在蘑菇博客的使用的后台模板：<a href="https://github.com/PanJiaChen/vue-admin-template">vue-template-admin</a> 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候</p>
+<p><img src="images/111.gif" alt="111"></p>
+<p>能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：<a href="https://github.com/PanJiaChen/vue-countTo">vue-count-to</a></p>
+<p>后面发现原来这两个都是由<a href="https://github.com/PanJiaChen">花裤衩大大PanJiaChen</a>编写的，感谢开源的贡献~</p>
+<h2 id="vue-count-to介绍">Vue-count-to介绍</h2>
+<p>官网地址：<a href="https://github.com/PanJiaChen/vue-countTo">vue-count-to</a></p>
+<p>Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js</p>
+<h2 id="依赖安装">依赖安装</h2>
+<p>npm安装</p>
+<pre tabindex="0"><code>npm install vue-count-to
+</code></pre><p>或 yarn安装</p>
+<pre tabindex="0"><code>yarn add vue-count-to
+</code></pre><h2 id="使用">使用</h2>
+<p>引入组件</p>
+<pre tabindex="0"><code>import countTo from &#39;vue-count-to&#39;;
+</code></pre><p>然后注册</p>
+<pre tabindex="0"><code>components: { countTo },
+</code></pre><p>完整代码如下所示：</p>
+<pre tabindex="0"><code>&lt;template&gt;
+  &lt;countTo :startVal=&#39;startVal&#39; :endVal=&#39;endVal&#39; :duration=&#39;3000&#39;&gt;&lt;/countTo&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  import countTo from &#39;vue-count-to&#39;;
+  export default {
+    components: { countTo },
+    data () {
+      return {
+        startVal: 0,
+        endVal: 2020
+      }
+    }
+  }
+&lt;/script&gt;
+</code></pre><p>完整demo如下所示：</p>
+<p><img src="images/countDemo.gif" alt="countDemo"></p>
+<h2 id="配置">配置</h2>
+<p>我们可以修改对应的配置，来完成我们对数字变化的需求</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>type</th>
+<th>default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>startVal</td>
+<td>开始值</td>
+<td>Number</td>
+<td>0</td>
+</tr>
+<tr>
+<td>endVal</td>
+<td>结束值</td>
+<td>Number</td>
+<td>2017</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>持续时间，以毫秒为单位</td>
+<td>Number</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>autoplay</td>
+<td>自动播放</td>
+<td>Boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>decimals</td>
+<td>要显示的小数位数</td>
+<td>Number</td>
+<td>0</td>
+</tr>
+<tr>
+<td>decimal</td>
+<td>十进制分割</td>
+<td>String</td>
+<td>.</td>
+</tr>
+<tr>
+<td>separator</td>
+<td>分隔符</td>
+<td>String</td>
+<td>,</td>
+</tr>
+<tr>
+<td>prefix</td>
+<td>前缀</td>
+<td>String</td>
+<td>''</td>
+</tr>
+<tr>
+<td>suffix</td>
+<td>后缀</td>
+<td>String</td>
+<td>''</td>
+</tr>
+<tr>
+<td>useEasing</td>
+<td>使用缓和功能</td>
+<td>Boolean</td>
+<td>true</td>
+</tr>
+<tr>
+<td>easingFn</td>
+<td>缓和回调</td>
+<td>Function</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>tip：当autoplay：true时，它将在startVal或endVal更改时自动启动</strong></p>
+<table>
+<thead>
+<tr>
+<th>mountedCallback</th>
+<th>挂载以后返回回调</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start</td>
+<td>开始计数</td>
+</tr>
+<tr>
+<td>pause</td>
+<td>暂停计数</td>
+</tr>
+<tr>
+<td>reset</td>
+<td>重置countTo</td>
+</tr>
+</tbody>
+</table>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

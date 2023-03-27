@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="SPA 的 SEO 方案对比、最终实践 前言 前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+   框架 解决方案 Github star     Vue Nuxt.js 28.4k   React Nextjs 50.8k   Angular - -    不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="SPA 的 SEO 方案对比、最终实践 前言 前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+   框架 解决方案 Github star     Vue Nuxt.js 28.4k   React Nextjs 50.8k   Angular - -    不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/spa%E7%9A%84seo%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="SPA 的 SEO 方案对比、最终实践 前言 前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+   框架 解决方案 Github star     Vue Nuxt.js 28.4k   React Nextjs 50.8k   Angular - -    不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）">
+
+<meta itemprop="wordCount" content="1048">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="SPA 的 SEO 方案对比、最终实践 前言 前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+   框架 解决方案 Github star     Vue Nuxt.js 28.4k   React Nextjs 50.8k   Angular - -    不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="spa-的-seo-方案对比最终实践">SPA 的 SEO 方案对比、最终实践</h1>
+<h2 id="前言">前言</h2>
+<p>前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 <a href="https://zh.wikipedia.org/zh-hans/%E5%8D%95%E9%A1%B5%E5%BA%94%E7%94%A8">SPA</a>，同时也带来了很多新问题：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96">SEO</a> 不友好</li>
+<li>首屏渲染慢</li>
+</ul>
+<p>为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。</p>
+<h2 id="一客户端渲染csr方案">一、客户端渲染（CSR）方案</h2>
+<p><a href="https://content.markdowner.net/pub/p2DkVy-V5a10pn"><img src="images/p2DkVy-V5a10pn.png" alt="img"></a></p>
+<p>React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>SPA 的优点（用户体验较好）</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广）</li>
+<li>首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）</li>
+</ul>
+<h2 id="二服务端渲染-ssr方案">二、服务端渲染 （SSR）方案</h2>
+<p><a href="https://content.markdowner.net/pub/WDEPGk-V389w79"><img src="images/WDEPGk-V389w79.png" alt="img"></a><strong>基本原理：</strong> 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO</p>
+<p><strong>需解决问题：</strong></p>
+<ol>
+<li>大部分应用开发时都有状态管理方案（<a href="https://vuex.vuejs.org/zh/guide/">Vuex</a>, <a href="https://redux.js.org/">Redux</a>），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store</li>
+<li>需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成</li>
+</ol>
+<p>针对这些问题，社区也有相应框架可参考：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">框架</th>
+<th style="text-align:left">解决方案</th>
+<th style="text-align:left">Github star</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Vue</td>
+<td style="text-align:left"><a href="https://zh.nuxtjs.org/">Nuxt.js</a></td>
+<td style="text-align:left">28.4k</td>
+</tr>
+<tr>
+<td style="text-align:left">React</td>
+<td style="text-align:left"><a href="https://nextjs.org/">Nextjs</a></td>
+<td style="text-align:left">50.8k</td>
+</tr>
+<tr>
+<td style="text-align:left">Angular</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">-</td>
+</tr>
+</tbody>
+</table>
+<p>不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>SEO 友好</li>
+<li>首屏渲染快（可在服务端缓存页面，请求到来直接给 html）</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大）</li>
+<li>丢失了部分SPA体验</li>
+<li>node 容易成为性能瓶颈</li>
+</ul>
+<h2 id="三构建时预渲染方案">三、构建时预渲染方案</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Solution</th>
+<th style="text-align:left">Github Star</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="https://github.com/chrisvfritz/prerender-spa-plugin">prerender-spa-plugin</a></td>
+<td style="text-align:left">6k</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://github.com/puppeteer/puppeteer">puppeteer</a></td>
+<td style="text-align:left">63.2k</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://github.com/Medium/phantomjs">phantomjs</a></td>
+<td style="text-align:left">1.4k</td>
+</tr>
+</tbody>
+</table>
+<p><strong>基本原理：</strong> 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index.html 文件入口问题，用上述预渲染中间件在前端项目构建时预先获取页面数据，生成多个页面，如 about、help 、contact 等页面，优化首屏渲染与部分页面SEO</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>代码侵入性小</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>无法用于大量动态路径页面场景（生成的 html 页面数据大，而且页面数据会有更新。如 /article/123，文章页面）</li>
+<li>后台请求数据变动时前端应该同步更新版本</li>
+</ul>
+<h2 id="四服务端动态渲染利用user-agent">四、服务端动态渲染（利用user-agent）</h2>
+<p><a href="https://content.markdowner.net/pub/4Vmk3n-aon3eGQ"><img src="images/4Vmk3n-aon3eGQ.png" alt="img"></a></p>
+<p>回归到原始需求，为了提高用户体验我们用了SPA技术、为了SEO 我们用了 SSR、预渲染等技术。不同技术方案有一定差距，不能兼顾优点。但仔细想，需要这些技术优点的“用户”，其实时不一样的，SPA 针对的是浏览器普通用户、SSR 针对的是网页爬虫，如 googlebot、baiduspider 等，那为什么我们不能给不同“用户”不同的页面呢，服务端动态渲染就是这种方案。</p>
+<p><strong>基本原理：</strong> 服务端对请求的 user-agent 进行判断，浏览器端直接给 SPA 页面，如果是爬虫，给经过动态渲染的 html 页面</p>
+<p><strong>PS：</strong> 你可能会问，给了爬虫不同的页面，会不会被认为是网页作弊行为呢？</p>
+<p>Google 给了<a href="https://developers.google.com/search/docs/guides/dynamic-rendering">回复</a>：</p>
+<blockquote>
+<h2 id="dynamic-rendering-is-not-cloaking">Dynamic rendering is not cloaking</h2>
+<p>Googlebot generally doesn&rsquo;t consider dynamic rendering as <a href="https://support.google.com/webmasters/answer/66355">cloaking</a>. As long as your dynamic rendering produces similar content, Googlebot won&rsquo;t view dynamic rendering as cloaking.</p>
+<p>When you&rsquo;re setting up dynamic rendering, your site may produce error pages. Googlebot doesn&rsquo;t consider these error pages as cloaking and <a href="https://developers.google.com/search/docs/guides/javascript-seo-basics#use-meaningful-http-status-codes">treats the error as any other error page</a>.</p>
+<p>Using dynamic rendering to serve completely different content to users and crawlers can be considered cloaking. For example, a website that serves a page about cats to users and a page about dogs to crawlers can be considered cloaking.</p>
+</blockquote>
+<p>也就是说，如果我们没有刻意去作弊，而是使用动态渲染方案去解决SEO问题，爬虫经过对比网站内容，没有明显差异，不会认为这是作弊行为。</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>兼顾 SPA优点同时解决SEO问题</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>需要服务端应用（但动态渲染只针对爬虫、不会成为性能瓶颈）</li>
+</ul>
+<p><strong>总结：</strong> 经过前期其他方案的实践、优缺点权衡、最终我们选择了方案四的动态渲染作为 SPA 的 SEO 方案。</p>
+<h2 id="实现细节">实现细节</h2>
+<p><a href="https://content.markdowner.net/pub/1qa8x4-V1bWyeo"><img src="images/1qa8x4-V1bWyeo.png" alt="img"></a></p>
+<p>上图为最终实现。（存在优化点：右边CDN整合、可以考虑使用Node替代nginx部分功能，简化架构）</p>
+<h4 id="社区方案">社区方案：</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方案</th>
+<th style="text-align:left">github star</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="https://developers.google.com/web/tools/puppeteer/get-started">puppeteer</a></td>
+<td style="text-align:left">63.2k</td>
+<td style="text-align:left">可用于动态渲染、前端测试、操作模拟。API丰富</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://github.com/GoogleChrome/rendertron">rendertron</a></td>
+<td style="text-align:left">4.9k</td>
+<td style="text-align:left">动态渲染</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://prerender.io/">prerender.io</a></td>
+<td style="text-align:left">5.6k</td>
+<td style="text-align:left">动态渲染</td>
+</tr>
+</tbody>
+</table>
+<p>选型使用 puppeteer 作为动态渲染方案。</p>
+<p>依赖：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dependencies&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;bluebird&#34;</span>: <span style="color:#e6db74">&#34;^3.7.2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;express&#34;</span>: <span style="color:#e6db74">&#34;^4.17.1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;puppeteer&#34;</span>: <span style="color:#e6db74">&#34;^5.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;redis&#34;</span>: <span style="color:#e6db74">&#34;^3.0.2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;^2.88.2&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>代码参考<a href="https://developers.google.com/web/tools/puppeteer/articles/ssr">Google 官方 Demo</a>进行改造，下面是基础代码：</p>
+<p><strong>server.js</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">express</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;express&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">request</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;request&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ssr</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./ssr.js&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">host</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.abc.com&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;*&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">html</span>, <span style="color:#a6e22e">ttRenderMs</span>} <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">ssr</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">host</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">originalUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#39;Server-Timing&#39;</span>, <span style="color:#e6db74">`Prerender;dur=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">ttRenderMs</span><span style="color:#e6db74">}</span><span style="color:#e6db74">;desc=&#34;Headless render time (ms)&#34;`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">200</span>).<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">html</span>); <span style="color:#75715e">// Serve prerendered page as response.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">8080</span>, () =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Server started. Press Ctrl + C to quit&#39;</span>));
+</span></span></code></pre></div><p><strong>ssr.js</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">puppeteer</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;puppeteer&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// In-memory cache of rendered pages.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">RENDER_CACHE</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">ssr</span>(<span style="color:#a6e22e">url</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">RENDER_CACHE</span>.<span style="color:#a6e22e">has</span>(<span style="color:#a6e22e">url</span>)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {<span style="color:#a6e22e">html</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">RENDER_CACHE</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">url</span>), <span style="color:#a6e22e">ttRenderMs</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">browser</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">puppeteer</span>.<span style="color:#a6e22e">launch</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;--no-sandbox&#39;</span>, <span style="color:#e6db74">&#39;--disable-setuid-sandbox&#39;</span>]
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">newPage</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// networkidle0 waits for the network to be idle (no requests for 500ms).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#66d9ef">goto</span>(<span style="color:#a6e22e">url</span>, {<span style="color:#a6e22e">waitUntil</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;networkidle0&#39;</span>});
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">waitForSelector</span>(<span style="color:#e6db74">&#39;#root&#39;</span>); <span style="color:#75715e">// ensure #posts exists in the DOM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;page.goto/waitForSelector timed out.&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">html</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">content</span>(); <span style="color:#75715e">// serialized HTML of page DOM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ttRenderMs</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>() <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">`Puppeteer rendered page: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> in: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">ttRenderMs</span><span style="color:#e6db74">}</span><span style="color:#e6db74">ms`</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">RENDER_CACHE</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">url</span>, <span style="color:#a6e22e">html</span>); <span style="color:#75715e">// cache rendered page.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {<span style="color:#a6e22e">html</span>, <span style="color:#a6e22e">ttRenderMs</span>};
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> {<span style="color:#a6e22e">ssr</span> <span style="color:#a6e22e">as</span> <span style="color:#66d9ef">default</span>};
+</span></span></code></pre></div><p>Demo 代码存在以下问题：</p>
+<ul>
+<li>页面渲染后返回浏览器，有时会再次执行异步请求获取数据（重复请求）</li>
+<li>使用了 Map 做页面缓存，在node服务崩溃时会丢失全部缓存。没有超时限制，随着时间增长，内存消耗大（缓存机制）</li>
+<li>样式错乱：虽然内容有渲染进html，但是打开样式是错乱的（如postman 上打开）</li>
+<li>重复请求 React/Vue 静态文件，ssr 函数会当成一个页面进行渲染（错误渲染）</li>
+</ul>
+<p>下面对这些问题逐个击破</p>
+<h3 id="重复请求">重复请求</h3>
+<p>根本原因是React/Vue 代码生命周期函数重复执行。一般我们在created/componentDidMount hook 进行异步数据请求，这个hook在动态渲染的时候执行了一次，在HTML返回浏览器的时候，dom挂载又执行了一次，此问题在<a href="https://developers.google.com/web/tools/puppeteer/articles/ssr#rerender">Google Support</a>也有提及。可以通过小小改造前端代码，判断页面是否已被动态渲染再执行异步请求。可参考：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">componentDidMount</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">PRE_RENDERED</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#posts&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">PRE_RENDERED</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 异步请求
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 插入含有 #posts id 的 dom 元素
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="缓存机制">缓存机制</h3>
+<p>针对 Map 缓存的问题，我们使用了Redis进行改造，增加超时机制，同时可以避免node崩溃缓存击穿问题</p>
+<p><strong>redis/index.js</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">redis</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;redis&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">bluebird</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;bluebird&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bluebird</span>.<span style="color:#a6e22e">promisifyAll</span>(<span style="color:#a6e22e">redis</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">host</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;www.abc.com&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">6379</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;123456&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">createClient</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">host</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">port</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">password</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">retry_strategy</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">options</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">error</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">error</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;ECONNREFUSED&#34;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#34;The server refused the connection&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">total_retry_time</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#34;Retry time exhausted&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">attempt</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">10</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">undefined</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Math.<span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">options</span>.<span style="color:#a6e22e">attempt</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">3000</span>);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;error&#34;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;dynamic-render redis error: &#39;</span>, <span style="color:#a6e22e">e</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">client</span>;
+</span></span></code></pre></div><h3 id="样式错乱">样式错乱</h3>
+<p>出现这个问题的原因是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/static/css/7.82e13697.chunk.css&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span>&gt;
+</span></span></code></pre></div><p>如果爬虫没有 js 执行能力，并不会去请求这类样式文件，所以我们需要将link标签转换为 style 标签。</p>
+<p>这部分工作在以前可以不搞，反正主要内容已经给到爬虫了，但是现在爬虫越来越聪明，能够通过样式文件识别网站是否有作弊行为，而且如果不做这块，在百度、谷歌的快照页面看到的是错乱的页面，会降低排名，所以我们要帮爬虫安排好样式文件。</p>
+<p>下面代码利用 puppeteer 请求样式文件，用 style 替代 link 标签。 <strong>ssr.js</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">puppeteer</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;puppeteer&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">redisClient</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./redis/index.js&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">ssr</span>(<span style="color:#a6e22e">url</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">REDIS_KEY</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`ssr:</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">CACHE_TIME</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>; <span style="color:#75715e">// 10 分钟缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">CACHE_HTML</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">getAsync</span>(<span style="color:#a6e22e">REDIS_KEY</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">CACHE_HTML</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">html</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">CACHE_HTML</span>, <span style="color:#a6e22e">ttRenderMs</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> };
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">browser</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">puppeteer</span>.<span style="color:#a6e22e">launch</span>({
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">args</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;--no-sandbox&#39;</span>, <span style="color:#e6db74">&#39;--disable-setuid-sandbox&#39;</span>]
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">page</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">newPage</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">stylesheetContents</span> <span style="color:#f92672">=</span> {};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. Stash the responses of local stylesheets.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;response&#39;</span>, <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">resp</span> =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">responseUrl</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">url</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sameOrigin</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">URL</span>(<span style="color:#a6e22e">responseUrl</span>).<span style="color:#a6e22e">origin</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">URL</span>(<span style="color:#a6e22e">url</span>).<span style="color:#a6e22e">origin</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isStylesheet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">request</span>().<span style="color:#a6e22e">resourceType</span>() <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;stylesheet&#39;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">sameOrigin</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isStylesheet</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">stylesheetContents</span>[<span style="color:#a6e22e">responseUrl</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">text</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2. Load page as normal, waiting for network requests to be idle.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// networkidle0 waits for the network to be idle (no requests for 500ms).
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#66d9ef">goto</span>(<span style="color:#a6e22e">url</span>, {<span style="color:#a6e22e">waitUntil</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;networkidle0&#39;</span>});
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">waitForSelector</span>(<span style="color:#e6db74">&#39;#root&#39;</span>); <span style="color:#75715e">// ensure #posts exists in the DOM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 3. Inline the CSS.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// Replace stylesheets in the page with their equivalent &lt;style&gt;.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">$$eval</span>(<span style="color:#e6db74">&#39;link[rel=&#34;stylesheet&#34;]&#39;</span>, (<span style="color:#a6e22e">links</span>, <span style="color:#a6e22e">content</span>) =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">links</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">link</span> =&gt; {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cssText</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">content</span>[<span style="color:#a6e22e">link</span>.<span style="color:#a6e22e">href</span>];
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">cssText</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">style</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;style&#39;</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cssText</span>;
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">link</span>.<span style="color:#a6e22e">replaceWith</span>(<span style="color:#a6e22e">style</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>        }, <span style="color:#a6e22e">stylesheetContents</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 4. Get updated serialized HTML of page.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">html</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">page</span>.<span style="color:#a6e22e">content</span>(); <span style="color:#75715e">// serialized HTML of page DOM.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">browser</span>.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ttRenderMs</span> <span style="color:#f92672">=</span> Date.<span style="color:#a6e22e">now</span>() <span style="color:#f92672">-</span> <span style="color:#a6e22e">start</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">redisClient</span>.<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">REDIS_KEY</span>, <span style="color:#a6e22e">html</span>, <span style="color:#e6db74">&#39;EX&#39;</span>, <span style="color:#a6e22e">CACHE_TIME</span>); <span style="color:#75715e">// cache rendered page.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> {<span style="color:#a6e22e">html</span>, <span style="color:#a6e22e">ttRenderMs</span>};
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;render fail&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> {<span style="color:#a6e22e">ssr</span> <span style="color:#a6e22e">as</span> <span style="color:#66d9ef">default</span>};
+</span></span></code></pre></div><p>这部分代码可以参考 <a href="https://developers.google.com/web/tools/puppeteer/articles/ssr#inline">google 文档</a></p>
+<h3 id="错误渲染">错误渲染</h3>
+<p>渲染后的页面回到浏览器后，有时执行操作会重新加载样式文件，请求路径类似：/static/1231234sdf.css，这些路径会被当做一个页面路径，而不是静态资源进行渲染，导致渲染错误。解决方式：增加 path 匹配拦截，资源文件直接向原域名请求</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">express</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;express&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">request</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;request&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ssr</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;./ssr.js&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">app</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">host</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.abc.com&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/static/*&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">host</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>).<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/manifest.json&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">host</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>).<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/favicon.ico&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">host</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>).<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/logo*&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">request</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">host</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">url</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>).<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">res</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;*&#39;</span>, <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> {<span style="color:#a6e22e">html</span>, <span style="color:#a6e22e">ttRenderMs</span>} <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">ssr</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">host</span><span style="color:#e6db74">}${</span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">originalUrl</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#39;Server-Timing&#39;</span>, <span style="color:#e6db74">`Prerender;dur=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">ttRenderMs</span><span style="color:#e6db74">}</span><span style="color:#e6db74">;desc=&#34;Headless render time (ms)&#34;`</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">status</span>(<span style="color:#ae81ff">200</span>).<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">html</span>); <span style="color:#75715e">// Serve prerendered page as response.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">8080</span>, () =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Server started. Press Ctrl + C to quit&#39;</span>));
+</span></span></code></pre></div><p>动态渲染相比SSR有几点明显好处：</p>
+<ul>
+<li>和 SSR 一致的 SEO 效果，通过 puppeteer 还可进一步定制 SEO 方案</li>
+<li>node 应用负载压力小，只需应对爬虫请求，相当于只有爬虫来了页面才做SSR</li>
+<li>从整体架构上来说相当于一个插件，可随时插拔，无副作用</li>
+<li>不需要大量修改SPA代码（只在重复请求问题上用一个标志位去识别，当然也可以不管这个问题）</li>
+</ul>
+<p><em>（重复请求只在爬虫有js执行能力时才出现，一般再次请求数据也没问题）</em></p>
+<h2 id="nginx-配置">Nginx 配置</h2>
+<p>这部分配置可以参考：<a href="https://gist.github.com/thoop/8165802">这里</a></p>
+<h2 id="附录">附录</h2>
+<h4 id="常见爬虫-user-agent">常见爬虫 user-agent</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">主体</th>
+<th style="text-align:left">user-agent</th>
+<th style="text-align:left">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Google</td>
+<td style="text-align:left">googlebot</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">Google</td>
+<td style="text-align:left">google-structured-data-testing-tool</td>
+<td style="text-align:left">测试工具</td>
+</tr>
+<tr>
+<td style="text-align:left">Google</td>
+<td style="text-align:left">Mediapartners-Google</td>
+<td style="text-align:left">Adsense广告网页被访问后，爬虫就来访</td>
+</tr>
+<tr>
+<td style="text-align:left">Microsoft</td>
+<td style="text-align:left">bingbot</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">Linked</td>
+<td style="text-align:left">linkedinbot</td>
+<td style="text-align:left">应用内搜索</td>
+</tr>
+<tr>
+<td style="text-align:left">百度</td>
+<td style="text-align:left">baiduspider</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">奇虎 360</td>
+<td style="text-align:left">360Spider</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">搜狗</td>
+<td style="text-align:left">Sogou Spider</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">Yahoo</td>
+<td style="text-align:left">Yahoo! Slurp China</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">Yahoo</td>
+<td style="text-align:left">Yahoo! Slurp</td>
+<td style="text-align:left">搜索引擎</td>
+</tr>
+<tr>
+<td style="text-align:left">Twitter</td>
+<td style="text-align:left">twitterbot</td>
+<td style="text-align:left">应用内搜索</td>
+</tr>
+<tr>
+<td style="text-align:left">Facebook</td>
+<td style="text-align:left">facebookexternalhit</td>
+<td style="text-align:left">应用内搜索</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">rogerbot</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">embedly</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">Quora</td>
+<td style="text-align:left">quora link preview</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">showyoubot</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">outbrain</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">pinterest</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">slackbot</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">vkShare</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">-</td>
+<td style="text-align:left">W3C_Validator</td>
+<td style="text-align:left">-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="模拟爬虫测试">模拟爬虫测试</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 不带 user-agent 返回SPA页面，html 上无数据</span>
+</span></span><span style="display:flex;"><span>curl 你的网站全路径
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 模拟爬虫、返回页面应该带有 title，body 等数据，方便 SEO</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#39;User-agent:Googlebot&#39;</span> 你的网站全路径
+</span></span></code></pre></div><h4 id="参考资料">参考资料</h4>
+<p>【1】<a href="https://tech.meituan.com/2018/11/15/first-contentful-paint-practice.html">构建时预渲染：网页首帧优化实践</a></p>
+<p>【2】<a href="https://developers.google.com/search/docs/guides/dynamic-rendering">Implement dynamic rendering</a></p>
+<p>【3】<a href="https://support.google.com/webmasters/answer/1061943?hl=zh-Hans">Google 抓取工具（用户代理）概览</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

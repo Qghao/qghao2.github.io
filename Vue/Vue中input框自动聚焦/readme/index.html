@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue中input框自动聚焦 前言 今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码
+我们按回车事件后，就会触发对应的方法
+解决方案 其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法
+关于input自动聚焦的思路：
+ 给需要聚焦的input设置ref   &lt;el-input v-model=&#34;loginForm.username&#34; ref=&#34;userNameInput&#34; name=&#34;username&#34; type=&#34;text&#34; auto-complete=&#34;on&#34; placeholder=&#34;username&#34; @keyup.enter.native=&#34;handleLogin&#34; /&gt;  创建一个聚焦的方法  this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+ inputFocus: function() { this.$nextTick(x =&gt; { this.$refs.userNameInput.focus() }) },  在create方法中调用   created() { this.inputFocus() }, 这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~
+因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行
+this.$refs.userNameInput.focus() 这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行
+但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写
+ mounted() { this.$refs.userNameInput.focus() }, ">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue中input框自动聚焦 前言 今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码
+我们按回车事件后，就会触发对应的方法
+解决方案 其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法
+关于input自动聚焦的思路：
+ 给需要聚焦的input设置ref   &lt;el-input v-model=&#34;loginForm.username&#34; ref=&#34;userNameInput&#34; name=&#34;username&#34; type=&#34;text&#34; auto-complete=&#34;on&#34; placeholder=&#34;username&#34; @keyup.enter.native=&#34;handleLogin&#34; /&gt;  创建一个聚焦的方法  this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+ inputFocus: function() { this.$nextTick(x =&gt; { this.$refs.userNameInput.focus() }) },  在create方法中调用   created() { this.inputFocus() }, 这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~
+因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行
+this.$refs.userNameInput.focus() 这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行
+但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写
+ mounted() { this.$refs.userNameInput.focus() }, " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E4%B8%ADinput%E6%A1%86%E8%87%AA%E5%8A%A8%E8%81%9A%E7%84%A6/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue中input框自动聚焦 前言 今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码
+我们按回车事件后，就会触发对应的方法
+解决方案 其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法
+关于input自动聚焦的思路：
+ 给需要聚焦的input设置ref   &lt;el-input v-model=&#34;loginForm.username&#34; ref=&#34;userNameInput&#34; name=&#34;username&#34; type=&#34;text&#34; auto-complete=&#34;on&#34; placeholder=&#34;username&#34; @keyup.enter.native=&#34;handleLogin&#34; /&gt;  创建一个聚焦的方法  this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+ inputFocus: function() { this.$nextTick(x =&gt; { this.$refs.userNameInput.focus() }) },  在create方法中调用   created() { this.inputFocus() }, 这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~
+因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行
+this.$refs.userNameInput.focus() 这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行
+但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写
+ mounted() { this.$refs.userNameInput.focus() }, ">
+
+<meta itemprop="wordCount" content="46">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue中input框自动聚焦 前言 今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码
+我们按回车事件后，就会触发对应的方法
+解决方案 其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法
+关于input自动聚焦的思路：
+ 给需要聚焦的input设置ref   &lt;el-input v-model=&#34;loginForm.username&#34; ref=&#34;userNameInput&#34; name=&#34;username&#34; type=&#34;text&#34; auto-complete=&#34;on&#34; placeholder=&#34;username&#34; @keyup.enter.native=&#34;handleLogin&#34; /&gt;  创建一个聚焦的方法  this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+ inputFocus: function() { this.$nextTick(x =&gt; { this.$refs.userNameInput.focus() }) },  在create方法中调用   created() { this.inputFocus() }, 这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~
+因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行
+this.$refs.userNameInput.focus() 这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行
+但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写
+ mounted() { this.$refs.userNameInput.focus() }, "/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue中input框自动聚焦">Vue中input框自动聚焦</h1>
+<h2 id="前言">前言</h2>
+<p>今天在蘑菇博客登录的时候，就发现一个问题，因为在input绑定了键盘事件，按回车的时候就触发登录事件，但是因为Chrome会自动保存密码，所以也就说第一次登录的时候才会输入账号和密码</p>
+<p>我们按回车事件后，就会触发对应的方法</p>
+<h2 id="解决方案">解决方案</h2>
+<p>其实解决的方案也比较简单，就是需要我们在进入登录页面的时候，input框自动聚焦，然后我们按回车事件后，就会触发对应的方法</p>
+<p>关于input自动聚焦的思路：</p>
+<ul>
+<li>给需要聚焦的input设置ref</li>
+</ul>
+<pre tabindex="0"><code>        &lt;el-input
+          v-model=&#34;loginForm.username&#34;
+          ref=&#34;userNameInput&#34;
+          name=&#34;username&#34;
+          type=&#34;text&#34;
+          auto-complete=&#34;on&#34;
+          placeholder=&#34;username&#34;
+          @keyup.enter.native=&#34;handleLogin&#34;
+        /&gt;
+</code></pre><ul>
+<li>创建一个聚焦的方法</li>
+</ul>
+<p>this.$nextTick()将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新</p>
+<pre tabindex="0"><code>    inputFocus: function() {
+      this.$nextTick(x =&gt; {
+        this.$refs.userNameInput.focus()
+      })
+    },
+</code></pre><ul>
+<li>在create方法中调用</li>
+</ul>
+<pre tabindex="0"><code>  created() {
+    this.inputFocus()
+  },
+</code></pre><p>这样每次加载登录页面的时候，就会自动对input框进行聚焦了，然后只需要按下回车，即可登录到后台系统~</p>
+<p>因为我们都知道，vue的钩子函数created，在调用的时候，Dom还没有进行任何渲染，如果我们直接执行</p>
+<pre tabindex="0"><code>this.$refs.userNameInput.focus()
+</code></pre><p>这个代码的话，是没有效果的，因此需要使用this.$nextTick()，将它延迟到下次Dom渲染的时候执行</p>
+<p>但是如果我们在mounted钩子函数执行的话，因为当mounted钩子函数执行的时候，Dom树已经渲染完毕了，那么就可以直接获取对应的dom进行渲染，也就不需要使用this.$nextTick()方法了，因此我们还可以直接这样写</p>
+<pre tabindex="0"><code>  mounted() {
+    this.$refs.userNameInput.focus()
+  },
+</code></pre><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

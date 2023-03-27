@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue中使用Vue-cropper进行图片裁剪 前言 这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。
+图片裁剪 关于图片裁剪我在github中找到了两种
+ vue-cropper vue-image-crop-upload  这两种的样式分别如下所示：
+首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果
+其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。
+裁剪后的效果：
+引入Vue-cropper 安装依赖
+npm install vue-cropper --save 页面引入
+import { VueCropper } from &#39;vue-cropper&#39; 申明组件
+ components: { VueCropper, }, 完整代码 &lt;!-- 裁剪图片 --&gt; &lt;template&gt; &lt;div class=&#34;wrapper&#34;&gt; &lt;div class=&#34;model&#34; v-show=&#34;model&#34; @click=&#34;model = false&#34;&gt; &lt;div class=&#34;model-show&#34;&gt; &lt;img :src=&#34;modelSrc&#34; alt=&#34;&#34;&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;content&#34;&gt; &lt;div class=&#34;show-info&#34;&gt; &lt;h2&gt;自动生成截图框 固定比例 w : h =&gt; 4 : 3&lt;/h2&gt; &lt;div class=&#34;test&#34;&gt; &lt;vueCropper ref=&#34;cropper2&#34; :img=&#34;example2.">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue中使用Vue-cropper进行图片裁剪 前言 这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。
+图片裁剪 关于图片裁剪我在github中找到了两种
+ vue-cropper vue-image-crop-upload  这两种的样式分别如下所示：
+首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果
+其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。
+裁剪后的效果：
+引入Vue-cropper 安装依赖
+npm install vue-cropper --save 页面引入
+import { VueCropper } from &#39;vue-cropper&#39; 申明组件
+ components: { VueCropper, }, 完整代码 &lt;!-- 裁剪图片 --&gt; &lt;template&gt; &lt;div class=&#34;wrapper&#34;&gt; &lt;div class=&#34;model&#34; v-show=&#34;model&#34; @click=&#34;model = false&#34;&gt; &lt;div class=&#34;model-show&#34;&gt; &lt;img :src=&#34;modelSrc&#34; alt=&#34;&#34;&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;content&#34;&gt; &lt;div class=&#34;show-info&#34;&gt; &lt;h2&gt;自动生成截图框 固定比例 w : h =&gt; 4 : 3&lt;/h2&gt; &lt;div class=&#34;test&#34;&gt; &lt;vueCropper ref=&#34;cropper2&#34; :img=&#34;example2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E4%B8%AD%E4%BD%BF%E7%94%A8vue-cropper%E8%BF%9B%E8%A1%8C%E5%9B%BE%E7%89%87%E8%A3%81%E5%89%AA/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue中使用Vue-cropper进行图片裁剪 前言 这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。
+图片裁剪 关于图片裁剪我在github中找到了两种
+ vue-cropper vue-image-crop-upload  这两种的样式分别如下所示：
+首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果
+其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。
+裁剪后的效果：
+引入Vue-cropper 安装依赖
+npm install vue-cropper --save 页面引入
+import { VueCropper } from &#39;vue-cropper&#39; 申明组件
+ components: { VueCropper, }, 完整代码 &lt;!-- 裁剪图片 --&gt; &lt;template&gt; &lt;div class=&#34;wrapper&#34;&gt; &lt;div class=&#34;model&#34; v-show=&#34;model&#34; @click=&#34;model = false&#34;&gt; &lt;div class=&#34;model-show&#34;&gt; &lt;img :src=&#34;modelSrc&#34; alt=&#34;&#34;&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;content&#34;&gt; &lt;div class=&#34;show-info&#34;&gt; &lt;h2&gt;自动生成截图框 固定比例 w : h =&gt; 4 : 3&lt;/h2&gt; &lt;div class=&#34;test&#34;&gt; &lt;vueCropper ref=&#34;cropper2&#34; :img=&#34;example2.">
+
+<meta itemprop="wordCount" content="646">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue中使用Vue-cropper进行图片裁剪 前言 这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。
+图片裁剪 关于图片裁剪我在github中找到了两种
+ vue-cropper vue-image-crop-upload  这两种的样式分别如下所示：
+首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果
+其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。
+裁剪后的效果：
+引入Vue-cropper 安装依赖
+npm install vue-cropper --save 页面引入
+import { VueCropper } from &#39;vue-cropper&#39; 申明组件
+ components: { VueCropper, }, 完整代码 &lt;!-- 裁剪图片 --&gt; &lt;template&gt; &lt;div class=&#34;wrapper&#34;&gt; &lt;div class=&#34;model&#34; v-show=&#34;model&#34; @click=&#34;model = false&#34;&gt; &lt;div class=&#34;model-show&#34;&gt; &lt;img :src=&#34;modelSrc&#34; alt=&#34;&#34;&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&#34;content&#34;&gt; &lt;div class=&#34;show-info&#34;&gt; &lt;h2&gt;自动生成截图框 固定比例 w : h =&gt; 4 : 3&lt;/h2&gt; &lt;div class=&#34;test&#34;&gt; &lt;vueCropper ref=&#34;cropper2&#34; :img=&#34;example2."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue中使用vue-cropper进行图片裁剪">Vue中使用Vue-cropper进行图片裁剪</h1>
+<h2 id="前言">前言</h2>
+<p>这两天想给图片添加一个图片裁剪的功能，因为之前的图片都是直接上传的，很多图片肯定在前台显示的时候，都不能很好的达到我们想要的效果，因此就需要我们在对个别图片进行细微调整，已达到我们的目的。</p>
+<h2 id="图片裁剪">图片裁剪</h2>
+<p>关于图片裁剪我在github中找到了两种</p>
+<ul>
+<li><a href="https://github.com/xyxiao001/vue-cropper">vue-cropper</a></li>
+<li><a href="https://github.com/dai-siki/vue-image-crop-upload">vue-image-crop-upload</a></li>
+</ul>
+<p>这两种的样式分别如下所示：</p>
+<p>首先是vue-image-crop-upload，我们能够发现其实这个截图有点类似于我们需要裁减头像的时候，才需要使用的，而针对于特定的矩形，可能没办法达到我们的效果</p>
+<p><img src="images/image-20200130092654523.png" alt="image-20200130092654523"></p>
+<p>其次我们再看 vue-cropper图片裁剪，它是可以根据我们的实际需求进行裁剪，所以综上可能下面这块比较适合现在的项目需求，但是我们也可以使用上面的这款作为头像裁剪的组件。</p>
+<p><img src="images/image-20200130093032885.png" alt="image-20200130093032885"></p>
+<p>裁剪后的效果：</p>
+<p><img src="images/image-20200130094010305.png" alt="image-20200130094010305"></p>
+<h2 id="引入vue-cropper">引入Vue-cropper</h2>
+<p>安装依赖</p>
+<pre tabindex="0"><code>npm install vue-cropper --save
+</code></pre><p>页面引入</p>
+<pre tabindex="0"><code>import { VueCropper } from &#39;vue-cropper&#39;
+</code></pre><p>申明组件</p>
+<pre tabindex="0"><code> components: {
+ 	VueCropper,
+ },
+</code></pre><h2 id="完整代码">完整代码</h2>
+<pre tabindex="0"><code>&lt;!-- 裁剪图片 --&gt;
+&lt;template&gt;
+  &lt;div class=&#34;wrapper&#34;&gt;
+    &lt;div class=&#34;model&#34; v-show=&#34;model&#34; @click=&#34;model = false&#34;&gt;
+      &lt;div class=&#34;model-show&#34;&gt;
+        &lt;img :src=&#34;modelSrc&#34; alt=&#34;&#34;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;content&#34;&gt;
+
+      &lt;div class=&#34;show-info&#34;&gt;
+        &lt;h2&gt;自动生成截图框 固定比例 w : h =&gt; 4 : 3&lt;/h2&gt;
+        &lt;div class=&#34;test&#34;&gt;
+          &lt;vueCropper ref=&#34;cropper2&#34;
+                      :img=&#34;example2.img&#34;
+                      :outputSize=&#34;example2.size&#34;
+                      :outputType=&#34;example2.outputType&#34;
+                      :info=&#34;example2.info&#34;
+                      :canScale=&#34;example2.canScale&#34;
+                      :autoCrop=&#34;example2.autoCrop&#34;
+                      :autoCropWidth=&#34;example2.autoCropWidth&#34;
+                      :autoCropHeight=&#34;example2.autoCropHeight&#34;
+                      :fixed=&#34;example2.fixed&#34;
+                      :fixedNumber=&#34;example2.fixedNumber&#34;
+                      :enlarge=&#34;4&#34;&gt;&lt;/vueCropper&gt;
+        &lt;/div&gt;
+        &lt;label class=&#34;btn&#34; for=&#34;upload2&#34;&gt;上传&lt;/label&gt;
+        &lt;input type=&#34;file&#34; id=&#34;upload2&#34; style=&#34;position:absolute; clip:rect(0 0 0 0);&#34;
+               accept=&#34;image/png, image/jpeg, image/gif, image/jpg&#34; @change=&#34;uploadImg($event,2)&#34;&gt;
+        &lt;button @click=&#34;finish2()&#34; class=&#34;btn&#34;&gt;裁剪&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  import { VueCropper } from &#39;vue-cropper&#39;
+  // import * as OSS from &#39;ali-oss&#39;;
+  export default {
+    components: {
+      VueCropper,
+    },
+    data() {
+      return {
+        model: false,
+        modelSrc: &#39;&#39;,
+        crap: false,
+        previews: {},
+        form: {
+          head: &#39;&#39;
+        },
+        example2: {
+          //img的路径自行修改
+          img: &#39;$oss.url + \&#39;/\&#39; + form.head &#39;,
+          info: true,
+          size: 1,
+          outputType: &#39;jpeg&#39;,
+          canScale: true,
+          autoCrop: true,
+          // 只有自动截图开启 宽度高度才生效
+          autoCropWidth: 300,
+          autoCropHeight: 250,
+          fixed: true,
+          // 真实的输出宽高
+          infoTrue: true,
+          fixedNumber: [4, 3]
+        },
+        downImg: &#39;#&#39;
+      }
+    },
+    methods: {
+      //点击裁剪，这一步是可以拿到处理后的地址
+      finish2() {
+        this.$refs.cropper2.getCropData((data) =&gt; {
+          this.modelSrc = data
+          this.model = false;
+          //裁剪后的图片显示
+          this.example2.img = this.modelSrc;
+          // this.toBlob(data)
+          // console.log(data)
+          // console.log(this.toBlob(data))
+
+          //将图片上传服务器中
+
+        })
+
+      },
+
+      uploadImg(e, num) {
+        //上传图片
+        this.example2.img = &#39;&#39;
+        var file = e.target.files[0]
+        if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+          alert(&#39;图片类型必须是.gif,jpeg,jpg,png,bmp中的一种&#39;)
+          return false
+        }
+        var reader = new FileReader()
+        reader.onload = (e) =&gt; {
+          let data
+          data = e.target.result
+          if (typeof e.target.result === &#39;object&#39;) {
+            // 把Array Buffer转化为blob 如果是base64不需要
+            data = window.URL.createObjectURL(new Blob([e.target.result]))
+          } else {
+            data = e.target.result
+          }
+          if (num === 1) {
+            this.option.img = data
+          } else if (num === 2) {
+            this.example2.img = data
+          }
+        }
+        // 转化为base64
+        // reader.readAsDataURL(file)
+        // 转化为blobcs
+        reader.readAsArrayBuffer(file)
+      },
+      // base64转blob
+      toBlob(ndata) {
+        //ndata为base64格式地址
+        console.log(ndata)
+        let arr = ndata.split(&#39;,&#39;),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {
+          type: mime
+        })
+      }
+    },
+
+  }
+&lt;/script&gt;
+
+&lt;style&gt;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .content {
+    margin: auto;
+    max-width: 585px;
+    margin-bottom: 100px;
+  }
+
+  .test-button {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #c0ccda;
+    color: #1f2d3d;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 20px 10px 0px 0px;
+    padding: 9px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #50bfff;
+    border-color: #50bfff;
+    transition: all .2s ease;
+    text-decoration: none;
+    user-select: none;
+  }
+
+  .des {
+    line-height: 30px;
+  }
+
+  code.language-html {
+    padding: 10px 20px;
+    margin: 10px 0px;
+    display: block;
+    background-color: #333;
+    color: #fff;
+    overflow-x: auto;
+    font-family: Consolas, Monaco, Droid, Sans, Mono, Source, Code, Pro, Menlo, Lucida, Sans, Type, Writer, Ubuntu, Mono;
+    border-radius: 5px;
+    white-space: pre;
+  }
+
+  .show-info {
+    margin-bottom: 50px;
+  }
+
+  .show-info h2 {
+    line-height: 50px;
+  }
+
+  /*.title, .title:hover, .title-focus, .title:visited {
+        color: black;
+    }*/
+
+  .title {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.5;
+    margin: 20px 0px;
+    background-image: -webkit-linear-gradient(left, #3498db, #f47920 10%, #d71345 20%, #f7acbc 30%, #ffd400 40%, #3498db 50%, #f47920 60%, #d71345 70%, #f7acbc 80%, #ffd400 90%, #3498db);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-size: 200% 100%;
+    animation: slide 5s infinite linear;
+    font-size: 40px;
+  }
+
+  .test {
+    height: 285px;
+  }
+
+  .model {
+    position: fixed;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .model-show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .model img {
+    display: block;
+    margin: auto;
+    max-width: 80%;
+    user-select: none;
+    background-position: 0px 0px, 10px 10px;
+    background-size: 20px 20px;
+    background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%), linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
+  }
+
+  .c-item {
+    display: block;
+    padding: 10px 0;
+    user-select: none;
+  }
+
+  @keyframes slide {
+    0% {
+      background-position: 0 0;
+    }
+
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .content {
+      max-width: 90%;
+      margin: auto;
+    }
+
+    .test {
+      height: 400px;
+    }
+  }
+&lt;/style&gt;
+</code></pre><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

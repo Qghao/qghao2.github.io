@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+      <link href="/vue/index.xml" rel="alternate" type="application/rss+xml" title="我的技术博客" />
+      <link href="/vue/index.xml" rel="feed" type="application/rss+xml" title="我的技术博客" />
+      
+    
+    
+    <meta property="og:title" content="Vues" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://example.org/vue/" />
+
+<meta itemprop="name" content="Vues">
+<meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vues"/>
+<meta name="twitter:description" content=""/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          Vues
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
+    <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E5%8F%98%E5%8C%96%E7%9B%91%E5%90%AC/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue中对数组变化监听 前言 我们在实际开发中，经常要对数组进行操作，最为常见的方法就是直接对数组中的某个元素进行赋值，比如下面这样的：
+&lt;script&gt;  export default {  data() {  return {  comments: [],  isReply: [0, 0, 0, 0, 0]  };  },  methods: {  replyTo: function (index) {  console.log(this.isReply);  isReply[index] = 1  console.log(this.isReply);  }  },  }; &lt;/script&gt; 但是虽然数组中的元素改变了，但是vue却不能监听到变化，同时我们引入watch来检测也是没有效果，如下所示
+&lt;script&gt;  export default {  data() {  return {  comments: [],  isReply: [0, 0, 0, 0, 0]  };  },  watch: {  isReply: {  handler(val, oldval) {   },  deep: true  }  },  methods: {  replyTo: function (index) {  console.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%B8%AD%E9%98%B2%E6%AD%A2xss%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue中防止XSS脚本攻击 最近写了一个博客评论模块，因为引入了表情包，所以就将原来的v-text的形式，改成了v-html，也就是渲染html标签，但是这样不可不免的会带来问题，就是XSS跨站脚本攻击
+XSS解决方案官网：点我传送
+XSS脚本攻击 跨站脚本攻击缩写为XSS。恶意攻击者往Web页面里插入恶意Script代码，当用户浏览该页面时，嵌入Web里面的Script代码会被执行，从而达到恶意攻击用户的目的。XSS攻击针对的是用户层面的攻击！
+例如我在评论框输入以下内容
+&lt;a onclick=&#39;let count=10;while(count&gt;0){alert(&#34;xss攻击&#34;);count=count-1;}&#39;&gt;链接&lt;/a&gt; 这个时候评论就会出现一个超链接
+只要我们点击这个链接后，就会出现一个alert弹框
+上面代码因为写的的是循环10次后，alert消失，但是如果是while(true)，那么后果不堪设想，会进入无止无休的弹框
+解决XSS脚本攻击 首先需要安装xss模块
+npm install xss --save 然后在main.js中引入
+import xss from &#39;xss&#39; // 定义全局XSS解决方法 Object.defineProperty(Vue.prototype, &#39;$xss&#39;, { value: xss }) 然后针对需要渲染的页面，调用$xss()方法
+&lt;div class=&#34;rightCenter&#34; v-html=&#34;$xss(item.content)&#34;&gt;&lt;/div&gt; 我们在点击刚刚的页面，发现已经不会有弹框了，但是有出来了新的问题，就是我引入的标签也被过滤了
+引入xss后
+这个时候，我们就需要自定义拦截规则了，我们在data中添加如下配置，下面是自定义白名单，也就是什么标签以及标签的属性能够正常使用，其它的都会被拦截
+ data() { return { // xss白名单配置 options : { whiteList: { a: [&#39;href&#39;, &#39;title&#39;, &#39;target&#39;], span: [&#39;class&#39;] } } }; }, 然后在使用的时候，增加option配置
+&lt;div class=&#34;rightCenter&#34; v-html=&#34;$xss(item.content, options)&#34;&gt;&lt;/div&gt; 这个时候，表情已经成功显示了，并且原来的脚本攻击也不生效，达到了我们的目的~
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%BD%BF%E7%94%A8echarts%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E6%96%87%E7%AB%A0%E8%B4%A1%E7%8C%AE%E5%BA%A6%E8%A1%A8/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      使用SpringBoot+Vue+Echarts制作一个文章贡献度表 前言 最近想给博客做一个类似于码云代码提交记录的图表，就类似于下面这样的
+然后将每天的博客提交的博客生成对应的记录，下面先看最终的结果图
+有点不一样的地方是，这里使用圆圈的大小，来表示提交的次数
+制作博客贡献表 这个博客贡献表是使用了ECharts中的 calendar-effectscatter 组件：点我传送
+首先附上完整的vue代码：
+&lt;template&gt;  &lt;div id=&#34;container&#34; style=&#34; width: 100%; height: 300px;&#34;&gt;&lt;/div&gt; &lt;/template&gt;  &lt;script&gt;  import { getBlogContributeCount } from &#34;@/api/index&#34;;  import echarts from &#34;echarts&#34;;   export default {  mounted() {  this.initDate();  },  data() {  return {  contributeDate: [],  blogContributeCount: [],  }  },  created() {   },  methods: {  initDate: function() {   getBlogContributeCount().
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E4%BD%BF%E7%94%A8vue-count-to%E6%8F%92%E4%BB%B6%E5%AF%B9%E6%95%B0%E5%AD%97%E6%98%BE%E7%A4%BA%E7%BE%8E%E5%8C%96/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue使用vue-count-to插件对数字显示美化 前言 这两天在搬砖，领导说页面上的数字不要显示的太死板，要有动态的效果，能够看够看到逐步递增或者递减的效果
+其实在蘑菇博客的使用的后台模板：vue-template-admin 也使用了一个的数字显示大大插件，也就是在首页显示的时候，如下图所示，当进入admin管理页面的时候
+能够看到数字是逐渐递增的，也能满足对应的要求，数字动态递增的效果是使用一款插件完成的：vue-count-to
+后面发现原来这两个都是由花裤衩大大PanJiaChen编写的，感谢开源的贡献~
+Vue-count-to介绍 官网地址：vue-count-to
+Vue-count-to是一款简单好用的一个数字滚动插件，并且是一个无依赖，轻量级的vue组件，可以自行覆盖easingFn，你可以设置 startVal 和 endVal，它会自动判断计数或倒计时。支持vue-ssr。vue-countTo参考于countUp.js
+依赖安装 npm安装
+npm install vue-count-to 或 yarn安装
+yarn add vue-count-to 使用 引入组件
+import countTo from &#39;vue-count-to&#39;; 然后注册
+components: { countTo }, 完整代码如下所示：
+&lt;template&gt; &lt;countTo :startVal=&#39;startVal&#39; :endVal=&#39;endVal&#39; :duration=&#39;3000&#39;&gt;&lt;/countTo&gt; &lt;/template&gt; &lt;script&gt; import countTo from &#39;vue-count-to&#39;; export default { components: { countTo }, data () { return { startVal: 0, endVal: 2020 } } } &lt;/script&gt; 完整demo如下所示：
+配置 我们可以修改对应的配置，来完成我们对数字变化的需求
+   Property Description type default     startVal 开始值 Number 0   endVal 结束值 Number 2017   duration 持续时间，以毫秒为单位 Number 3000   autoplay 自动播放 Boolean true   decimals 要显示的小数位数 Number 0   decimal 十进制分割 String .
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E5%86%85%E5%AE%B9%E9%A1%B5%E9%9D%A2seo%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue内容页面SEO优化方案 课程预览所浏览到的页面就是课程详情页面，需要先确定课程详情页面的技术方案后方可确定课程预览的技术方案。而Vue作为单页面应用技术，非常不利于SEO优化
+技术需求 课程详情页面是向用户展示课程信息的窗口，课程相当于网站的商品，本页面的访问量会非常大。此页面的内容设计不仅要展示出课程核心重要的内容而且用户访问页面的速度要有保证，有统计显示打开一个页面超过4秒用户就走掉了，所以本页面的性能要求是本页面的重要需求。本页面另一个需求就是SEO，要非常有利于爬虫抓取页面上信息，并且生成页面快照，利于用户通过搜索引擎
+解决方案 如何在保证SEO的前提下提高页面的访问速度：
+方案1： 对于信息获取类的需求，要想提高页面速度就要使用缓存来减少或避免对数据库的访问，从而提高页面的访问速度。下图是使用缓存与不使用缓存的区别
+此页面为动态页面，会根据课程的不同而不同，方案一采用传统的JavaEEServlet/jsp的方式在Tomcat完成页面渲染，相比不加缓存速度会有提升。
+ 优点：使用redis作为缓存，速度有提升。 缺点：采用Servlet/jsp动态页面渲染技术，服务器使用Tomcat，面对高并发量的访问存在性能瓶颈  方案2 对于不会频繁改变的信息可以采用页面静态化的技术提前让页面生成html静态页面存储在nginx服务器，用户直接访问nginx即可，对于一些动态信息可以访问服务端获取json数据在页面渲染。
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue如何制作一个评论模块 前言 一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：点我传送
+瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：
+源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component
+封装CommentList组件 为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身
+&lt;template&gt; &lt;div&gt; &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt; &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(0)&#34;&gt;回复&lt;/span&gt; &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt; &lt;a-avatar slot=&#34;avatar&#34; :src=&#34;item.avatar&#34; :alt=&#34;item.userName&#34; /&gt; &lt;p slot=&#34;content&#34;&gt; {{item.content}} &lt;/p&gt; &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt; &lt;/a-comment&gt; &lt;/div&gt; &lt;/template&gt; &lt;script&gt; export default { name:&#34;CommentList&#34;, props: [&#39;comments&#39;], data() { return {}; }, components: { }, methods: {}, }; &lt;/script&gt; 在这里需要用到的一个非常重要的字段就是：
+name:&#34;CommentList&#34;, 如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。
+在父组件中调用该CommentList组件 首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段
+comments: [ { uid: &#39;uid000&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;, content: &#39;我是一级评论&#39;, reply: [ { uid: &#39;uid001&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97table%E8%A1%A8%E6%A0%BC%E7%9A%84%E9%AB%98%E5%BA%A6/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      前言 因为每个用户不同的电脑屏幕宽高度，造成了Table表格的高度不一致，因此想要动态计算出table的高度，让其能够正常的铺满整个屏幕
+代码 完整代码如下：首先计算 窗口的高度 - 搜索框的高度 - 固定数值
+ mounted () {  // 计算搜索框的高度  var searchBarHeight = window.getComputedStyle(this.$refs.searchBar).height.replace(&#39;px&#39;, &#39;&#39;)  searchBarHeight = parseInt(searchBarHeight)  this.tableHeight = window.innerHeight - searchBarHeight - 270  }, 
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E5%A6%82%E4%BD%95%E7%BB%99%E5%9B%BE%E7%89%87%E5%AE%BD%E9%AB%98%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9A%E6%AF%94%E4%BE%8B/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      VUE标签根据宽度按比例实现高度 1、安装指令 “vue-proportion-directive”: “^1.1.0”,
+npm install vue-proportion-directive --save 2、在main.js中引入指令
+// 控制标签宽高成比例的指令
+import proportion from &#39;vue-proportion-directive&#39;; Vue.use(proportion); 3、示例
+&lt;div class=&#34;div1&#34; style=&#34;width: 20%;float: left&#34; v-proportion=&#34;0.85&#34;&gt;&lt;/div&gt; &lt;div class=&#34;div2&#34; style=&#34;width: 30%;float: left&#34; v-proportion=&#34;1.6&#34;&gt;&lt;/div&gt; &lt;div class=&#34;div3&#34; style=&#34;width: 40%;float: left&#34; v-proportion=&#34;0.65&#34;&gt;&lt;/div&gt; 效果如下
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E5%AF%B9element%E4%B8%AD%E7%9A%84e-tag%E6%B7%BB%E5%8A%A0click%E4%BA%8B%E4%BB%B6%E6%97%A0%E6%95%88/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Vue对Element中的el-tag添加@click事件无效 前言 今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示
+&lt;el-tag type=&#34;error&#34; @click=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; 我们在点击el-tag标签的时候，无法触发其点击事件
+解决方法 通过查阅资料发现官方给定了解答
+也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~
+&lt;el-tag type=&#34;error&#34; @click.native=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; 
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Vues</span>
+    <h1 class="f3 near-black">
+      <a href="/vue/vue%E6%89%93%E5%8C%85%E5%90%8E%E7%9A%84dist%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95/readme/" class="link black dim">
+        
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      vue打包后的dist文件如何启动测试 前言 我们vue项目进行webpack打包操作 npm run build 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式
+nginx静态代理 首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf
+# 蘑菇博客WEB server { 	listen 9527; 	server_name localhost;		add_header Access-Control-Allow-Origin *; 	add_header Access-Control-Allow-Methods *; 	add_header Access-Control-Allow-Headers *; 	if ($request_method = &#39;OPTIONS&#39;) { 	return 204; 	} 	location / { 	root D:\mogu_blog\data\vue_mogu_web\dist; 	index index.html index.htm; 	} } 然后添加录下内容，最后把我们的 文件夹放在如下目录
+D:\mogu_blog\data\vue_mogu_web\dist 最后启动nginx，然后访问如下ip地址
+http://localhost:9527 即可看到我们的页面
+server方式启动 同时npm还提供了 serve 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口
+# 安装 serve模块 npm install -g serve # 启动 serve -s dist 启动后，访问如下地址
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </section>
+    <ul class="pagination pagination-default">
+      <li class="page-item">
+        <a href="/vue/" aria-label="First" class="page-link" role="button"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/" aria-label="Previous" class="page-link" role="button"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Page 4" class="page-link" role="button">4</a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/3/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/vue/page/4/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul></article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

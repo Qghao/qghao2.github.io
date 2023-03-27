@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="SPA 的 SEO 方案对比、最终实践  前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+ 一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+优点
+ SEO 友好 首屏渲染快（可在服务端缓存页面，请求到来直接给 html）  缺点
+ 代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大） 丢失了部分SPA体验 node 容易成为性能瓶颈  三、构建时预渲染方案 基本原理： 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index.">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="SPA 的 SEO 方案对比、最终实践  前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+ 一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+优点
+ SEO 友好 首屏渲染快（可在服务端缓存页面，请求到来直接给 html）  缺点
+ 代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大） 丢失了部分SPA体验 node 容易成为性能瓶颈  三、构建时预渲染方案 基本原理： 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E7%9A%84seo%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="SPA 的 SEO 方案对比、最终实践  前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+ 一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+优点
+ SEO 友好 首屏渲染快（可在服务端缓存页面，请求到来直接给 html）  缺点
+ 代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大） 丢失了部分SPA体验 node 容易成为性能瓶颈  三、构建时预渲染方案 基本原理： 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index.">
+
+<meta itemprop="wordCount" content="869">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="SPA 的 SEO 方案对比、最终实践  前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 SPA，同时也带来了很多新问题：
+ SEO 不友好 首屏渲染慢  为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。
+ 一、客户端渲染（CSR）方案 
+React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。
+优点
+ SPA 的优点（用户体验较好）  缺点
+ SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广） 首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）  二、服务端渲染 （SSR）方案 基本原理： 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO
+需解决问题：
+ 大部分应用开发时都有状态管理方案（Vuex, Redux），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store 需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成  针对这些问题，社区也有相应框架可参考：
+不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）
+优点
+ SEO 友好 首屏渲染快（可在服务端缓存页面，请求到来直接给 html）  缺点
+ 代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大） 丢失了部分SPA体验 node 容易成为性能瓶颈  三、构建时预渲染方案 基本原理： 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="spa-的-seo-方案对比最终实践">SPA 的 SEO 方案对比、最终实践</h1>
+<blockquote>
+<p>前端开发技术日新月异，由于现代化构建、用户体验的需求，angular/vue/react 等框架已经成为开发标配，大部分应用都是 <a href="https://zh.wikipedia.org/zh-hans/%E5%8D%95%E9%A1%B5%E5%BA%94%E7%94%A8">SPA</a>，同时也带来了很多新问题：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96">SEO</a> 不友好</li>
+<li>首屏渲染慢</li>
+</ul>
+<p>为了解决这些问题，开源社区有很多方案，本文主要对这些方案进行对比，最后给出我们实际使用的插件式方案。</p>
+</blockquote>
+<h2 id="一客户端渲染csr方案">一、客户端渲染（CSR）方案</h2>
+<p><a href="https://content.markdowner.net/pub/p2DkVy-V5a10pn"><img src="images/p2DkVy-V5a10pn.png" alt="img"></a></p>
+<p>React开发的SPA就是一种CSR方案，如图所示，在到达浏览器之前的html页面是没有内容的，要等到浏览器执行相应异步请求获取数据填充后才显示界面。</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>SPA 的优点（用户体验较好）</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>SEO不友好（爬虫如果没有执行js的能力，如百度，获取到的页面是空的，不利于网站推广）</li>
+<li>首屏加载慢（到达浏览器端后再加载数据，增加用户等待时间）</li>
+</ul>
+<h2 id="二服务端渲染-ssr方案">二、服务端渲染 （SSR）方案</h2>
+<p><a href="https://content.markdowner.net/pub/WDEPGk-V389w79"><img src="images/WDEPGk-V389w79.png" alt="img"></a><strong>基本原理：</strong> 在服务端起一个node应用，浏览器到来时，先拦截执行部分 js 异步请求，提前将数据填充到 html 页面中返回浏览器。这样爬虫抓取到的页面就是带数据的，有利于SEO</p>
+<p><strong>需解决问题：</strong></p>
+<ol>
+<li>大部分应用开发时都有状态管理方案（<a href="https://vuex.vuejs.org/zh/guide/">Vuex</a>, <a href="https://redux.js.org/">Redux</a>），SPA 应用到达浏览器前状态都是空的，使用SSR后意味着需要在服务端提前填充数据到 store</li>
+<li>需要拦截相应 hook（vue 的 created、react 的 componentDidMount），等待异步数据请求完成，确认渲染完成</li>
+</ol>
+<p>针对这些问题，社区也有相应框架可参考：</p>
+<p>不想使用框架，也可以自己修改react、vue 的 render 方法实现（改动工作量更大）</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>SEO 友好</li>
+<li>首屏渲染快（可在服务端缓存页面，请求到来直接给 html）</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>代码改动大、需要做特定SSR框架的改动（经过我们实践、原有SPA代码改动非常大）</li>
+<li>丢失了部分SPA体验</li>
+<li>node 容易成为性能瓶颈</li>
+</ul>
+<h2 id="三构建时预渲染方案">三、构建时预渲染方案</h2>
+<p><strong>基本原理：</strong> 利用webpack 等构建工具，针对 SPA 应用开发后只有一个 index.html 文件入口问题，用上述预渲染中间件在前端项目构建时预先获取页面数据，生成多个页面，如 about、help 、contact 等页面，优化首屏渲染与部分页面SEO</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>代码侵入性小</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>无法用于大量动态路径页面场景（生成的 html 页面数据大，而且页面数据会有更新。如 /article/123，文章页面）</li>
+<li>后台请求数据变动时前端应该同步更新版本</li>
+</ul>
+<h2 id="四服务端动态渲染利用user-agent">四、服务端动态渲染（利用user-agent）</h2>
+<p><a href="https://content.markdowner.net/pub/4Vmk3n-aon3eGQ"><img src="images/4Vmk3n-aon3eGQ.png" alt="img"></a></p>
+<p>回归到原始需求，为了提高用户体验我们用了SPA技术、为了SEO 我们用了 SSR、预渲染等技术。不同技术方案有一定差距，不能兼顾优点。但仔细想，需要这些技术优点的“用户”，其实时不一样的，SPA 针对的是浏览器普通用户、SSR 针对的是网页爬虫，如 googlebot、baiduspider 等，那为什么我们不能给不同“用户”不同的页面呢，服务端动态渲染就是这种方案。</p>
+<p><strong>基本原理：</strong> 服务端对请求的 user-agent 进行判断，浏览器端直接给 SPA 页面，如果是爬虫，给经过动态渲染的 html 页面</p>
+<p><strong>PS：</strong> 你可能会问，给了爬虫不同的页面，会不会被认为是网页作弊行为呢？</p>
+<p>Google 给了<a href="https://developers.google.com/search/docs/guides/dynamic-rendering">回复</a>：</p>
+<blockquote>
+<h2 id="dynamic-rendering-is-not-cloaking">Dynamic rendering is not cloaking</h2>
+<p>Googlebot generally doesn&rsquo;t consider dynamic rendering as <a href="https://support.google.com/webmasters/answer/66355">cloaking</a>. As long as your dynamic rendering produces similar content, Googlebot won&rsquo;t view dynamic rendering as cloaking.</p>
+<p>When you&rsquo;re setting up dynamic rendering, your site may produce error pages. Googlebot doesn&rsquo;t consider these error pages as cloaking and <a href="https://developers.google.com/search/docs/guides/javascript-seo-basics#use-meaningful-http-status-codes">treats the error as any other error page</a>.</p>
+<p>Using dynamic rendering to serve completely different content to users and crawlers can be considered cloaking. For example, a website that serves a page about cats to users and a page about dogs to crawlers can be considered cloaking.</p>
+</blockquote>
+<p>也就是说，如果我们没有刻意去作弊，而是使用动态渲染方案去解决SEO问题，爬虫经过对比网站内容，没有明显差异，不会认为这是作弊行为。</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>兼顾 SPA优点同时解决SEO问题</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>需要服务端应用（但动态渲染只针对爬虫、不会成为性能瓶颈）</li>
+</ul>
+<p><strong>总结：</strong> 经过前期其他方案的实践、优缺点权衡、最终我们选择了方案四的动态渲染作为 SPA 的 SEO 方案。</p>
+<h2 id="实现细节">实现细节</h2>
+<p><a href="https://content.markdowner.net/pub/1qa8x4-V1bWyeo"><img src="images/1qa8x4-V1bWyeo.png" alt="img"></a></p>
+<p>上图为最终实现。（存在优化点：右边CDN整合、可以考虑使用Node替代nginx部分功能，简化架构）</p>
+<h4 id="社区方案">社区方案：</h4>
+<p>选型使用 puppeteer 作为动态渲染方案。</p>
+<p>依赖：</p>
+<pre tabindex="0"><code>{
+  &#34;dependencies&#34;: {
+    &#34;bluebird&#34;: &#34;^3.7.2&#34;,
+    &#34;express&#34;: &#34;^4.17.1&#34;,
+    &#34;puppeteer&#34;: &#34;^5.2.0&#34;,
+    &#34;redis&#34;: &#34;^3.0.2&#34;,
+    &#34;request&#34;: &#34;^2.88.2&#34;
+  }
+}
+</code></pre><p>代码参考<a href="https://developers.google.com/web/tools/puppeteer/articles/ssr">Google 官方 Demo</a>进行改造，下面是基础代码：</p>
+<p><strong>server.js</strong></p>
+<pre tabindex="0"><code>import express from &#39;express&#39;;
+import request from &#39;request&#39;;
+import ssr from &#39;./ssr.js&#39;;
+
+const app = express();
+
+const host = &#39;https://www.abc.com&#39;;
+
+app.get(&#39;*&#39;, async (req, res) =&gt; {
+    const {html, ttRenderMs} = await ssr(`${host}${req.originalUrl}`);
+    res.set(&#39;Server-Timing&#39;, `Prerender;dur=${ttRenderMs};desc=&#34;Headless render time (ms)&#34;`);
+    return res.status(200).send(html); 
+});
+
+app.listen(8080, () =&gt; console.log(&#39;Server started. Press Ctrl + C to quit&#39;));
+</code></pre><p><strong>ssr.js</strong></p>
+<pre tabindex="0"><code>import puppeteer from &#39;puppeteer&#39;;
+
+
+const RENDER_CACHE = new Map();
+
+async function ssr(url) {
+    if (RENDER_CACHE.has(url)) {
+        return {html: RENDER_CACHE.get(url), ttRenderMs: 0};
+    }
+    const start = Date.now();
+
+    const browser = await puppeteer.launch({
+        args: [&#39;--no-sandbox&#39;, &#39;--disable-setuid-sandbox&#39;]
+    });
+    const page = await browser.newPage();
+    try {
+        
+        await page.goto(url, {waitUntil: &#39;networkidle0&#39;});
+        await page.waitForSelector(&#39;#root&#39;); 
+    } catch (err) {
+        console.error(err);
+        throw new Error(&#39;page.goto/waitForSelector timed out.&#39;);
+    }
+
+    const html = await page.content(); 
+    await browser.close();
+
+    const ttRenderMs = Date.now() - start;
+    console.info(`Puppeteer rendered page: ${url} in: ${ttRenderMs}ms`);
+
+    RENDER_CACHE.set(url, html); 
+
+    return {html, ttRenderMs};
+}
+
+export {ssr as default};
+</code></pre><p>Demo 代码存在以下问题：</p>
+<ul>
+<li>页面渲染后返回浏览器，有时会再次执行异步请求获取数据（重复请求）</li>
+<li>使用了 Map 做页面缓存，在node服务崩溃时会丢失全部缓存。没有超时限制，随着时间增长，内存消耗大（缓存机制）</li>
+<li>样式错乱：虽然内容有渲染进html，但是打开样式是错乱的（如postman 上打开）</li>
+<li>重复请求 React/Vue 静态文件，ssr 函数会当成一个页面进行渲染（错误渲染）</li>
+</ul>
+<p>下面对这些问题逐个击破</p>
+<h3 id="重复请求">重复请求</h3>
+<p>根本原因是React/Vue 代码生命周期函数重复执行。一般我们在created/componentDidMount hook 进行异步数据请求，这个hook在动态渲染的时候执行了一次，在HTML返回浏览器的时候，dom挂载又执行了一次，此问题在<a href="https://developers.google.com/web/tools/puppeteer/articles/ssr#rerender">Google Support</a>也有提及。可以通过小小改造前端代码，判断页面是否已被动态渲染再执行异步请求。可参考：</p>
+<pre tabindex="0"><code>componentDidMount() {
+    const PRE_RENDERED = document.querySelector(&#39;#posts&#39;);
+    if(!PRE_RENDERED) {
+        
+        
+    }
+}
+</code></pre><h3 id="缓存机制">缓存机制</h3>
+<p>针对 Map 缓存的问题，我们使用了Redis进行改造，增加超时机制，同时可以避免node崩溃缓存击穿问题</p>
+<p><strong>redis/index.js</strong></p>
+<pre tabindex="0"><code>import redis from &#39;redis&#39;;
+import bluebird from &#39;bluebird&#39;;
+
+bluebird.promisifyAll(redis);
+
+const host = &#39;www.abc.com&#39;;
+const port = 6379;
+const password = &#39;123456&#39;;
+
+const client = redis.createClient({
+    host,
+    port,
+    password,
+    retry_strategy: function(options) {
+        if (options.error &amp;&amp; options.error.code === &#34;ECONNREFUSED&#34;) {
+            return new Error(&#34;The server refused the connection&#34;);
+        }
+        if (options.total_retry_time &gt; 1000 * 60 * 60) {
+            return new Error(&#34;Retry time exhausted&#34;);
+        }
+        if (options.attempt &gt; 10) {
+            return undefined;
+        }
+        return Math.min(options.attempt * 100, 3000);
+    },
+});
+
+client.on(&#34;error&#34;, function(e) {
+    console.error(&#39;dynamic-render redis error: &#39;, e);
+});
+
+export default client;
+</code></pre><h3 id="样式错乱">样式错乱</h3>
+<p>出现这个问题的原因是：</p>
+<pre tabindex="0"><code>&lt;link href=&#34;/static/css/7.82e13697.chunk.css&#34; rel=&#34;stylesheet&#34;&gt;
+</code></pre><p>如果爬虫没有 js 执行能力，并不会去请求这类样式文件，所以我们需要将link标签转换为 style 标签。</p>
+<p>这部分工作在以前可以不搞，反正主要内容已经给到爬虫了，但是现在爬虫越来越聪明，能够通过样式文件识别网站是否有作弊行为，而且如果不做这块，在百度、谷歌的快照页面看到的是错乱的页面，会降低排名，所以我们要帮爬虫安排好样式文件。</p>
+<p>下面代码利用 puppeteer 请求样式文件，用 style 替代 link 标签。 <strong>ssr.js</strong></p>
+<pre tabindex="0"><code>import puppeteer from &#39;puppeteer&#39;;
+import redisClient from &#39;./redis/index.js&#39;;
+
+async function ssr(url) {
+    const REDIS_KEY = `ssr:${url}`;
+    const CACHE_TIME = 600; 
+    const CACHE_HTML = await redisClient.getAsync(REDIS_KEY);
+
+    if (CACHE_HTML) {
+        return { html: CACHE_HTML, ttRenderMs: 0 };
+    }
+    const start = Date.now();
+
+    const browser = await puppeteer.launch({
+        args: [&#39;--no-sandbox&#39;, &#39;--disable-setuid-sandbox&#39;]
+    });
+
+    try {
+        const page = await browser.newPage();
+        const stylesheetContents = {};
+
+        
+        page.on(&#39;response&#39;, async resp =&gt; {
+            const responseUrl = resp.url();
+            const sameOrigin = new URL(responseUrl).origin === new URL(url).origin;
+            const isStylesheet = resp.request().resourceType() === &#39;stylesheet&#39;;
+            if (sameOrigin &amp;&amp; isStylesheet) {
+                stylesheetContents[responseUrl] = await resp.text();
+            }
+        });
+
+        
+        
+        await page.goto(url, {waitUntil: &#39;networkidle0&#39;});
+        await page.waitForSelector(&#39;#root&#39;); 
+
+        
+        
+        await page.$$eval(&#39;link[rel=&#34;stylesheet&#34;]&#39;, (links, content) =&gt; {
+            links.forEach(link =&gt; {
+                const cssText = content[link.href];
+                if (cssText) {
+                    const style = document.createElement(&#39;style&#39;);
+                    style.textContent = cssText;
+                    link.replaceWith(style);
+                }
+            });
+        }, stylesheetContents);
+
+        
+        const html = await page.content(); 
+        await browser.close();
+
+        const ttRenderMs = Date.now() - start;
+        redisClient.set(REDIS_KEY, html, &#39;EX&#39;, CACHE_TIME); 
+        return {html, ttRenderMs};
+    } catch (err) {
+        console.error(err);
+        throw new Error(&#39;render fail&#39;);
+    }
+}
+
+export {ssr as default};
+</code></pre><p>这部分代码可以参考 <a href="https://developers.google.com/web/tools/puppeteer/articles/ssr#inline">google 文档</a></p>
+<h3 id="错误渲染">错误渲染</h3>
+<p>渲染后的页面回到浏览器后，有时执行操作会重新加载样式文件，请求路径类似：/static/1231234sdf.css，这些路径会被当做一个页面路径，而不是静态资源进行渲染，导致渲染错误。解决方式：增加 path 匹配拦截，资源文件直接向原域名请求</p>
+<pre tabindex="0"><code>import express from &#39;express&#39;;
+import request from &#39;request&#39;;
+import ssr from &#39;./ssr.js&#39;;
+
+const app = express();
+
+const host = &#39;https://www.abc.com&#39;;
+
+app.get(&#39;/static/*&#39;, async (req, res) =&gt; {
+    request(`${host}${req.url}`).pipe(res);
+});
+
+app.get(&#39;/manifest.json&#39;, async (req, res) =&gt; {
+    request(`${host}${req.url}`).pipe(res);
+});
+
+app.get(&#39;/favicon.ico&#39;, async (req, res) =&gt; {
+    request(`${host}${req.url}`).pipe(res);
+});
+
+app.get(&#39;/logo*&#39;, async (req, res) =&gt; {
+    request(`${host}${req.url}`).pipe(res);
+});
+
+app.get(&#39;*&#39;, async (req, res) =&gt; {
+    const {html, ttRenderMs} = await ssr(`${host}${req.originalUrl}`);
+    res.set(&#39;Server-Timing&#39;, `Prerender;dur=${ttRenderMs};desc=&#34;Headless render time (ms)&#34;`);
+    return res.status(200).send(html); 
+});
+
+app.listen(8080, () =&gt; console.log(&#39;Server started. Press Ctrl + C to quit&#39;));
+</code></pre><p>动态渲染相比SSR有几点明显好处：</p>
+<ul>
+<li>和 SSR 一致的 SEO 效果，通过 puppeteer 还可进一步定制 SEO 方案</li>
+<li>node 应用负载压力小，只需应对爬虫请求，相当于只有爬虫来了页面才做SSR</li>
+<li>从整体架构上来说相当于一个插件，可随时插拔，无副作用</li>
+<li>不需要大量修改SPA代码（只在重复请求问题上用一个标志位去识别，当然也可以不管这个问题）</li>
+</ul>
+<p><em>（重复请求只在爬虫有js执行能力时才出现，一般再次请求数据也没问题）</em></p>
+<h2 id="nginx-配置">Nginx 配置</h2>
+<p>这部分配置可以参考：<a href="https://gist.github.com/thoop/8165802">这里</a></p>
+<h2 id="附录">附录</h2>
+<h4 id="常见爬虫-user-agent">常见爬虫 user-agent</h4>
+<table>
+<thead>
+<tr>
+<th>主体</th>
+<th>user-agent</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google</td>
+<td>googlebot</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>google-structured-data-testing-tool</td>
+<td>测试工具</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>Mediapartners-Google</td>
+<td>Adsense广告网页被访问后，爬虫就来访</td>
+</tr>
+<tr>
+<td>Microsoft</td>
+<td>bingbot</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>Linked</td>
+<td>linkedinbot</td>
+<td>应用内搜索</td>
+</tr>
+<tr>
+<td>百度</td>
+<td>baiduspider</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>奇虎 360</td>
+<td>360Spider</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>搜狗</td>
+<td>Sogou Spider</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>Yahoo</td>
+<td>Yahoo! Slurp China</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>Yahoo</td>
+<td>Yahoo! Slurp</td>
+<td>搜索引擎</td>
+</tr>
+<tr>
+<td>Twitter</td>
+<td>twitterbot</td>
+<td>应用内搜索</td>
+</tr>
+<tr>
+<td>Facebook</td>
+<td>facebookexternalhit</td>
+<td>应用内搜索</td>
+</tr>
+<tr>
+<td>-</td>
+<td>rogerbot</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>embedly</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Quora</td>
+<td>quora link preview</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>showyoubot</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>outbrain</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>pinterest</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>slackbot</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>vkShare</td>
+<td>-</td>
+</tr>
+<tr>
+<td>-</td>
+<td>W3C_Validator</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="模拟爬虫测试">模拟爬虫测试</h4>
+<pre tabindex="0"><code>curl 你的网站全路径
+
+curl -H &#39;User-agent:Googlebot&#39; 你的网站全路径
+</code></pre><h4 id="参考资料">参考资料</h4>
+<p>【1】<a href="https://tech.meituan.com/2018/11/15/first-contentful-paint-practice.html">构建时预渲染：网页首帧优化实践</a></p>
+<p>【2】<a href="https://developers.google.com/search/docs/guides/dynamic-rendering">Implement dynamic rendering</a></p>
+<p>【3】<a href="https://support.google.com/webmasters/answer/1061943?hl=zh-Hans">Google 抓取工具（用户代理）概览</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

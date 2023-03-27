@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="前言 之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null
+之前以为是因为我给input组件设置了disabled的原因
+&lt;el-button type=&quot;success&quot; circle disabled&gt; &lt;span class=&quot;iconfont&quot;&gt;&amp;#xe66f;&lt;/span&gt; &lt;/el-button&gt;  例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误
+ 经过了排查，发现是因为element-ui的其它组件而引起的：Dropdown 下拉菜单
+引入的代码如下所示：
+&lt;el-dropdown @command=&quot;handleCommand&quot; class=&quot;userInfoAvatar&quot;&gt; &lt;span class=&quot;el-dropdown-link&quot; @click=&quot;userLogin&quot;&gt; &lt;img v-if=&quot;!isLogin&quot; src=&quot;../../static/images/defaultAvatar.png&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl!=undefined&quot; :src=&quot;PICTURE_HOST &#43; userInfo.photoUrl&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl==undefined&quot; src=&quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&quot;&gt; &lt;/span&gt; &lt;el-dropdown-menu slot=&quot;dropdown&quot; v-if=&quot;isLogin&quot;&gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt; &lt;/el-dropdown&gt;  从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了
+因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null错误
+我们只需要把原来的v-if改成v-show即可，如下所示：
+&lt;el-dropdown-menu slot=&quot;dropdown&quot; &gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot; v-show=&quot;isLogin&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot; v-show=&quot;isLogin&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt;  那么错误就消失了~！">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="前言 之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null
+之前以为是因为我给input组件设置了disabled的原因
+&lt;el-button type=&quot;success&quot; circle disabled&gt; &lt;span class=&quot;iconfont&quot;&gt;&amp;#xe66f;&lt;/span&gt; &lt;/el-button&gt;  例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误
+ 经过了排查，发现是因为element-ui的其它组件而引起的：Dropdown 下拉菜单
+引入的代码如下所示：
+&lt;el-dropdown @command=&quot;handleCommand&quot; class=&quot;userInfoAvatar&quot;&gt; &lt;span class=&quot;el-dropdown-link&quot; @click=&quot;userLogin&quot;&gt; &lt;img v-if=&quot;!isLogin&quot; src=&quot;../../static/images/defaultAvatar.png&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl!=undefined&quot; :src=&quot;PICTURE_HOST &#43; userInfo.photoUrl&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl==undefined&quot; src=&quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&quot;&gt; &lt;/span&gt; &lt;el-dropdown-menu slot=&quot;dropdown&quot; v-if=&quot;isLogin&quot;&gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt; &lt;/el-dropdown&gt;  从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了
+因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null错误
+我们只需要把原来的v-if改成v-show即可，如下所示：
+&lt;el-dropdown-menu slot=&quot;dropdown&quot; &gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot; v-show=&quot;isLogin&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot; v-show=&quot;isLogin&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt;  那么错误就消失了~！" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%AF%A1%E5%BC%82%E7%9A%84%E9%94%99%E8%AF%AFuncaught_typeerror_cannot-read-property_disabled_of_null/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="前言 之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null
+之前以为是因为我给input组件设置了disabled的原因
+&lt;el-button type=&quot;success&quot; circle disabled&gt; &lt;span class=&quot;iconfont&quot;&gt;&amp;#xe66f;&lt;/span&gt; &lt;/el-button&gt;  例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误
+ 经过了排查，发现是因为element-ui的其它组件而引起的：Dropdown 下拉菜单
+引入的代码如下所示：
+&lt;el-dropdown @command=&quot;handleCommand&quot; class=&quot;userInfoAvatar&quot;&gt; &lt;span class=&quot;el-dropdown-link&quot; @click=&quot;userLogin&quot;&gt; &lt;img v-if=&quot;!isLogin&quot; src=&quot;../../static/images/defaultAvatar.png&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl!=undefined&quot; :src=&quot;PICTURE_HOST &#43; userInfo.photoUrl&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl==undefined&quot; src=&quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&quot;&gt; &lt;/span&gt; &lt;el-dropdown-menu slot=&quot;dropdown&quot; v-if=&quot;isLogin&quot;&gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt; &lt;/el-dropdown&gt;  从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了
+因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null错误
+我们只需要把原来的v-if改成v-show即可，如下所示：
+&lt;el-dropdown-menu slot=&quot;dropdown&quot; &gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot; v-show=&quot;isLogin&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot; v-show=&quot;isLogin&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt;  那么错误就消失了~！">
+
+<meta itemprop="wordCount" content="72">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="前言 之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null
+之前以为是因为我给input组件设置了disabled的原因
+&lt;el-button type=&quot;success&quot; circle disabled&gt; &lt;span class=&quot;iconfont&quot;&gt;&amp;#xe66f;&lt;/span&gt; &lt;/el-button&gt;  例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误
+ 经过了排查，发现是因为element-ui的其它组件而引起的：Dropdown 下拉菜单
+引入的代码如下所示：
+&lt;el-dropdown @command=&quot;handleCommand&quot; class=&quot;userInfoAvatar&quot;&gt; &lt;span class=&quot;el-dropdown-link&quot; @click=&quot;userLogin&quot;&gt; &lt;img v-if=&quot;!isLogin&quot; src=&quot;../../static/images/defaultAvatar.png&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl!=undefined&quot; :src=&quot;PICTURE_HOST &#43; userInfo.photoUrl&quot;&gt; &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl==undefined&quot; src=&quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&quot;&gt; &lt;/span&gt; &lt;el-dropdown-menu slot=&quot;dropdown&quot; v-if=&quot;isLogin&quot;&gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt; &lt;/el-dropdown&gt;  从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了
+因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null错误
+我们只需要把原来的v-if改成v-show即可，如下所示：
+&lt;el-dropdown-menu slot=&quot;dropdown&quot; &gt; &lt;el-dropdown-item command=&quot;goUserInfo&quot; v-show=&quot;isLogin&quot;&gt;主页&lt;/el-dropdown-item&gt; &lt;el-dropdown-item command=&quot;logout&quot; v-show=&quot;isLogin&quot;&gt;退出&lt;/el-dropdown-item&gt; &lt;/el-dropdown-menu&gt;  那么错误就消失了~！"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="前言">前言</h2>
+<p>之前制作了第三方登录页面，每次点击的时候，都会出现这个错误：Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null</p>
+<p><img src="http://image.moguit.cn/1577929824870.png" alt=""></p>
+<p>之前以为是因为我给input组件设置了disabled的原因</p>
+<pre><code>&lt;el-button type=&quot;success&quot; circle disabled&gt;
+  &lt;span class=&quot;iconfont&quot;&gt;&amp;#xe66f;&lt;/span&gt;
+&lt;/el-button&gt;
+</code></pre>
+<p>例如我对上面设置了disabled属性，让按钮无法被点击，但是我把全部的disabled都给删除后，还是有这样的错误</p>
+<p> 经过了排查，发现是因为element-ui的其它组件而引起的：<a href="https://element.eleme.cn/#/zh-CN/component/dropdown">Dropdown 下拉菜单</a></p>
+<p>引入的代码如下所示：</p>
+<pre><code>&lt;el-dropdown @command=&quot;handleCommand&quot; class=&quot;userInfoAvatar&quot;&gt;
+  &lt;span class=&quot;el-dropdown-link&quot; @click=&quot;userLogin&quot;&gt;
+    &lt;img v-if=&quot;!isLogin&quot; src=&quot;../../static/images/defaultAvatar.png&quot;&gt;
+    &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl!=undefined&quot; :src=&quot;PICTURE_HOST + userInfo.photoUrl&quot;&gt;
+    &lt;img v-if=&quot;isLogin&amp;&amp;userInfo.photoUrl==undefined&quot;
+         src=&quot;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&quot;&gt;
+  &lt;/span&gt;
+
+  &lt;el-dropdown-menu slot=&quot;dropdown&quot; v-if=&quot;isLogin&quot;&gt;
+    &lt;el-dropdown-item command=&quot;goUserInfo&quot;&gt;主页&lt;/el-dropdown-item&gt;
+    &lt;el-dropdown-item command=&quot;logout&quot;&gt;退出&lt;/el-dropdown-item&gt;
+  &lt;/el-dropdown-menu&gt;
+&lt;/el-dropdown&gt;
+</code></pre>
+<p>从上面可以看出，当 isLogin = false的时候，el-dropdown-menu是不会被渲染出来的，那么就会存在问题了</p>
+<p>因为el-dropdown如果没有设置它的子元素，就会报错，也就是刚刚我们看到的那个Uncaught TypeError: Cannot read property &lsquo;disabled&rsquo; of null错误</p>
+<p>我们只需要把原来的v-if改成v-show即可，如下所示：</p>
+<pre><code>&lt;el-dropdown-menu slot=&quot;dropdown&quot; &gt;
+  &lt;el-dropdown-item command=&quot;goUserInfo&quot; v-show=&quot;isLogin&quot;&gt;主页&lt;/el-dropdown-item&gt;
+  &lt;el-dropdown-item command=&quot;logout&quot; v-show=&quot;isLogin&quot;&gt;退出&lt;/el-dropdown-item&gt;
+&lt;/el-dropdown-menu&gt;
+</code></pre>
+<p>那么错误就消失了~！</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

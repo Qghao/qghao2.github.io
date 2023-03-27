@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue如何制作一个评论模块 前言 一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：点我传送
+瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：
+源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component
+封装CommentList组件 为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身
+&lt;template&gt; &lt;div&gt; &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt; &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(0)&#34;&gt;回复&lt;/span&gt; &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt; &lt;a-avatar slot=&#34;avatar&#34; :src=&#34;item.avatar&#34; :alt=&#34;item.userName&#34; /&gt; &lt;p slot=&#34;content&#34;&gt; {{item.content}} &lt;/p&gt; &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt; &lt;/a-comment&gt; &lt;/div&gt; &lt;/template&gt; &lt;script&gt; export default { name:&#34;CommentList&#34;, props: [&#39;comments&#39;], data() { return {}; }, components: { }, methods: {}, }; &lt;/script&gt; 在这里需要用到的一个非常重要的字段就是：
+name:&#34;CommentList&#34;, 如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。
+在父组件中调用该CommentList组件 首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段
+comments: [ { uid: &#39;uid000&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;, content: &#39;我是一级评论&#39;, reply: [ { uid: &#39;uid001&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue如何制作一个评论模块 前言 一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：点我传送
+瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：
+源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component
+封装CommentList组件 为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身
+&lt;template&gt; &lt;div&gt; &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt; &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(0)&#34;&gt;回复&lt;/span&gt; &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt; &lt;a-avatar slot=&#34;avatar&#34; :src=&#34;item.avatar&#34; :alt=&#34;item.userName&#34; /&gt; &lt;p slot=&#34;content&#34;&gt; {{item.content}} &lt;/p&gt; &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt; &lt;/a-comment&gt; &lt;/div&gt; &lt;/template&gt; &lt;script&gt; export default { name:&#34;CommentList&#34;, props: [&#39;comments&#39;], data() { return {}; }, components: { }, methods: {}, }; &lt;/script&gt; 在这里需要用到的一个非常重要的字段就是：
+name:&#34;CommentList&#34;, 如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。
+在父组件中调用该CommentList组件 首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段
+comments: [ { uid: &#39;uid000&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;, content: &#39;我是一级评论&#39;, reply: [ { uid: &#39;uid001&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E8%AF%84%E8%AE%BA%E6%A8%A1%E5%9D%97/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue如何制作一个评论模块 前言 一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：点我传送
+瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：
+源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component
+封装CommentList组件 为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身
+&lt;template&gt; &lt;div&gt; &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt; &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(0)&#34;&gt;回复&lt;/span&gt; &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt; &lt;a-avatar slot=&#34;avatar&#34; :src=&#34;item.avatar&#34; :alt=&#34;item.userName&#34; /&gt; &lt;p slot=&#34;content&#34;&gt; {{item.content}} &lt;/p&gt; &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt; &lt;/a-comment&gt; &lt;/div&gt; &lt;/template&gt; &lt;script&gt; export default { name:&#34;CommentList&#34;, props: [&#39;comments&#39;], data() { return {}; }, components: { }, methods: {}, }; &lt;/script&gt; 在这里需要用到的一个非常重要的字段就是：
+name:&#34;CommentList&#34;, 如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。
+在父组件中调用该CommentList组件 首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段
+comments: [ { uid: &#39;uid000&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;, content: &#39;我是一级评论&#39;, reply: [ { uid: &#39;uid001&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.">
+
+<meta itemprop="wordCount" content="986">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue如何制作一个评论模块 前言 一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：点我传送
+瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：
+源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component
+封装CommentList组件 为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身
+&lt;template&gt; &lt;div&gt; &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt; &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(0)&#34;&gt;回复&lt;/span&gt; &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt; &lt;a-avatar slot=&#34;avatar&#34; :src=&#34;item.avatar&#34; :alt=&#34;item.userName&#34; /&gt; &lt;p slot=&#34;content&#34;&gt; {{item.content}} &lt;/p&gt; &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt; &lt;/a-comment&gt; &lt;/div&gt; &lt;/template&gt; &lt;script&gt; export default { name:&#34;CommentList&#34;, props: [&#39;comments&#39;], data() { return {}; }, components: { }, methods: {}, }; &lt;/script&gt; 在这里需要用到的一个非常重要的字段就是：
+name:&#34;CommentList&#34;, 如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。
+在父组件中调用该CommentList组件 首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段
+comments: [ { uid: &#39;uid000&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;, content: &#39;我是一级评论&#39;, reply: [ { uid: &#39;uid001&#39;, userName: &#34;陌溪&#34;, avatar: &#39;https://zos."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue如何制作一个评论模块">Vue如何制作一个评论模块</h1>
+<h2 id="前言">前言</h2>
+<p>一直想着重写蘑菇博客的评论功能，但是一直之前一直没有头绪，最比较让人头疼的是前端的样式问题，最近在看蚂蚁的UI框架的时候，偶然看到了评论组件：<a href="https://www.antdv.com/components/comment-cn/">点我传送</a></p>
+<p><img src="images/image-20200103210924666.png" alt="image-20200103210924666"></p>
+<p>瞬间感觉发现了新大陆，但是相对来说功能还有些简单，无法满足博客的要求，所以想办法改造一下，下面看最终封装好的组件为：</p>
+<p>源码地址为：https://gitee.com/moxi159753/Vue_Comment_Component</p>
+<p><img src="images/111-1578139983946.gif" alt="111"></p>
+<h2 id="封装commentlist组件">封装CommentList组件</h2>
+<p>为了实现多级递归渲染，首先要做的是，将单条评论封装成一个组件，然后里面重复调用自身</p>
+<pre tabindex="0"><code>&lt;template&gt;
+    &lt;div&gt;
+        &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt;
+            &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(0)&#34;&gt;回复&lt;/span&gt;
+            &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt;
+            &lt;a-avatar
+                    slot=&#34;avatar&#34;
+                    :src=&#34;item.avatar&#34;
+                    :alt=&#34;item.userName&#34;
+            /&gt;
+            &lt;p slot=&#34;content&#34;&gt;
+                {{item.content}}
+            &lt;/p&gt;
+            &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt;
+        &lt;/a-comment&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+    export default {
+        name:&#34;CommentList&#34;,
+        props: [&#39;comments&#39;],
+        data() {
+            return {};
+        },
+        components: {
+
+        },
+        methods: {},
+    };
+&lt;/script&gt;
+</code></pre><p>在这里需要用到的一个非常重要的字段就是：</p>
+<pre tabindex="0"><code>name:&#34;CommentList&#34;,
+</code></pre><p>如果我们想要在该组件中嵌套本身，那么直接就可以在模板中使用name属性值 递归调用自身，之前一直不太明白name字段是做什么用处的，有的时候可以加，有的时候删除也可以，今天才了解是为了在组件中调用自己的时候就能用得上。</p>
+<h2 id="在父组件中调用该commentlist组件">在父组件中调用该CommentList组件</h2>
+<p>首先我们需要定义一些多级评论的数据，这里的数据是多层嵌套的，通过reply字段</p>
+<pre tabindex="0"><code>comments: [
+                    {
+                        uid: &#39;uid000&#39;,
+                        userName: &#34;陌溪&#34;,
+                        avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                        content: &#39;我是一级评论&#39;,
+                        reply: [
+                            {
+                                uid: &#39;uid001&#39;,
+                                userName: &#34;陌溪&#34;,
+                                avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                                content: &#39;我是二级评论&#39;,
+                                reply: [
+                                    {
+                                        uid: &#39;uid002&#39;,
+                                        userName: &#34;陌溪&#34;,
+                                        avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                                        content: &#39;我是三级评论&#39;,
+                                        reply: []
+                                    }
+                                ]
+
+                            }, {
+                                uid: &#39;uid003&#39;,
+                                userName: &#34;陌溪&#34;,
+                                avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                                content: &#39;我是二级评论&#39;,
+                                reply: []
+                            }
+                        ]
+                    },
+                    {
+                        uid: &#39;uid004&#39;,
+                        userName: &#34;陌溪&#34;,
+                        avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                        content: &#39;我是一级评论&#39;,
+                        reply: [
+                            {
+                                uid: &#39;uid005&#39;,
+                                userName: &#34;陌溪&#34;,
+                                avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                                content: &#39;我是二级评论&#39;,
+                                reply: []
+
+                            }
+                        ]
+                    },
+
+                ],
+</code></pre><p>然后我们需要引入刚刚定义的CommentList子组件，传递进对应的评论数据，完整的代码如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">CommentList</span> <span style="color:#a6e22e">:comments</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;comments&#34;</span>&gt;&lt;/<span style="color:#f92672">CommentList</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">import</span> <span style="color:#a6e22e">CommentList</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;../components/CommentList&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">comments</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;uid000&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;陌溪&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;我是一级评论&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>                            {
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;uid001&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;陌溪&#34;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;我是二级评论&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>                                    {
+</span></span><span style="display:flex;"><span>                                        <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;uid002&#39;</span>,
+</span></span><span style="display:flex;"><span>                                        <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;陌溪&#34;</span>,
+</span></span><span style="display:flex;"><span>                                        <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;</span>,
+</span></span><span style="display:flex;"><span>                                        <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;我是三级评论&#39;</span>,
+</span></span><span style="display:flex;"><span>                                        <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> []
+</span></span><span style="display:flex;"><span>                                    }
+</span></span><span style="display:flex;"><span>                                ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                            }, {
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;uid003&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;陌溪&#34;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;我是二级评论&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> []
+</span></span><span style="display:flex;"><span>                            }
+</span></span><span style="display:flex;"><span>                        ]
+</span></span><span style="display:flex;"><span>                    },
+</span></span><span style="display:flex;"><span>                    {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;uid004&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;陌溪&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;我是一级评论&#39;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>                            {
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;uid005&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;陌溪&#34;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;我是二级评论&#39;</span>,
+</span></span><span style="display:flex;"><span>                                <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                            }
+</span></span><span style="display:flex;"><span>                        ]
+</span></span><span style="display:flex;"><span>                    },
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                ],
+</span></span><span style="display:flex;"><span>            };
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">watch</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">CommentList</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>到目前为止，我们渲染出来的评论模块已经具备层次关系了</p>
+<p><img src="images/image-20200103215015767.png" alt="image-20200103215015767"></p>
+<p>下面我们需要做的就是引入回复模块</p>
+<h2 id="封装commentbox组件">封装CommentBox组件</h2>
+<p>ant design也提供了回复框，如下所示</p>
+<p><img src="images/image-20200103215133593.png" alt="image-20200103215133593"></p>
+<p>我们将其封装成对应的组件 CommentBox</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">a-comment</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">a-avatar</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">slot</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avatar&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">:src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;userInfo.avatar&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">alt</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Han Solo&#34;</span>
+</span></span><span style="display:flex;"><span>            /&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">slot</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;content&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">a-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">a-textarea</span> <span style="color:#a6e22e">:rows</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">change</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleChange&#34;</span> <span style="color:#a6e22e">:value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;value&#34;</span>&gt;&lt;/<span style="color:#f92672">a-textarea</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;/<span style="color:#f92672">a-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">a-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">a-button</span> <span style="color:#a6e22e">htmlType</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">:loading</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submitting&#34;</span> <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleSubmit&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;primary&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                        添加评论
+</span></span><span style="display:flex;"><span>                    &lt;/<span style="color:#f92672">a-button</span>&gt;
+</span></span><span style="display:flex;"><span>                    &lt;<span style="color:#f92672">a-button</span> <span style="color:#a6e22e">v-if</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;showCancle&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;margin-left:5px;&#34;</span>  <span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;handleCancle&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>                        取消评论
+</span></span><span style="display:flex;"><span>                    &lt;/<span style="color:#f92672">a-button</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;/<span style="color:#f92672">a-form-item</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">a-comment</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">props</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">userInfo</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Object
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">replyInfo</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Object
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">showCancle</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">type</span><span style="color:#f92672">:</span> Boolean,
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">data</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">comments</span><span style="color:#f92672">:</span> [],
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">submitting</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>,
+</span></span><span style="display:flex;"><span>            };
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">methods</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">handleSubmit</span>() {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">comments</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">uid</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$store</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">id</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">replyUid</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">replyInfo</span>.<span style="color:#a6e22e">replyUid</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">userName</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">userInfo</span>.<span style="color:#a6e22e">userName</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">avatar</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">userInfo</span>.<span style="color:#a6e22e">avatar</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">reply</span><span style="color:#f92672">:</span> []
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$emit</span>(<span style="color:#e6db74">&#34;submit-box&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">comments</span>)
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">handleChange</span>(<span style="color:#a6e22e">e</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">value</span>;
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">handleCancle</span>() {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$emit</span>(<span style="color:#e6db74">&#34;cancel-box&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">replyInfo</span>.<span style="color:#a6e22e">replyUid</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div><p>然后在CommentList中引入对应的模块，具体需要做的事情是，在回复按钮出设置点击时间，当我们点击的时候，将对应的评论渲染出来，我们首先将CommentBox设置为不显示</p>
+<pre tabindex="0"><code>&lt;CommentBox class=&#34;comment&#34; :userInfo=&#34;userInfo&#34; :reply-info=&#34;replyInfo&#34; :id=&#34;item.uid&#34;
+ @submit-box=&#34;submitBox&#34; @cancel-box=&#34;cancelBox&#34;&gt;&lt;/CommentBox&gt;
+</code></pre><p>然后当我们点击的时候，就需要将我们点击的comment设置为显示状态，其它的设置为none</p>
+<pre tabindex="0"><code>replyTo: function (uid) {
+    var lists = document.getElementsByClassName(&#34;comment&#34;);
+    for (var i = 0; i &lt; lists.length; i++) {
+    lists[i].style.display = &#39;none&#39;;
+    }
+    document.getElementById(uid).style.display = &#39;block&#39;;
+    this.replyInfo.replyUid = uid
+},
+</code></pre><p>我们通过document.getElementByClassName把所有的CommentBox获取到来，然后设置成none，同时将我们点击的CommentBox设置成显示即可</p>
+<p>运行效果如下所示：</p>
+<p><img src="images/111.gif" alt="111"></p>
+<h2 id="引入vuex">引入Vuex</h2>
+<p>通过上面所述，我们就能完成点击回复，弹出对话框，然后输入对话框的内容后，我们还需要回显到页面上</p>
+<p>但是这样的方式存在一个问题，就是通过this.$emit和父组件通信的时候，父组件只有在一级评论时，才能够监听到子组件的改变，所以后面就改变了策略，采用vuex存储data数据，也就是评论数据</p>
+<p>首先创建如下文件：</p>
+<p><img src="images/image-20200104151042434.png" alt="image-20200104151042434"></p>
+<p>app.js文件内容如下，该文件主要是编写操作store的一些方法</p>
+<pre tabindex="0"><code>import {SET_COMMENT_LIST, INCREMENT} from &#34;./mutation-types&#34;;
+
+const app = {
+  // 全局状态
+  state: {
+    commentList: [],
+    id: 100,
+  },
+  // getters是对数据的包装，例如对数据进行拼接，或者过滤
+  getters: {
+    //类似于计算属性
+    // 增加的方法
+
+  },
+  // 如果我们需要更改store中的状态，一定要通过mutations来进行操作
+  mutations: {
+
+    // 传入自定义参数
+    [SET_COMMENT_LIST](state, commentList) {
+      state.commentList = commentList
+    },
+    [INCREMENT](state) {
+      state.id += 1
+    },
+  },
+
+  // actions是我们定义的一些操作，正常情况下，我们很少会直接调用mutation方法来改变state
+  actions: {
+
+  }
+}
+export default app
+</code></pre><p>mutation-types.js文件，用来定义一些常量</p>
+<pre tabindex="0"><code>export const SET_COMMENT_LIST =  &#34;setCommentList&#34;
+export const INCREMENT =  &#34;increment&#34;
+export const DECREMENT =  &#34;decrement&#34;
+</code></pre><p>index.js，如果是多模块，则可以在这里进行配置</p>
+<pre tabindex="0"><code>import Vue from &#39;vue&#39;
+import Vuex from &#39;vuex&#39;
+import app from &#39;./app&#39;
+
+//让vuex生效
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+
+  // 将app和user放在store中
+  modules: {
+    app
+  }
+})
+export default  store
+</code></pre><p>然后修改最新的CommentList组件</p>
+<pre tabindex="0"><code>&lt;template&gt;
+    &lt;div&gt;
+        &lt;a-comment v-for=&#34;item in comments&#34; :key=&#34;item.uid&#34;&gt;
+            &lt;span slot=&#34;actions&#34; @click=&#34;replyTo(item.uid)&#34;&gt;回复&lt;/span&gt;
+            &lt;a slot=&#34;author&#34;&gt;{{item.userName}}&lt;/a&gt;
+            &lt;a-avatar
+                    slot=&#34;avatar&#34;
+                    :src=&#34;item.avatar&#34;
+                    :alt=&#34;item.userName&#34;
+            /&gt;
+            &lt;p slot=&#34;content&#34;&gt;
+                {{item.content}}
+            &lt;/p&gt;
+
+            &lt;CommentBox class=&#34;comment&#34; :userInfo=&#34;userInfo&#34; :reply-info=&#34;replyInfo&#34; :id=&#34;item.uid&#34;
+                        @submit-box=&#34;submitBox&#34; @cancel-box=&#34;cancelBox&#34;&gt;&lt;/CommentBox&gt;
+
+            &lt;CommentList :comments=&#34;item.reply&#34;&gt;&lt;/CommentList&gt;
+
+        &lt;/a-comment&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+
+    import {mapMutations} from &#39;vuex&#39;;
+    import CommentBox from &#34;../components/CommentBox&#34;;
+
+    export default {
+        name: &#34;CommentList&#34;,
+        props: [&#39;comments&#39;],
+        data() {
+            return {
+                showCancle: true,
+                submitting: false,
+                value: &#39;&#39;,
+                userInfo: {
+                    uid: &#34;uid000001&#34;,
+                    userName: &#34;张三&#34;,
+                    avatar: &#34;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&#34;
+
+                },
+                replyInfo: {
+                    uid: &#34;&#34;,
+                    blogUid: &#34;uid000003&#34;,
+                    replyUserUid: 0,
+                    avatar: &#34;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#34;
+                },
+            };
+        },
+        created() {
+
+        },
+        components: {
+            CommentBox
+        },
+
+        compute: {},
+        methods: {
+            ...mapMutations([&#39;setCommentList&#39;, &#39;increment&#39;]),
+            replyTo: function (uid) {
+                var lists = document.getElementsByClassName(&#34;comment&#34;);
+                for (var i = 0; i &lt; lists.length; i++) {
+                    lists[i].style.display = &#39;none&#39;;
+                }
+                document.getElementById(uid).style.display = &#39;block&#39;;
+                this.replyInfo.replyUid = uid
+            },
+            submitBox(e) {
+                // 一级评论
+                if (e.replyUid == 0) {
+                    var firstComment = this.$store.state.app.commentList;
+                    firstComment.push(e);
+                    this.$store.commit(&#34;setCommentList&#34;, firstComment);
+                    this.$store.commit(&#34;increment&#34;);
+
+                    return;
+                }
+
+                document.getElementById(e.replyUid).style.display = &#39;none&#39;
+                var comments = this.$store.state.app.commentList;
+                this.getMenuBtnList(comments, e.replyUid, e)
+                this.$store.commit(&#34;setCommentList&#34;, comments);
+                this.$store.commit(&#34;increment&#34;);
+
+            },
+            cancelBox(e) {
+                document.getElementById(e).style.display = &#39;none&#39;
+            },
+            getMenuBtnList(menuTreeList, uid, comment) {
+
+                if (menuTreeList == undefined || menuTreeList.length &lt;= 0) {
+                    return;
+                }
+
+                for (let item of menuTreeList) {
+                    console.log(&#34;递归中&#34;, item.uid, uid)
+                    if (item.uid === uid) {
+                        var menu = item.reply;
+                        menu.push(comment);
+                    } else {
+                        this.getMenuBtnList(item.reply, uid, comment);
+                    }
+                }
+            }
+        },
+    };
+&lt;/script&gt;
+&lt;style&gt;
+    .comment {
+        display: none;
+    }
+&lt;/style&gt;
+</code></pre><p>这里Vuex参考了之前的一篇博客：<a href="http://moguit.cn/#/info?blogUid=a00ebe1473c584ff94bdd40402a4d573">Vuex学习指南-实现一个计数器</a></p>
+<p>主要实现思路是：首先当用户在CommentBox中输入内容，并且提交后，触发CommentList中的submitBox方法，该方法传入参数e，也就是发送的评论，然后我们首先判断是否是一级评论</p>
+<pre tabindex="0"><code>submitBox(e) {
+// 一级评论
+    if (e.replyUid == 0) {
+        var firstComment = this.$store.state.app.commentList;
+        firstComment.push(e);
+        this.$store.commit(&#34;setCommentList&#34;, firstComment);
+        this.$store.commit(&#34;increment&#34;);
+        return;
+    }
+
+    document.getElementById(e.replyUid).style.display = &#39;none&#39;
+    var comments = this.$store.state.app.commentList;
+    this.getMenuBtnList(comments, e.replyUid, e)
+    this.$store.commit(&#34;setCommentList&#34;, comments);
+    this.$store.commit(&#34;increment&#34;);
+
+},
+</code></pre><p>通过replyUid来判断，如果replyUid为0，说明该评论是一级评论，那么直接从store中获取，关于store中的commentList，是在index.vue页面，初始化的时候填入的</p>
+<pre tabindex="0"><code>mounted() {
+	this.setCommentList(this.comments);
+},
+</code></pre><p>如果是一级评论，我们直接把评论追加到commentList中，然后通过</p>
+<pre tabindex="0"><code>this.$store.commit(&#34;setCommentList&#34;, comments);
+this.$store.commit(&#34;increment&#34;);
+</code></pre><p>更新CommentList列表的数据，那么页面就会重新渲染，也就看到我们新加入的评论了，同时我们的id也需要变换，id的改变，是为了唯一表示CommentBox，这样我们就可以通过以下代码</p>
+<pre tabindex="0"><code>document.getElementById(e.replyUid).style.display = &#39;none&#39;
+</code></pre><p>来控制评论box的显示与否，同时当不是一级评论的时候，我们需要通过递归，找到该评论的父ID，这个方法需要三个参数，一个是评论列表，一个是 父评论Uid，一个是需要填充的评论，那么执行该方法后，会自动将评论填充到指定的父评论的reply下</p>
+<pre tabindex="0"><code>updateCommentList(commentList, uid, targetComment) {
+
+    if (commentList == undefined || commentList.length &lt;= 0) {
+    	return;
+    }
+
+    for (let item of commentList) {
+    	console.log(&#34;递归中&#34;, item.uid, uid)
+        if (item.uid === uid) {
+        var menu = item.reply;
+        menu.push(targetComment);
+      } else {
+        this.updateCommentList(item.reply, uid, targetComment);
+       }
+    }
+}
+</code></pre><p>index.vue完整代码，如下</p>
+<pre tabindex="0"><code>&lt;template&gt;
+    &lt;div class=&#34;contain&#34;&gt;
+        &lt;CommentBox :userInfo=&#34;userInfo&#34; :reply-info=&#34;replyInfo&#34;  @submit-box=&#34;submitBox&#34; :showCancle=&#34;showCancle&#34;&gt;&lt;/CommentBox&gt;
+
+        &lt;CommentList :comments=&#34;comments&#34;&gt;&lt;/CommentList&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;
+    import CommentList from &#34;../components/CommentList&#34;;
+    import CommentBox from &#34;../components/CommentBox&#34;;
+
+    // vuex中有mapState方法，相当于我们能够使用它的getset方法
+    import {mapMutations} from &#39;vuex&#39;;
+
+    export default {
+        data() {
+            return {
+                showCancle: false,
+                submitting: false,
+                value: &#39;&#39;,
+                userInfo: {
+                    uid: &#34;uid000001&#34;,
+                    userName: &#34;张三&#34;,
+                    avatar: &#34;https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif&#34;
+
+                },
+                replyInfo: {
+                    uid: &#34;&#34;,
+                    blogUid: &#34;uid000003&#34;,
+                    replyUserUid: &#34;uid000004&#34;,
+                    replyUid: 0,
+                    avatar: &#34;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#34;
+                },
+                comments: [
+                    {
+                        uid: &#39;uid000&#39;,
+                        userName: &#34;陌溪&#34;,
+                        avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                        content: &#39;我是一级评论&#39;,
+                        reply: [
+                            {
+                                uid: &#39;uid001&#39;,
+                                userName: &#34;陌溪&#34;,
+                                avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                                content: &#39;我是二级评论&#39;,
+                                reply: [
+                                    {
+                                        uid: &#39;uid002&#39;,
+                                        userName: &#34;陌溪&#34;,
+                                        avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                                        content: &#39;我是三级评论&#39;,
+                                        reply: []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        uid: &#39;uid004&#39;,
+                        userName: &#34;陌溪&#34;,
+                        avatar: &#39;https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png&#39;,
+                        content: &#39;我是一级评论&#39;,
+                        reply: [
+                        ]
+                    },
+                ],
+            };
+        },
+        watch: {},
+        computed: {
+
+        },
+        components: {
+            CommentList,
+            CommentBox
+        },
+        mounted() {
+            this.setCommentList(this.comments);
+        },
+        methods: {
+            //拿到vuex中的写的两个方法
+            ...mapMutations([&#39;setCommentList&#39;, &#39;increment&#39;]),
+            submitBox(e) {
+                var comments = this.$store.state.app.commentList;
+                e.uid = this.$store.state.app.id
+                comments.push(e);
+                this.$store.commit(&#34;setCommentList&#34;, comments);
+                this.$store.commit(&#34;increment&#34;);
+            }
+        },
+    };
+&lt;/script&gt;
+&lt;style&gt;
+    .contain{
+        width: 600px;
+        margin:0 auto;
+    }
+&lt;/style&gt;
+</code></pre><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

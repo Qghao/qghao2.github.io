@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="解决Vue项目打包后js文件过大的问题 前言 这阵子因为白嫖了一台阿里云的服务器，配置是 2核4G1M，但是因为带宽太低了，每次在首屏加载的时候，时间过于缓慢，通过Chrome的F12性能调试，发现主要原因是因为加载的 js 过大而引起的。因为之前已经提到了将我们一些组件改成CDN方式引入，例如 Vue、ElementUi、ECharts等。但是还是存在一些打包后的内部 js 文件，他们的大小也过于庞大，因此本文将主要讲解如何解决Vue项目打包后js文件过大的问题。
+引入插件 我们可以通过引入 compression-webpack-plugin 插件，然后开启 gzip 来解决本问题
+首先安装插件依赖
+npm i compression-webpack-plugin@5.0.1 然后修改 config/index.js 文件，把 productionGzip 改为：true
+productionGzip: true, productionGzipExtensions: [&#39;js&#39;, &#39;css&#39;], 然后在修改 build/webpack.prod.conf.js 文件，修改如下内容
+// 判断配置文件是否开启了gzip加速 if (config.build.productionGzip) {  // 引入压缩文件的组件，该插件会对生成的文件进行压缩，生成一个.gz文件  const CompressionWebpackPlugin = require(&#39;compression-webpack-plugin&#39;)  webpackConfig.plugins.push(  new CompressionWebpackPlugin({  filename: &#39;[path].gz[query]&#39;, // 目标文件名  algorithm: &#39;gzip&#39;, // 使用gzip压缩  test: new RegExp( // 满足正则表达式的文件会被压缩  &#39;\\.(&#39; &#43; config.build.productionGzipExtensions.join(&#39;|&#39;) &#43; &#39;)$&#39;  ),  threshold: 10240, // 资源大于10240=10KB时会被压缩  minRatio: 0.">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="解决Vue项目打包后js文件过大的问题 前言 这阵子因为白嫖了一台阿里云的服务器，配置是 2核4G1M，但是因为带宽太低了，每次在首屏加载的时候，时间过于缓慢，通过Chrome的F12性能调试，发现主要原因是因为加载的 js 过大而引起的。因为之前已经提到了将我们一些组件改成CDN方式引入，例如 Vue、ElementUi、ECharts等。但是还是存在一些打包后的内部 js 文件，他们的大小也过于庞大，因此本文将主要讲解如何解决Vue项目打包后js文件过大的问题。
+引入插件 我们可以通过引入 compression-webpack-plugin 插件，然后开启 gzip 来解决本问题
+首先安装插件依赖
+npm i compression-webpack-plugin@5.0.1 然后修改 config/index.js 文件，把 productionGzip 改为：true
+productionGzip: true, productionGzipExtensions: [&#39;js&#39;, &#39;css&#39;], 然后在修改 build/webpack.prod.conf.js 文件，修改如下内容
+// 判断配置文件是否开启了gzip加速 if (config.build.productionGzip) {  // 引入压缩文件的组件，该插件会对生成的文件进行压缩，生成一个.gz文件  const CompressionWebpackPlugin = require(&#39;compression-webpack-plugin&#39;)  webpackConfig.plugins.push(  new CompressionWebpackPlugin({  filename: &#39;[path].gz[query]&#39;, // 目标文件名  algorithm: &#39;gzip&#39;, // 使用gzip压缩  test: new RegExp( // 满足正则表达式的文件会被压缩  &#39;\\.(&#39; &#43; config.build.productionGzipExtensions.join(&#39;|&#39;) &#43; &#39;)$&#39;  ),  threshold: 10240, // 资源大于10240=10KB时会被压缩  minRatio: 0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/%E8%A7%A3%E5%86%B3vue%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E5%90%8Ejs%E6%96%87%E4%BB%B6%E8%BF%87%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="解决Vue项目打包后js文件过大的问题 前言 这阵子因为白嫖了一台阿里云的服务器，配置是 2核4G1M，但是因为带宽太低了，每次在首屏加载的时候，时间过于缓慢，通过Chrome的F12性能调试，发现主要原因是因为加载的 js 过大而引起的。因为之前已经提到了将我们一些组件改成CDN方式引入，例如 Vue、ElementUi、ECharts等。但是还是存在一些打包后的内部 js 文件，他们的大小也过于庞大，因此本文将主要讲解如何解决Vue项目打包后js文件过大的问题。
+引入插件 我们可以通过引入 compression-webpack-plugin 插件，然后开启 gzip 来解决本问题
+首先安装插件依赖
+npm i compression-webpack-plugin@5.0.1 然后修改 config/index.js 文件，把 productionGzip 改为：true
+productionGzip: true, productionGzipExtensions: [&#39;js&#39;, &#39;css&#39;], 然后在修改 build/webpack.prod.conf.js 文件，修改如下内容
+// 判断配置文件是否开启了gzip加速 if (config.build.productionGzip) {  // 引入压缩文件的组件，该插件会对生成的文件进行压缩，生成一个.gz文件  const CompressionWebpackPlugin = require(&#39;compression-webpack-plugin&#39;)  webpackConfig.plugins.push(  new CompressionWebpackPlugin({  filename: &#39;[path].gz[query]&#39;, // 目标文件名  algorithm: &#39;gzip&#39;, // 使用gzip压缩  test: new RegExp( // 满足正则表达式的文件会被压缩  &#39;\\.(&#39; &#43; config.build.productionGzipExtensions.join(&#39;|&#39;) &#43; &#39;)$&#39;  ),  threshold: 10240, // 资源大于10240=10KB时会被压缩  minRatio: 0.">
+
+<meta itemprop="wordCount" content="154">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="解决Vue项目打包后js文件过大的问题 前言 这阵子因为白嫖了一台阿里云的服务器，配置是 2核4G1M，但是因为带宽太低了，每次在首屏加载的时候，时间过于缓慢，通过Chrome的F12性能调试，发现主要原因是因为加载的 js 过大而引起的。因为之前已经提到了将我们一些组件改成CDN方式引入，例如 Vue、ElementUi、ECharts等。但是还是存在一些打包后的内部 js 文件，他们的大小也过于庞大，因此本文将主要讲解如何解决Vue项目打包后js文件过大的问题。
+引入插件 我们可以通过引入 compression-webpack-plugin 插件，然后开启 gzip 来解决本问题
+首先安装插件依赖
+npm i compression-webpack-plugin@5.0.1 然后修改 config/index.js 文件，把 productionGzip 改为：true
+productionGzip: true, productionGzipExtensions: [&#39;js&#39;, &#39;css&#39;], 然后在修改 build/webpack.prod.conf.js 文件，修改如下内容
+// 判断配置文件是否开启了gzip加速 if (config.build.productionGzip) {  // 引入压缩文件的组件，该插件会对生成的文件进行压缩，生成一个.gz文件  const CompressionWebpackPlugin = require(&#39;compression-webpack-plugin&#39;)  webpackConfig.plugins.push(  new CompressionWebpackPlugin({  filename: &#39;[path].gz[query]&#39;, // 目标文件名  algorithm: &#39;gzip&#39;, // 使用gzip压缩  test: new RegExp( // 满足正则表达式的文件会被压缩  &#39;\\.(&#39; &#43; config.build.productionGzipExtensions.join(&#39;|&#39;) &#43; &#39;)$&#39;  ),  threshold: 10240, // 资源大于10240=10KB时会被压缩  minRatio: 0."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="解决vue项目打包后js文件过大的问题">解决Vue项目打包后js文件过大的问题</h1>
+<h2 id="前言">前言</h2>
+<p>这阵子因为白嫖了一台阿里云的服务器，配置是 2核4G1M，但是因为带宽太低了，每次在首屏加载的时候，时间过于缓慢，通过Chrome的F12性能调试，发现主要原因是因为加载的 <strong>js</strong> 过大而引起的。因为之前已经提到了将我们一些组件改成CDN方式引入，例如 Vue、ElementUi、ECharts等。但是还是存在一些打包后的内部 js 文件，他们的大小也过于庞大，因此本文将主要讲解如何解决Vue项目打包后js文件过大的问题。</p>
+<h2 id="引入插件">引入插件</h2>
+<p>我们可以通过引入 <strong>compression-webpack-plugin</strong> 插件，然后开启 <strong>gzip</strong> 来解决本问题</p>
+<p>首先安装插件依赖</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm i compression-webpack-plugin@5.0.1
+</span></span></code></pre></div><p>然后修改  <strong>config/index.js</strong> 文件，把 <strong>productionGzip</strong> 改为：<strong>true</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>productionGzip: true,
+</span></span><span style="display:flex;"><span>productionGzipExtensions: <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;js&#39;</span>, <span style="color:#e6db74">&#39;css&#39;</span><span style="color:#f92672">]</span>,
+</span></span></code></pre></div><p>然后在修改 <strong>build/webpack.prod.conf.js</strong> 文件，修改如下内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// 判断配置文件是否开启了gzip加速
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>config.build.productionGzip<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  // 引入压缩文件的组件，该插件会对生成的文件进行压缩，生成一个.gz文件
+</span></span><span style="display:flex;"><span>  const CompressionWebpackPlugin <span style="color:#f92672">=</span> require<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;compression-webpack-plugin&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  webpackConfig.plugins.push<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>    new CompressionWebpackPlugin<span style="color:#f92672">({</span>
+</span></span><span style="display:flex;"><span>      filename: <span style="color:#e6db74">&#39;[path].gz[query]&#39;</span>, // 目标文件名
+</span></span><span style="display:flex;"><span>      algorithm: <span style="color:#e6db74">&#39;gzip&#39;</span>,  // 使用gzip压缩
+</span></span><span style="display:flex;"><span>      test: new RegExp<span style="color:#f92672">(</span> // 满足正则表达式的文件会被压缩
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;\\.(&#39;</span> + config.build.productionGzipExtensions.join<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;|&#39;</span><span style="color:#f92672">)</span> + <span style="color:#e6db74">&#39;)$&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">)</span>,
+</span></span><span style="display:flex;"><span>      threshold: 10240, // 资源大于10240<span style="color:#f92672">=</span>10KB时会被压缩
+</span></span><span style="display:flex;"><span>      minRatio: 0.8,
+</span></span><span style="display:flex;"><span>      deleteOriginalAssets: false, // 是否删除原资源
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="打包">打包</h2>
+<p>修改完成后，我们打包项目</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run build
+</span></span></code></pre></div><p>打包完成后，我们查看 dist目录，能够发现很多 <strong>js</strong> 文件已经被压缩了</p>
+<p><img src="images/image-20210102112105715.png" alt="image-20210102112105715"></p>
+<p>我们看到这里，说明已经成功将js压缩了</p>
+<h2 id="修改nginx配置">修改Nginx配置</h2>
+<p>因为我们 <strong>Vue</strong> 项目打包后，部署的是静态文件，因此我们还需要在 <strong>nginx</strong> 处开启 <strong>gzip</strong>， 找到 <strong>nginx.conf</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># on为启用，off为关闭</span>
+</span></span><span style="display:flex;"><span>gzip on;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Nginx的动态压缩是对每个请求先压缩再输出，这样造成虚拟机浪费了很多cpu，解决这个问题可以利用nginx模块Gzip Precompression，这个模块的作用是对于需要压缩的文件，直接读取已经压缩好的文件(文件名为加.gz)，而不是动态压缩，对于不支持gzip的请求则读取原文件</span>
+</span></span><span style="display:flex;"><span>gzip_static on;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置允许压缩的页面最小字节数，页面字节数从header头中的Content-Length中进行获取。默认值是0，不管页面多大都压缩。建议设置成大于1k的字节数，小于1k可能会越压越大。</span>
+</span></span><span style="display:flex;"><span>gzip_min_length 1k;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取多少内存用于缓存压缩结果，‘4 16k’表示以16k*4为单位获得</span>
+</span></span><span style="display:flex;"><span>gzip_buffers <span style="color:#ae81ff">4</span> 32k;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 识别http协议的版本,早起浏览器可能不支持gzip自解压,用户会看到乱码</span>
+</span></span><span style="display:flex;"><span>gzip_http_version 1.1;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># gzip压缩比（1~9），越小压缩效果越差，但是越大处理越慢，所以一般取中间值;</span>
+</span></span><span style="display:flex;"><span>gzip_comp_level 2;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 对特定的MIME类型生效,其中&#39;text/html’被系统强制启用</span>
+</span></span><span style="display:flex;"><span>gzip_types text/plain application/x-javascript text/css application/xml;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用应答头&#34;Vary: Accept-Encoding&#34;</span>
+</span></span><span style="display:flex;"><span>gzip_vary on;
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># IE5.5和IE6 SP1使用msie6参数来禁止gzip压缩 )指定哪些不需要gzip压缩的浏览器(将和User-Agents进行匹配),依赖于PCRE库</span>
+</span></span><span style="display:flex;"><span>gzip_disable <span style="color:#e6db74">&#34;MSIE [1-6].&#34;</span>;
+</span></span></code></pre></div><p>设置完成后，我们重启 <strong>nginx</strong></p>
+<h2 id="测试">测试</h2>
+<p>下面我们开始进行测试，首先开未压缩前的，我们可以看到打包后的 <strong>js</strong> 大小为 <strong>410KB</strong> 和 <strong>229KB</strong></p>
+<p><img src="images/image-20210102112805832.png" alt="image-20210102112805832"></p>
+<p>然后在看压缩后的效果，我们发现文件的大小已经被大幅度的压缩，同时响应时间也得到了提升</p>
+<p><img src="images/image-20210102113120340.png" alt="image-20210102113120340"></p>
+<p>到这里为止，我们的响应时间过于缓慢的问题也得到了解决</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

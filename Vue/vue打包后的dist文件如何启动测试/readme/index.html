@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="vue打包后的dist文件如何启动测试 前言 我们vue项目进行webpack打包操作 npm run build 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式
+nginx静态代理 首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf
+# 蘑菇博客WEB server { 	listen 9527; 	server_name localhost;		add_header Access-Control-Allow-Origin *; 	add_header Access-Control-Allow-Methods *; 	add_header Access-Control-Allow-Headers *; 	if ($request_method = &#39;OPTIONS&#39;) { 	return 204; 	} 	location / { 	root D:\mogu_blog\data\vue_mogu_web\dist; 	index index.html index.htm; 	} } 然后添加录下内容，最后把我们的 文件夹放在如下目录
+D:\mogu_blog\data\vue_mogu_web\dist 最后启动nginx，然后访问如下ip地址
+http://localhost:9527 即可看到我们的页面
+server方式启动 同时npm还提供了 serve 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口
+# 安装 serve模块 npm install -g serve # 启动 serve -s dist 启动后，访问如下地址">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="vue打包后的dist文件如何启动测试 前言 我们vue项目进行webpack打包操作 npm run build 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式
+nginx静态代理 首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf
+# 蘑菇博客WEB server { 	listen 9527; 	server_name localhost;		add_header Access-Control-Allow-Origin *; 	add_header Access-Control-Allow-Methods *; 	add_header Access-Control-Allow-Headers *; 	if ($request_method = &#39;OPTIONS&#39;) { 	return 204; 	} 	location / { 	root D:\mogu_blog\data\vue_mogu_web\dist; 	index index.html index.htm; 	} } 然后添加录下内容，最后把我们的 文件夹放在如下目录
+D:\mogu_blog\data\vue_mogu_web\dist 最后启动nginx，然后访问如下ip地址
+http://localhost:9527 即可看到我们的页面
+server方式启动 同时npm还提供了 serve 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口
+# 安装 serve模块 npm install -g serve # 启动 serve -s dist 启动后，访问如下地址" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E6%89%93%E5%8C%85%E5%90%8E%E7%9A%84dist%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="vue打包后的dist文件如何启动测试 前言 我们vue项目进行webpack打包操作 npm run build 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式
+nginx静态代理 首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf
+# 蘑菇博客WEB server { 	listen 9527; 	server_name localhost;		add_header Access-Control-Allow-Origin *; 	add_header Access-Control-Allow-Methods *; 	add_header Access-Control-Allow-Headers *; 	if ($request_method = &#39;OPTIONS&#39;) { 	return 204; 	} 	location / { 	root D:\mogu_blog\data\vue_mogu_web\dist; 	index index.html index.htm; 	} } 然后添加录下内容，最后把我们的 文件夹放在如下目录
+D:\mogu_blog\data\vue_mogu_web\dist 最后启动nginx，然后访问如下ip地址
+http://localhost:9527 即可看到我们的页面
+server方式启动 同时npm还提供了 serve 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口
+# 安装 serve模块 npm install -g serve # 启动 serve -s dist 启动后，访问如下地址">
+
+<meta itemprop="wordCount" content="70">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="vue打包后的dist文件如何启动测试 前言 我们vue项目进行webpack打包操作 npm run build 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式
+nginx静态代理 首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf
+# 蘑菇博客WEB server { 	listen 9527; 	server_name localhost;		add_header Access-Control-Allow-Origin *; 	add_header Access-Control-Allow-Methods *; 	add_header Access-Control-Allow-Headers *; 	if ($request_method = &#39;OPTIONS&#39;) { 	return 204; 	} 	location / { 	root D:\mogu_blog\data\vue_mogu_web\dist; 	index index.html index.htm; 	} } 然后添加录下内容，最后把我们的 文件夹放在如下目录
+D:\mogu_blog\data\vue_mogu_web\dist 最后启动nginx，然后访问如下ip地址
+http://localhost:9527 即可看到我们的页面
+server方式启动 同时npm还提供了 serve 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口
+# 安装 serve模块 npm install -g serve # 启动 serve -s dist 启动后，访问如下地址"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue打包后的dist文件如何启动测试">vue打包后的dist文件如何启动测试</h1>
+<h2 id="前言">前言</h2>
+<p>我们vue项目进行webpack打包操作 <code>npm run build</code> 后，会生成dist静态文件夹，这个文件我们是不能直接运行的，如果我们想要进行测试的话，一般是有两种方式</p>
+<h2 id="nginx静态代理">nginx静态代理</h2>
+<p>首先我们可以通过nginx做静态资源映射，我们首先修改nginx的配置 nginx.conf</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 蘑菇博客WEB</span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	listen       9527;
+</span></span><span style="display:flex;"><span>	server_name  localhost;	
+</span></span><span style="display:flex;"><span>	add_header Access-Control-Allow-Origin *;
+</span></span><span style="display:flex;"><span>	add_header Access-Control-Allow-Methods *;
+</span></span><span style="display:flex;"><span>	add_header Access-Control-Allow-Headers *;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>$request_method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;OPTIONS&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">return</span> 204;
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>	location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		root   D:<span style="color:#ae81ff">\m</span>ogu_blog<span style="color:#ae81ff">\d</span>ata<span style="color:#ae81ff">\v</span>ue_mogu_web<span style="color:#ae81ff">\d</span>ist;
+</span></span><span style="display:flex;"><span>		index  index.html index.htm;
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>然后添加录下内容，最后把我们的 文件夹放在如下目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>D:<span style="color:#ae81ff">\m</span>ogu_blog<span style="color:#ae81ff">\d</span>ata<span style="color:#ae81ff">\v</span>ue_mogu_web<span style="color:#ae81ff">\d</span>ist
+</span></span></code></pre></div><p>最后启动nginx，然后访问如下ip地址</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://localhost:9527
+</span></span></code></pre></div><p>即可看到我们的页面</p>
+<h2 id="server方式启动">server方式启动</h2>
+<p>同时npm还提供了 <code>serve</code> 命令，来给我们进行测试，这种方式比nginx更加方便，可以直接进行测试，但是存在的问题就是，没有办法指定端口号，而只能开启 5000端口</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装 serve模块</span>
+</span></span><span style="display:flex;"><span>npm install -g serve
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动</span>
+</span></span><span style="display:flex;"><span>serve -s dist
+</span></span></code></pre></div><p>启动后，访问如下地址</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://localhost:5000
+</span></span></code></pre></div><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

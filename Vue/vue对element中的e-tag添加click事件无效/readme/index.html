@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue对Element中的el-tag添加@click事件无效 前言 今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示
+&lt;el-tag type=&#34;error&#34; @click=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; 我们在点击el-tag标签的时候，无法触发其点击事件
+解决方法 通过查阅资料发现官方给定了解答
+也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~
+&lt;el-tag type=&#34;error&#34; @click.native=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; ">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue对Element中的el-tag添加@click事件无效 前言 今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示
+&lt;el-tag type=&#34;error&#34; @click=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; 我们在点击el-tag标签的时候，无法触发其点击事件
+解决方法 通过查阅资料发现官方给定了解答
+也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~
+&lt;el-tag type=&#34;error&#34; @click.native=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E5%AF%B9element%E4%B8%AD%E7%9A%84e-tag%E6%B7%BB%E5%8A%A0click%E4%BA%8B%E4%BB%B6%E6%97%A0%E6%95%88/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue对Element中的el-tag添加@click事件无效 前言 今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示
+&lt;el-tag type=&#34;error&#34; @click=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; 我们在点击el-tag标签的时候，无法触发其点击事件
+解决方法 通过查阅资料发现官方给定了解答
+也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~
+&lt;el-tag type=&#34;error&#34; @click.native=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; ">
+
+<meta itemprop="wordCount" content="13">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue对Element中的el-tag添加@click事件无效 前言 今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示
+&lt;el-tag type=&#34;error&#34; @click=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; 我们在点击el-tag标签的时候，无法触发其点击事件
+解决方法 通过查阅资料发现官方给定了解答
+也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~
+&lt;el-tag type=&#34;error&#34; @click.native=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt; "/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue对element中的el-tag添加click事件无效">Vue对Element中的el-tag添加@click事件无效</h1>
+<h2 id="前言">前言</h2>
+<p>今天在做评论模块的时候，想着对el-tag元素添加点击事件，发现无法触发，代码如下所示</p>
+<pre tabindex="0"><code>&lt;el-tag type=&#34;error&#34; @click=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt;
+</code></pre><p>我们在点击el-tag标签的时候，无法触发其点击事件</p>
+<h2 id="解决方法">解决方法</h2>
+<p>通过查阅资料发现官方给定了解答</p>
+<p><img src="images/image-20200120181142461.png" alt="image-20200120181142461"></p>
+<p>也就是所，必须使用@click.native才能够触发点击行为，而对于button，直接使用@click即可，修改后的代码如下所示，能够正常完成点击事件了~</p>
+<pre tabindex="0"><code>&lt;el-tag type=&#34;error&#34; @click.native=&#34;onClick(scope.row.blog)&#34;&gt;scope.row.blog.title}}&lt;/el-tag&gt;
+</code></pre><ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

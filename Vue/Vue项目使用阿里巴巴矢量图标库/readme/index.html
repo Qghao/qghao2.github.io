@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>我的技术博客</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Vue项目使用阿里巴巴矢量图标库 前言 最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：
+ 阿里巴巴矢量图标库 Fontawesome  这两者也是有些区别的：
+首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的
+采购矢量图标 首先进入阿里巴巴矢量图标库的官网：点我传送
+首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：
+然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目
+这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个
+然后点击下载到本地
+引入矢量图标 下载完成后，我们解压文件夹，得到以下的内容
+我们打开demo_index.html文件
+能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中
+首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont
+然后我们需要在main.js中引入样式文件
+import &#34;@/assets/iconfont/iconfont.css&#34;; 然后就可以使用了，注意标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标
+&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe601;&lt;/span&gt; &lt;span class=&#34;iconfont&#34;&gt;&amp;#xe66f;&lt;/span&gt; 下面看看最终的效果图">
+    <meta name="generator" content="Hugo 0.97.3" />
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+    
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Vue项目使用阿里巴巴矢量图标库 前言 最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：
+ 阿里巴巴矢量图标库 Fontawesome  这两者也是有些区别的：
+首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的
+采购矢量图标 首先进入阿里巴巴矢量图标库的官网：点我传送
+首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：
+然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目
+这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个
+然后点击下载到本地
+引入矢量图标 下载完成后，我们解压文件夹，得到以下的内容
+我们打开demo_index.html文件
+能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中
+首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont
+然后我们需要在main.js中引入样式文件
+import &#34;@/assets/iconfont/iconfont.css&#34;; 然后就可以使用了，注意标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标
+&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe601;&lt;/span&gt; &lt;span class=&#34;iconfont&#34;&gt;&amp;#xe66f;&lt;/span&gt; 下面看看最终的效果图" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/vue/vue%E9%A1%B9%E7%9B%AE%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E5%BA%93/readme/" /><meta property="article:section" content="Vue" />
+
+
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Vue项目使用阿里巴巴矢量图标库 前言 最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：
+ 阿里巴巴矢量图标库 Fontawesome  这两者也是有些区别的：
+首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的
+采购矢量图标 首先进入阿里巴巴矢量图标库的官网：点我传送
+首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：
+然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目
+这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个
+然后点击下载到本地
+引入矢量图标 下载完成后，我们解压文件夹，得到以下的内容
+我们打开demo_index.html文件
+能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中
+首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont
+然后我们需要在main.js中引入样式文件
+import &#34;@/assets/iconfont/iconfont.css&#34;; 然后就可以使用了，注意标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标
+&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe601;&lt;/span&gt; &lt;span class=&#34;iconfont&#34;&gt;&amp;#xe66f;&lt;/span&gt; 下面看看最终的效果图">
+
+<meta itemprop="wordCount" content="27">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Vue项目使用阿里巴巴矢量图标库 前言 最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：
+ 阿里巴巴矢量图标库 Fontawesome  这两者也是有些区别的：
+首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的
+采购矢量图标 首先进入阿里巴巴矢量图标库的官网：点我传送
+首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：
+然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目
+这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个
+然后点击下载到本地
+引入矢量图标 下载完成后，我们解压文件夹，得到以下的内容
+我们打开demo_index.html文件
+能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中
+首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont
+然后我们需要在main.js中引入样式文件
+import &#34;@/assets/iconfont/iconfont.css&#34;; 然后就可以使用了，注意标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标
+&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe601;&lt;/span&gt; &lt;span class=&#34;iconfont&#34;&gt;&amp;#xe66f;&lt;/span&gt; 下面看看最终的效果图"/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        我的技术博客
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+<div class="ananke-socials">
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        VUES
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1"></h1>
+      
+      
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h1 id="vue项目使用阿里巴巴矢量图标库">Vue项目使用阿里巴巴矢量图标库</h1>
+<h2 id="前言">前言</h2>
+<p>最近想给前端的一些小图标都更换成矢量图，经过调查后，发现目前存在的矢量图网站有下面几个：</p>
+<ul>
+<li><a href="https://www.iconfont.cn/">阿里巴巴矢量图标库</a></li>
+<li><a href="http://www.fontawesome.com.cn/">Fontawesome</a></li>
+</ul>
+<p>这两者也是有些区别的：</p>
+<p>首先FontAwesome是可以商用并且免费，而阿里的商用具有潜在风险，因为一些图标具备版权和原创的，作者不允许商用到其它网站，当然如果没有用在商业用途上的话，是可以正常使用的</p>
+<h2 id="采购矢量图标">采购矢量图标</h2>
+<p>首先进入阿里巴巴矢量图标库的官网：<a href="https://www.iconfont.cn/">点我传送</a></p>
+<p>首先进入的是一个搜索页面，我们输入我们需要下载的内容，然后搜索：</p>
+<p><img src="images/image-20191227230555047.png" alt="image-20191227230555047"></p>
+<p>然后在选中对应的图标，加入购物车，挑选完成后，我们点击购物车，然后点击添加至项目</p>
+<p><img src="images/image-20191227230718856.png" alt="image-20191227230718856"></p>
+<p>这个时候，下面会出现有一个弹框，如果没有对应的项目的话，我们需要自己创建一个</p>
+<p><img src="images/image-20191227230759736.png" alt="image-20191227230759736"></p>
+<p>然后点击下载到本地</p>
+<p><img src="images/image-20191227230924741.png" alt="image-20191227230924741"></p>
+<h2 id="引入矢量图标">引入矢量图标</h2>
+<p>下载完成后，我们解压文件夹，得到以下的内容</p>
+<p><img src="images/image-20191228092756693.png" alt="image-20191228092756693"></p>
+<p>我们打开demo_index.html文件</p>
+<p><img src="images/image-20191228093106833.png" alt="image-20191228093106833"></p>
+<p>能看到每个图标对应的Unicode码，我们就安装第一种方式引入到Vue项目中</p>
+<p>首先将刚刚文件夹内，除了demo_index.html的文件都复制到vue项目的assest中，创建一个文件夹叫iconfont</p>
+<p><img src="images/image-20191228093539780.png" alt="image-20191228093539780"></p>
+<p>然后我们需要在main.js中引入样式文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;@/assets/iconfont/iconfont.css&#34;</span>;
+</span></span></code></pre></div><p>然后就可以使用了，注意<!-- raw HTML omitted -->标签中的内容，就是个刚刚demo_index.html中的Unicode编码，我们引入对应的编码即可得到对应的图标</p>
+<pre tabindex="0"><code>&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe601;&lt;/span&gt;
+&lt;span class=&#34;iconfont&#34;&gt;&amp;#xe66f;&lt;/span&gt;
+</code></pre><p>下面看看最终的效果图</p>
+<p><img src="images/image-20191228093939319.png" alt="image-20191228093939319"></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy;  我的技术博客 2023 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
